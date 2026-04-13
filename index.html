@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肆菓 Season Flavor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">關於我們</a></li>
+        <li><a href="#philosophy">品牌理念</a></li>
+        <li><a href="#products">甜點系列</a></li>
+        <li><a href="#contact">聯絡我們</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-circle c1"></div>
+      <div class="hero-circle c2"></div>
+      <div class="hero-circle c3"></div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-label fade-up">四季 · 自然 · 剛剛好</p>
+      <h1 class="hero-title fade-up delay-1">
+        把四季，<br />做成剛剛好的甜
+      </h1>
+      <p class="hero-sub fade-up delay-2">
+        用時令水果的真實風味，讓每一口都是剛好的停頓
+      </p>
+      <a href="#products" class="btn fade-up delay-3">探索甜點系列</a>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="flavor-grid">
+
+            <!--
+              🍓 草莓系列（現貨）
+              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/strawberry.jpg
+              → AI 生圖 Prompt (Midjourney / DALL-E):
+                 "Top-down flat lay of a beautiful strawberry mousse tart on white ceramic plate,
+                  fresh whole and halved strawberries on top, light cream filling, minimalist food
+                  styling, soft warm natural light, shallow depth of field, cream background,
+                  editorial food photography, pastel tones"
+            -->
+            <div class="flavor-card" data-flavor="strawberry">
+              <figure class="flavor-img strawberry-bg">
+                <img src="images/strawberry.jpg" alt="草莓系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge available">現貨</span>
+                <span class="flavor-name">草莓系列</span>
+              </div>
+            </div>
+
+            <!--
+              🫐 綜合莓果系列（現貨）
+              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/mixed-berry.jpg
+              → AI 生圖 Prompt:
+                 "Overhead shot of a mixed berry tart with fresh blueberries, raspberries and
+                  blackberries arranged on cream custard filling, deep purple tones, soft natural
+                  side lighting, minimalist white background, professional food photography,
+                  slightly rustic ceramic plate"
+            -->
+            <div class="flavor-card" data-flavor="berry">
+              <figure class="flavor-img berry-bg">
+                <img src="images/mixed-berry.jpg" alt="綜合莓果系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge available">現貨</span>
+                <span class="flavor-name">綜合莓果系列</span>
+              </div>
+            </div>
+
+            <!--
+              🥝 奇異果系列（即將推出）
+              → AI 生圖 Prompt:
+                 "Beautiful kiwi fruit tart from directly above, thin round kiwi slices arranged
+                  in concentric circles on cream tart base, vibrant green with golden center,
+                  white ceramic plate, soft natural window light, editorial food photography,
+                  minimal propping, cream and sage color palette"
+              → 生成後存至 images/kiwi.jpg
+            -->
+            <div class="flavor-card upcoming" data-flavor="kiwi">
+              <figure class="flavor-img kiwi-bg">
+                <img src="images/kiwi.jpg" alt="奇異果系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge coming">即將推出</span>
+                <span class="flavor-name">奇異果系列</span>
+              </div>
+            </div>
+
+            <!--
+              🍑 水蜜桃系列（即將推出）
+              → AI 生圖 Prompt:
+                 "Elegant white peach tart seen from above, thin translucent peach slices fanned
+                  artfully on silky cream filling, blush pink and peach tones, delicate styling,
+                  soft diffused light, cream linen background, high-end food photography,
+                  Japanese minimalist aesthetic"
+              → 生成後存至 images/peach.jpg
+            -->
+            <div class="flavor-card upcoming" data-flavor="peach">
+              <figure class="flavor-img peach-bg">
+                <img src="images/peach.jpg" alt="水蜜桃系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge coming">即將推出</span>
+                <span class="flavor-name">水蜜桃系列</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="about-text">
+          <p class="section-label">About</p>
+          <h2 class="section-title">在忙碌的日子裡，<br />我們相信甜點不只是甜</h2>
+          <p class="body-text">
+            它是一種剛剛好的停頓，是讓生活慢下來的理由。
+          </p>
+          <p class="body-text">
+            肆菓，從「四季」出發，把每個時令的味道收進日常。用水果的真實風味，搭配簡單卻細緻的製作，讓每一口都自然、剛好、不過度。
+          </p>
+          <p class="body-text">
+            不管是送禮、自己享用，或是某個想犒賞自己的時刻，肆菓都希望陪你，把生活過得更有味道一點。
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <span class="stat-num">四</span>
+              <span class="stat-label">四季輪轉</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">天</span>
+              <span class="stat-label">天然食材</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">心</span>
+              <span class="stat-label">用心製作</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section class="philosophy section" id="philosophy">
+    <div class="container">
+      <div class="philosophy-header">
+        <p class="section-label">Philosophy</p>
+        <h2 class="section-title">簡單但不隨便</h2>
+        <p class="body-text center">我們不追求華麗的堆疊，<br />而是在熟悉中多一點驚喜</p>
+      </div>
+      <div class="philosophy-grid">
+        <div class="phil-card">
+          <div class="phil-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M24 14 C24 14 16 20 16 26 C16 30.4 19.6 34 24 34 C28.4 34 32 30.4 32 26 C32 20 24 14 24 14Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>自然食材</h3>
+          <p>選擇當季水果，減少多餘添加，讓食材本身說話。</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M16 24 L21 29 L32 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>細緻工藝</h3>
+          <p>每一款甜點都經過細心調配，在平衡中找到屬於它的比例。</p>
+        </div>
+        <div class="phil-card">
+          <div class="phil-icon">
+            <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M24 16 L24 24 L30 30" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>季節節奏</h3>
+          <p>跟著四季更迭，推出限定風味，讓每次相遇都是新鮮的驚喜。</p>
+        </div>
+      </div>
+      <div class="philosophy-quote">
+        <blockquote>
+          「也許是一點點清爽的酸、一點剛好的甜，<br />讓人吃完會記住，而不是只停留在拍照。」
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products -->
+  <section class="products section" id="products">
+    <div class="container">
+      <div class="products-header">
+        <p class="section-label">Products</p>
+        <h2 class="section-title">每一款甜點，<br />都是一段關於季節的記憶</h2>
+      </div>
+      <div class="products-grid">
+        <div class="product-card featured">
+          <div class="product-img" style="background: linear-gradient(135deg, #F4A56A 0%, #E8845A 100%);">
+            <span class="product-emoji">🍊</span>
+            <span class="product-badge">季節限定</span>
+          </div>
+          <div class="product-info">
+            <span class="product-season">春・夏</span>
+            <h3>柑橘系列</h3>
+            <p>清爽的酸甜，是對盛夏最好的回應</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(135deg, #F2A7B8 0%, #E8718A 100%);">
+            <span class="product-emoji">🍓</span>
+          </div>
+          <div class="product-info">
+            <span class="product-season">冬・春</span>
+            <h3>草莓系列</h3>
+            <p>溫柔的酸與甜，像是春天剛開始的感覺</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(135deg, #A89CC8 0%, #7B6FAA 100%);">
+            <span class="product-emoji">🫐</span>
+          </div>
+          <div class="product-info">
+            <span class="product-season">夏・秋</span>
+            <h3>莓果系列</h3>
+            <p>深邃的果香，帶著一點點神秘的尾韻</p>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img" style="background: linear-gradient(135deg, #F6C89A 0%, #E8A070 100%);">
+            <span class="product-emoji">🍑</span>
+          </div>
+          <div class="product-info">
+            <span class="product-season">夏</span>
+            <h3>水蜜桃系列</h3>
+            <p>多汁飽滿，是夏天最讓人期待的一種甜</p>
+          </div>
+        </div>
+      </div>
+      <div class="products-cta">
+        <p>想知道現在有什麼季節限定？</p>
+        <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" class="btn btn-outline">查看 Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Brand Story -->
+  <section class="story section">
+    <div class="story-inner">
+      <div class="story-text">
+        <p class="section-label light">Our Story</p>
+        <h2 class="section-title light">不是傳統糕點，<br />也不是高不可攀的甜點品牌</h2>
+        <p class="body-text light">
+          這裡剛好介於兩者之間——舒服、好看，也好吃。
+        </p>
+        <p class="body-text light">
+          肆菓的「肆」，是隨性、是四季、是不按牌理出牌的自在。
+          我們希望你拿起甜點的那一刻，是為了真正享受它，
+          而不只是為了記錄它。
+        </p>
+        <a href="#contact" class="btn btn-light">和我們說說話</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p class="section-label">Contact</p>
+          <h2 class="section-title">聯絡肆菓</h2>
+          <p class="body-text">有任何合作、訂購或想法，歡迎隨時找我們。</p>
+          <div class="contact-links">
+            <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" class="contact-link">
+              <svg class="contact-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+              </svg>
+              @seasonflavor_
+            </a>
+          </div>
+        </div>
+        <form class="contact-form" id="contactForm">
+          <div class="form-group">
+            <label for="name">您的名字</label>
+            <input type="text" id="name" placeholder="請輸入名字" required />
+          </div>
+          <div class="form-group">
+            <label for="email">電子信箱</label>
+            <input type="email" id="email" placeholder="example@email.com" required />
+          </div>
+          <div class="form-group">
+            <label for="message">想說的話</label>
+            <textarea id="message" rows="4" placeholder="訂購詢問、合作洽談，或只是想打聲招呼..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-full">送出訊息</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-zh">肆菓</span>
+          <span class="logo-en">Season Flavor</span>
+        </div>
+        <p class="footer-tagline">把四季，做成剛剛好的甜</p>
+        <div class="footer-links">
+          <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <p class="footer-copy">© 2024 肆菓 Season Flavor. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
