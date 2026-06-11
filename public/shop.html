@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>線上訂購｜肆菓 Season Flavor — 手工果醬</title>
+  <meta name="description" content="肆菓手工果醬線上訂購。草莓、綜合野莓現貨供應，奇異果、水蜜桃季節限定即將推出。滿額免運，支援轉帳與貨到付款。" />
+  <link rel="canonical" href="https://www.seasonflavor.com/shop" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="肆菓 Season Flavor" />
+  <meta property="og:title" content="線上訂購｜肆菓 Season Flavor" />
+  <meta property="og:description" content="肆菓手工果醬線上訂購，把四季的甜帶回家。" />
+  <meta property="og:url" content="https://www.seasonflavor.com/shop" />
+  <meta property="og:image" content="https://www.seasonflavor.com/images/strawberry.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#about">關於我們</a></li>
+        <li><a href="/#philosophy">品牌理念</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/order-lookup">訂單查詢</a></li>
+        <li><a href="/#contact">聯絡我們</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/login" class="nav-action" id="authLink">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 21c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-action-label">登入</span>
+        </a>
+        <a href="/checkout" class="nav-action" aria-label="購物車">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 4h2l2.4 12.2A2 2 0 0 0 9.36 18h8.78a2 2 0 0 0 1.95-1.57L21.5 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="21" r="1" fill="currentColor"/>
+            <circle cx="18" cy="21" r="1" fill="currentColor"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="container">
+      <p class="section-label">Shop</p>
+      <h1 class="section-title">線上訂購</h1>
+      <p class="body-text center" id="shippingNote">把四季的甜帶回家</p>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="shop-grid" id="shopGrid">
+        <p class="body-text">商品載入中…</p>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-zh">肆菓</span>
+          <span class="logo-en">Season Flavor</span>
+        </div>
+        <p class="footer-tagline">把四季，做成剛剛好的甜</p>
+        <div class="footer-links">
+          <a href="/shop">線上訂購</a>
+          <a href="/order-lookup">訂單查詢</a>
+          <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">Instagram</a>
+        </div>
+        <p class="footer-copy">© 2026 肆菓 Season Flavor. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/site.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    (async () => {
+      const grid = document.getElementById('shopGrid');
+      try {
+        const [{ products }, config] = await Promise.all([
+          apiFetch('/api/products'),
+          apiFetch('/api/config'),
+        ]);
+        document.getElementById('shippingNote').textContent =
+          `宅配運費 ${formatPrice(config.shippingFeeHome)}，滿 ${formatPrice(config.freeShippingThreshold)} 免運`;
+        grid.innerHTML = products.map((p) => {
+          const available = p.badge === 'available' && p.stock > 0;
+          return `
+            <article class="shop-card">
+              <a class="shop-card-img" href="/products/${p.slug}">
+                <img src="${escapeText(p.image || '')}" alt="${escapeText(p.name)}" loading="lazy" onerror="this.style.opacity='0'" />
+              </a>
+              <div class="shop-card-body">
+                <span class="pf-badge ${available ? 'available' : 'coming'}">${available ? '現貨' : '即將推出'}</span>
+                <h3><a href="/products/${p.slug}">${escapeText(p.name)}</a></h3>
+                <p class="shop-card-tagline">${escapeText(p.tagline || '')}</p>
+                <div class="shop-card-foot">
+                  <span class="price">${formatPrice(p.price)}</span>
+                  <button class="btn btn-sm" data-add="${p.id}" ${available ? '' : 'disabled'}>
+                    ${available ? '加入購物車' : '敬請期待'}
+                  </button>
+                </div>
+              </div>
+            </article>`;
+        }).join('');
+        grid.addEventListener('click', (e) => {
+          const btn = e.target.closest('[data-add]');
+          if (!btn || btn.disabled) return;
+          Cart.add(btn.dataset.add);
+          showToast('已加入購物車');
+        });
+      } catch {
+        grid.innerHTML = '<p class="body-text">商品載入失敗，請重新整理頁面。</p>';
+      }
+    })();
+  </script>
+</body>
+</html>

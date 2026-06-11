@@ -3,30 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>肆菓 Season Flavor</title>
+  <title>肆菓 Season Flavor｜把四季，做成剛剛好的甜 — 手工果醬與季節甜點</title>
+  <meta name="description" content="肆菓 Season Flavor，用時令水果的真實風味製作手工果醬與甜點。草莓、綜合野莓現貨供應，奇異果、水蜜桃季節限定。線上訂購，把四季的甜帶回家。" />
+  <link rel="canonical" href="https://www.seasonflavor.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="肆菓 Season Flavor" />
+  <meta property="og:title" content="肆菓 Season Flavor｜把四季，做成剛剛好的甜" />
+  <meta property="og:description" content="用時令水果的真實風味製作手工果醬與甜點，線上訂購，把四季的甜帶回家。" />
+  <meta property="og:url" content="https://www.seasonflavor.com/" />
+  <meta property="og:image" content="https://www.seasonflavor.com/images/strawberry.jpg" />
+  <meta property="og:locale" content="zh_TW" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "肆菓 Season Flavor",
+    "url": "https://www.seasonflavor.com",
+    "logo": "https://www.seasonflavor.com/images/strawberry.jpg",
+    "sameAs": ["https://www.instagram.com/seasonflavor_/"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "肆菓 Season Flavor",
+    "url": "https://www.seasonflavor.com"
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
 
   <!-- Navigation -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#" class="nav-logo">
+      <a href="/" class="nav-logo">
         <span class="logo-zh">肆菓</span>
         <span class="logo-en">Season Flavor</span>
       </a>
       <ul class="nav-links">
-        <li><a href="#about">關於我們</a></li>
-        <li><a href="#philosophy">品牌理念</a></li>
-        <li><a href="#products">甜點系列</a></li>
-        <li><a href="#contact">聯絡我們</a></li>
+        <li><a href="/#about">關於我們</a></li>
+        <li><a href="/#philosophy">品牌理念</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/order-lookup">訂單查詢</a></li>
+        <li><a href="/#contact">聯絡我們</a></li>
       </ul>
-      <button class="nav-toggle" id="navToggle" aria-label="選單">
-        <span></span><span></span><span></span>
-      </button>
+      <div class="nav-actions">
+        <a href="/login" class="nav-action" id="authLink">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 21c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-action-label">登入</span>
+        </a>
+        <a href="/checkout" class="nav-action" aria-label="購物車">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 4h2l2.4 12.2A2 2 0 0 0 9.36 18h8.78a2 2 0 0 0 1.95-1.57L21.5 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="21" r="1" fill="currentColor"/>
+            <circle cx="18" cy="21" r="1" fill="currentColor"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -45,7 +91,7 @@
       <p class="hero-sub fade-up delay-2">
         用時令水果的真實風味，讓每一口都是剛好的停頓
       </p>
-      <a href="#products" class="btn fade-up delay-3">探索甜點系列</a>
+      <a href="/shop" class="btn fade-up delay-3">線上訂購</a>
     </div>
     <div class="hero-scroll">
       <span>scroll</span>
@@ -59,87 +105,42 @@
       <div class="about-grid">
         <div class="about-visual">
           <div class="flavor-grid">
-
-            <!--
-              🍓 草莓系列（現貨）
-              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/strawberry.jpg
-              → AI 生圖 Prompt (Midjourney / DALL-E):
-                 "Top-down flat lay of a beautiful strawberry mousse tart on white ceramic plate,
-                  fresh whole and halved strawberries on top, light cream filling, minimalist food
-                  styling, soft warm natural light, shallow depth of field, cream background,
-                  editorial food photography, pastel tones"
-            -->
-            <div class="flavor-card" data-flavor="strawberry">
+            <a class="flavor-card" href="/products/strawberry-jam" data-flavor="strawberry">
               <figure class="flavor-img strawberry-bg">
-                <img src="images/strawberry.jpg" alt="草莓系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
+                <img src="/images/strawberry.jpg" alt="肆菓手工草莓果醬，新鮮草莓與奶霜塔" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
                 <span class="flavor-badge available">現貨</span>
                 <span class="flavor-name">草莓系列</span>
               </div>
-            </div>
-
-            <!--
-              🫐 綜合莓果系列（現貨）
-              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/mixed-berry.jpg
-              → AI 生圖 Prompt:
-                 "Overhead shot of a mixed berry tart with fresh blueberries, raspberries and
-                  blackberries arranged on cream custard filling, deep purple tones, soft natural
-                  side lighting, minimalist white background, professional food photography,
-                  slightly rustic ceramic plate"
-            -->
-            <div class="flavor-card" data-flavor="berry">
+            </a>
+            <a class="flavor-card" href="/products/mixed-berry-jam" data-flavor="berry">
               <figure class="flavor-img berry-bg">
-                <img src="images/mixed-berry.jpg" alt="綜合莓果系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
+                <img src="/images/mixed-berry.jpg" alt="肆菓綜合野莓果醬，藍莓覆盆子黑莓" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
                 <span class="flavor-badge available">現貨</span>
                 <span class="flavor-name">綜合莓果系列</span>
               </div>
-            </div>
-
-            <!--
-              🥝 奇異果系列（即將推出）
-              → AI 生圖 Prompt:
-                 "Beautiful kiwi fruit tart from directly above, thin round kiwi slices arranged
-                  in concentric circles on cream tart base, vibrant green with golden center,
-                  white ceramic plate, soft natural window light, editorial food photography,
-                  minimal propping, cream and sage color palette"
-              → 生成後存至 images/kiwi.jpg
-            -->
-            <div class="flavor-card upcoming" data-flavor="kiwi">
+            </a>
+            <a class="flavor-card upcoming" href="/products/kiwi-jam" data-flavor="kiwi">
               <figure class="flavor-img kiwi-bg">
-                <img src="images/kiwi.jpg" alt="奇異果系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
+                <img src="/images/kiwi.jpg" alt="肆菓奇異果果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
                 <span class="flavor-badge coming">即將推出</span>
                 <span class="flavor-name">奇異果系列</span>
               </div>
-            </div>
-
-            <!--
-              🍑 水蜜桃系列（即將推出）
-              → AI 生圖 Prompt:
-                 "Elegant white peach tart seen from above, thin translucent peach slices fanned
-                  artfully on silky cream filling, blush pink and peach tones, delicate styling,
-                  soft diffused light, cream linen background, high-end food photography,
-                  Japanese minimalist aesthetic"
-              → 生成後存至 images/peach.jpg
-            -->
-            <div class="flavor-card upcoming" data-flavor="peach">
+            </a>
+            <a class="flavor-card upcoming" href="/products/peach-jam" data-flavor="peach">
               <figure class="flavor-img peach-bg">
-                <img src="images/peach.jpg" alt="水蜜桃系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
+                <img src="/images/peach.jpg" alt="肆菓水蜜桃果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
                 <span class="flavor-badge coming">即將推出</span>
                 <span class="flavor-name">水蜜桃系列</span>
               </div>
-            </div>
-
+            </a>
           </div>
         </div>
         <div class="about-text">
@@ -221,64 +222,19 @@
     </div>
   </section>
 
-  <!-- Products -->
+  <!-- Products（從 API 動態載入） -->
   <section class="products section" id="products">
     <div class="container">
       <div class="products-header">
         <p class="section-label">Products</p>
         <h2 class="section-title">每一款甜點，<br />都是一段關於季節的記憶</h2>
       </div>
-      <!-- Mockup 大圖 -->
-      <div class="products-mockup">
-        <img src="images/products-mockup.jpg" alt="肆菓果醬系列" loading="lazy" />
-        <div class="mockup-tag">SEASON FLAVOR × 手工果醬系列</div>
-      </div>
-
-      <!-- 四款口味 -->
-      <div class="products-flavors">
-        <div class="pf-card">
-          <div class="pf-img strawberry-bg">
-            <img src="images/strawberry.jpg" alt="草莓果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge available">現貨</span>
-            <h4>草莓果醬</h4>
-            <p>溫柔的酸與甜，像是春天剛開始的感覺</p>
-          </div>
-        </div>
-        <div class="pf-card">
-          <div class="pf-img berry-bg">
-            <img src="images/mixed-berry.jpg" alt="綜合野莓果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge available">現貨</span>
-            <h4>綜合野莓果醬</h4>
-            <p>深邃的果香，帶著一點點神秘的尾韻</p>
-          </div>
-        </div>
-        <div class="pf-card upcoming">
-          <div class="pf-img kiwi-bg">
-            <img src="images/kiwi.jpg" alt="奇異果果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge coming">即將推出</span>
-            <h4>奇異果果醬</h4>
-            <p>清爽帶勁的綠意，讓人精神一振的酸甜</p>
-          </div>
-        </div>
-        <div class="pf-card upcoming">
-          <div class="pf-img peach-bg">
-            <img src="images/peach.jpg" alt="水蜜桃果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge coming">即將推出</span>
-            <h4>水蜜桃果醬</h4>
-            <p>多汁飽滿，是夏天最讓人期待的一種甜</p>
-          </div>
-        </div>
+      <div class="products-flavors" id="homeProducts">
+        <!-- 由 /api/products 渲染 -->
       </div>
       <div class="products-cta">
-        <p>想知道現在有什麼季節限定？</p>
+        <p>現貨商品可直接線上訂購，季節限定請鎖定 Instagram</p>
+        <a href="/shop" class="btn">前往線上訂購</a>
         <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" class="btn btn-outline">查看 Instagram</a>
       </div>
     </div>
@@ -298,7 +254,7 @@
           我們希望你拿起甜點的那一刻，是為了真正享受它，
           而不只是為了記錄它。
         </p>
-        <a href="#contact" class="btn btn-light">和我們說說話</a>
+        <a href="/#contact" class="btn btn-light">和我們說說話</a>
       </div>
     </div>
   </section>
@@ -323,6 +279,7 @@
           </div>
         </div>
         <form class="contact-form" id="contactForm">
+          <div class="form-error" id="contactError"></div>
           <div class="form-group">
             <label for="name">您的名字</label>
             <input type="text" id="name" placeholder="請輸入名字" required />
@@ -351,13 +308,87 @@
         </div>
         <p class="footer-tagline">把四季，做成剛剛好的甜</p>
         <div class="footer-links">
+          <a href="/shop">線上訂購</a>
+          <a href="/order-lookup">訂單查詢</a>
           <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">Instagram</a>
         </div>
-        <p class="footer-copy">© 2024 肆菓 Season Flavor. All rights reserved.</p>
+        <p class="footer-copy">© 2026 肆菓 Season Flavor. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="/js/site.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    // 首頁商品區：從 API 動態渲染
+    (async () => {
+      const wrap = document.getElementById('homeProducts');
+      try {
+        const { products } = await apiFetch('/api/products');
+        wrap.innerHTML = products.map((p) => {
+          const available = p.badge === 'available' && p.stock > 0;
+          return `
+            <div class="pf-card ${available ? '' : 'upcoming'}">
+              <a class="pf-img" href="/products/${p.slug}">
+                <img src="${escapeText(p.image || '')}" alt="${escapeText(p.name)}" loading="lazy" onerror="this.style.opacity='0'" />
+              </a>
+              <div class="pf-info">
+                <span class="pf-badge ${available ? 'available' : 'coming'}">${available ? '現貨' : '即將推出'}</span>
+                <h4><a href="/products/${p.slug}">${escapeText(p.name)}</a></h4>
+                <p>${escapeText(p.tagline || '')}</p>
+                <div class="shop-card-foot">
+                  <span class="price">${formatPrice(p.price)}</span>
+                  <button class="btn btn-sm" data-add="${p.id}" ${available ? '' : 'disabled'}>
+                    ${available ? '加入購物車' : '敬請期待'}
+                  </button>
+                </div>
+              </div>
+            </div>`;
+        }).join('');
+        wrap.addEventListener('click', (e) => {
+          const btn = e.target.closest('[data-add]');
+          if (!btn || btn.disabled) return;
+          Cart.add(btn.dataset.add);
+          showToast('已加入購物車');
+        });
+      } catch {
+        wrap.innerHTML = '<p class="body-text center">商品載入失敗，請重新整理頁面。</p>';
+      }
+    })();
+
+    // 聯絡表單 → 後台訊息匣
+    const contactForm = document.getElementById('contactForm');
+    contactForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('button[type="submit"]');
+      const errBox = document.getElementById('contactError');
+      errBox.classList.remove('show');
+      btn.disabled = true;
+      try {
+        await apiFetch('/api/contact', {
+          method: 'POST',
+          body: {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            message: document.getElementById('message').value,
+          },
+        });
+        btn.textContent = '訊息已送出 ✓';
+        btn.style.background = 'var(--sage)';
+        btn.style.borderColor = 'var(--sage)';
+        contactForm.reset();
+        setTimeout(() => {
+          btn.textContent = '送出訊息';
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.disabled = false;
+        }, 3000);
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+        btn.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>

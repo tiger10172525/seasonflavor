@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>訂單查詢｜肆菓 Season Flavor</title>
+  <meta name="description" content="輸入訂單編號與電子信箱，查詢肆菓訂單的處理進度，並可回報匯款資訊。" />
+  <link rel="canonical" href="https://www.seasonflavor.com/order-lookup" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#about">關於我們</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/order-lookup">訂單查詢</a></li>
+        <li><a href="/#contact">聯絡我們</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/login" class="nav-action" id="authLink">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 21c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-action-label">登入</span>
+        </a>
+        <a href="/checkout" class="nav-action" aria-label="購物車">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 4h2l2.4 12.2A2 2 0 0 0 9.36 18h8.78a2 2 0 0 0 1.95-1.57L21.5 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="21" r="1" fill="currentColor"/>
+            <circle cx="18" cy="21" r="1" fill="currentColor"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="container">
+      <p class="section-label">Order Lookup</p>
+      <h1 class="section-title">訂單查詢</h1>
+      <p class="body-text center">輸入訂單編號與訂購時填寫的信箱即可查詢進度</p>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="form-card">
+        <form id="lookupForm">
+          <div class="form-error" id="lookupError"></div>
+          <div class="form-group">
+            <label for="code">訂單編號</label>
+            <input type="text" id="code" placeholder="例如 SF20260611-A1B2" required />
+          </div>
+          <div class="form-group">
+            <label for="email">電子信箱</label>
+            <input type="email" id="email" required />
+          </div>
+          <button type="submit" class="btn btn-full">查詢訂單</button>
+        </form>
+      </div>
+
+      <div id="resultWrap" style="max-width: 720px; margin: 2rem auto 0;"></div>
+    </div>
+  </main>
+
+  <script src="/js/site.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    const STATUS_LABELS = {
+      pending: '待處理', paid: '已付款', shipped: '已出貨',
+      completed: '已完成', cancelled: '已取消',
+    };
+    const PAYMENT_LABELS = {
+      unpaid: '未付款', reported: '已回報匯款', paid: '已收款', refunded: '已退款',
+    };
+    const METHOD_LABELS = { bank_transfer: '銀行轉帳', cod: '貨到付款', linepay: 'LINE Pay', credit_card: '信用卡' };
+
+    document.getElementById('lookupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errBox = document.getElementById('lookupError');
+      errBox.classList.remove('show');
+      const wrap = document.getElementById('resultWrap');
+      wrap.innerHTML = '';
+      const code = document.getElementById('code').value.trim();
+      const email = document.getElementById('email').value.trim();
+      try {
+        const { order } = await apiFetch(`/api/orders/lookup?code=${encodeURIComponent(code)}&email=${encodeURIComponent(email)}`);
+        wrap.innerHTML = `
+          <div class="order-card">
+            <div class="order-card-head">
+              <span class="order-code">${escapeText(order.code)}</span>
+              <span class="status-pill ${order.status}">${STATUS_LABELS[order.status] || order.status}</span>
+            </div>
+            <p class="order-meta">
+              下單時間：${new Date(order.createdAt).toLocaleString('zh-Hant-TW')}<br />
+              付款方式：${METHOD_LABELS[order.paymentMethod] || order.paymentMethod}（${PAYMENT_LABELS[order.paymentStatus] || order.paymentStatus}）
+            </p>
+            <div class="order-items-list">
+              ${order.items.map((it) => `<span>${escapeText(it.name)} × ${it.qty}　${formatPrice(it.price * it.qty)}</span>`).join('')}
+              <span style="margin-top: 0.4rem;"><strong>合計 ${formatPrice(order.total)}</strong>（含運費 ${formatPrice(order.shippingFee)}）</span>
+            </div>
+            ${order.bankInfo ? `
+              <div class="bank-box">
+                <strong>尚未收到款項，匯款資訊如下</strong>
+                <span>銀行：${escapeText(order.bankInfo.bankName)}</span>
+                <span>帳號：${escapeText(order.bankInfo.account)}</span>
+                <span>戶名：${escapeText(order.bankInfo.holder)}</span>
+              </div>
+              <form id="transferForm" class="form-row" style="align-items: end; margin-top: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                  <label for="last5">轉帳帳號後五碼</label>
+                  <input type="text" id="last5" inputmode="numeric" pattern="\\d{5}" maxlength="5" required />
+                </div>
+                <button type="submit" class="btn">回報匯款</button>
+              </form>
+              <p class="form-hint" id="transferResult"></p>` : ''}
+          </div>`;
+
+        document.getElementById('transferForm')?.addEventListener('submit', async (ev) => {
+          ev.preventDefault();
+          const result = document.getElementById('transferResult');
+          try {
+            const res = await apiFetch(`/api/orders/${order.code}/report-transfer`, {
+              method: 'POST',
+              body: { email, last5: document.getElementById('last5').value },
+            });
+            result.textContent = res.message;
+            result.style.color = 'var(--sage)';
+          } catch (err) {
+            result.textContent = err.message;
+            result.style.color = '#A4442A';
+          }
+        });
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+      }
+    });
+  </script>
+</body>
+</html>

@@ -868,3 +868,280 @@ ul { list-style: none; }
   .about-stats { gap: 1.5rem; }
   .story::before { display: none; }
 }
+
+/* ============================================
+   線上訂購 / 會員 / 結帳（動態功能新增）
+   ============================================ */
+
+/* Nav 右側動作區（購物車 / 會員） */
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.nav-action {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text);
+  transition: color 0.2s var(--ease);
+}
+.nav-action:hover { color: var(--orange); }
+.nav-action svg { width: 20px; height: 20px; }
+.cart-badge {
+  position: absolute;
+  top: -7px;
+  right: -10px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 100px;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 0.65rem;
+  line-height: 17px;
+  text-align: center;
+  display: none;
+}
+.cart-badge.show { display: block; }
+
+/* 頁面標頭（內頁通用） */
+.page-head {
+  padding: calc(var(--nav-h) + 4rem) 0 3rem;
+  text-align: center;
+}
+
+/* 商店商品卡 */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 2rem;
+}
+.shop-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(44, 36, 23, 0.06);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+.shop-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(44, 36, 23, 0.1);
+}
+.shop-card-img {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--cream-dark);
+}
+.shop-card-img img { width: 100%; height: 100%; object-fit: cover; }
+.shop-card-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.5rem;
+}
+.shop-card-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--brown);
+}
+.shop-card-tagline { font-size: 0.85rem; color: var(--text-light); flex: 1; }
+.shop-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+.price {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--orange);
+}
+.btn-sm { padding: 0.5rem 1.25rem; font-size: 0.82rem; }
+.btn:disabled, .btn[disabled] {
+  background: var(--cream-dark);
+  border-color: var(--cream-dark);
+  color: var(--text-light);
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 表單卡片（登入 / 註冊 / 結帳 / 帳戶） */
+.form-card {
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: 0 4px 24px rgba(44, 36, 23, 0.06);
+}
+.form-card-wide { max-width: 720px; }
+.form-card h1, .form-card h2 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  color: var(--brown);
+  margin-bottom: 1.5rem;
+}
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--text);
+  transition: border-color 0.2s var(--ease);
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+.form-group label { display: block; font-size: 0.85rem; margin-bottom: 0.4rem; color: var(--brown-mid); }
+.form-group { margin-bottom: 1.25rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-hint { font-size: 0.8rem; color: var(--text-light); margin-top: 0.35rem; }
+.form-error {
+  display: none;
+  background: #FBEAE5;
+  color: #A4442A;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+.form-error.show { display: block; }
+.form-foot { text-align: center; font-size: 0.85rem; color: var(--text-light); margin-top: 1.5rem; }
+.form-foot a { color: var(--orange); }
+
+/* 單選卡（運送 / 付款方式） */
+.choice-list { display: grid; gap: 0.75rem; }
+.choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1.5px solid var(--cream-dark);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.choice:has(input:checked) { border-color: var(--orange); background: #FDF6F0; }
+.choice input { margin-top: 0.3rem; accent-color: var(--orange); }
+.choice-title { font-size: 0.95rem; color: var(--brown); }
+.choice-desc { font-size: 0.8rem; color: var(--text-light); }
+.choice.disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* 購物車列表 */
+.cart-items { display: grid; gap: 1rem; margin-bottom: 1.5rem; }
+.cart-item {
+  display: grid;
+  grid-template-columns: 64px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--cream-dark);
+}
+.cart-item img { width: 64px; height: 64px; object-fit: cover; border-radius: var(--radius-sm); }
+.cart-item-name { font-size: 0.95rem; color: var(--brown); }
+.cart-item-price { font-size: 0.82rem; color: var(--text-light); }
+.qty-control { display: inline-flex; align-items: center; gap: 0.5rem; }
+.qty-control button {
+  width: 26px; height: 26px;
+  border: 1.5px solid var(--cream-dark);
+  background: var(--white);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--brown-mid);
+  font-size: 0.9rem;
+  line-height: 1;
+}
+.qty-control button:hover { border-color: var(--orange); color: var(--orange); }
+.cart-remove { font-size: 0.75rem; color: var(--text-light); background: none; border: none; cursor: pointer; text-decoration: underline; }
+.cart-summary { font-size: 0.9rem; color: var(--text); display: grid; gap: 0.4rem; margin: 1.25rem 0; }
+.cart-summary-row { display: flex; justify-content: space-between; }
+.cart-summary-row.total { font-family: var(--font-serif); font-size: 1.15rem; color: var(--brown); border-top: 1px solid var(--cream-dark); padding-top: 0.6rem; margin-top: 0.3rem; }
+.cart-empty { text-align: center; color: var(--text-light); padding: 3rem 0; }
+
+/* 訂單卡片（帳戶 / 查詢） */
+.order-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: 0 4px 24px rgba(44, 36, 23, 0.06);
+  margin-bottom: 1rem;
+}
+.order-card-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem; }
+.order-code { font-family: var(--font-serif); color: var(--brown); }
+.order-meta { font-size: 0.8rem; color: var(--text-light); }
+.order-items-list { font-size: 0.85rem; color: var(--text); border-top: 1px dashed var(--cream-dark); padding-top: 0.75rem; display: grid; gap: 0.25rem; }
+.status-pill {
+  display: inline-block;
+  padding: 0.2rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  background: var(--cream-dark);
+  color: var(--brown-mid);
+}
+.status-pill.pending  { background: #FBF0DC; color: #9A7224; }
+.status-pill.paid     { background: #E7F0DC; color: #5C7A34; }
+.status-pill.shipped  { background: #E0EBF5; color: #3A6491; }
+.status-pill.completed{ background: #E7F0DC; color: #5C7A34; }
+.status-pill.cancelled{ background: #F5E3DE; color: #A4442A; }
+
+/* 銀行轉帳資訊框 */
+.bank-box {
+  background: #FDF6F0;
+  border: 1.5px dashed var(--orange-lt);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  font-size: 0.9rem;
+  margin: 1.25rem 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+/* 商品詳細頁 */
+.product-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+  padding-top: calc(var(--nav-h) + 3rem);
+}
+.product-detail-img { border-radius: var(--radius); overflow: hidden; }
+.product-detail-img img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+.breadcrumb { font-size: 0.8rem; color: var(--text-light); margin-bottom: 1.25rem; }
+.breadcrumb a:hover { color: var(--orange); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translate(-50%, 80px);
+  background: var(--brown);
+  color: var(--white);
+  padding: 0.8rem 1.75rem;
+  border-radius: 100px;
+  font-size: 0.88rem;
+  opacity: 0;
+  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+  z-index: 2000;
+  pointer-events: none;
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+
+@media (max-width: 720px) {
+  .product-detail { grid-template-columns: 1fr; gap: 2rem; }
+  .form-row { grid-template-columns: 1fr; }
+  .nav-actions { gap: 0.9rem; }
+  .nav-action .nav-action-label { display: none; }
+}

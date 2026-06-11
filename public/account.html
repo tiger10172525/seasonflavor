@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>會員中心｜肆菓 Season Flavor</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#about">關於我們</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/order-lookup">訂單查詢</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/login" class="nav-action" id="authLink">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 21c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-action-label">登入</span>
+        </a>
+        <a href="/checkout" class="nav-action" aria-label="購物車">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 4h2l2.4 12.2A2 2 0 0 0 9.36 18h8.78a2 2 0 0 0 1.95-1.57L21.5 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="21" r="1" fill="currentColor"/>
+            <circle cx="18" cy="21" r="1" fill="currentColor"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="container">
+      <p class="section-label">My Account</p>
+      <h1 class="section-title" id="welcome">會員中心</h1>
+      <p class="body-text center"><button class="btn btn-outline btn-sm" id="logoutBtn">登出</button></p>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top: 0;">
+    <div class="container" style="max-width: 760px;">
+
+      <div class="form-card form-card-wide" style="margin-bottom: 2rem;">
+        <h2>我的資料</h2>
+        <form id="profileForm">
+          <div class="form-error" id="profileError"></div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pfName">名字</label>
+              <input type="text" id="pfName" required />
+            </div>
+            <div class="form-group">
+              <label for="pfPhone">聯絡電話</label>
+              <input type="tel" id="pfPhone" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="pfCurrentPw">目前密碼（要更改密碼時填寫）</label>
+              <input type="password" id="pfCurrentPw" autocomplete="current-password" />
+            </div>
+            <div class="form-group">
+              <label for="pfNewPw">新密碼（至少 8 字元）</label>
+              <input type="password" id="pfNewPw" autocomplete="new-password" />
+            </div>
+          </div>
+          <button type="submit" class="btn">儲存變更</button>
+          <span class="form-hint" id="profileSaved" style="display: none; color: var(--sage); margin-left: 0.75rem;">已儲存 ✓</span>
+        </form>
+      </div>
+
+      <h2 class="section-title" style="font-size: 1.5rem;">訂單紀錄</h2>
+      <div id="ordersWrap"><p class="body-text">載入中…</p></div>
+
+    </div>
+  </main>
+
+  <script src="/js/site.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    const STATUS_LABELS = {
+      pending: '待處理', paid: '已付款', shipped: '已出貨',
+      completed: '已完成', cancelled: '已取消',
+    };
+    const PAYMENT_LABELS = {
+      unpaid: '未付款', reported: '已回報匯款', paid: '已收款', refunded: '已退款',
+    };
+    const METHOD_LABELS = { bank_transfer: '銀行轉帳', cod: '貨到付款', linepay: 'LINE Pay', credit_card: '信用卡' };
+
+    (async () => {
+      let user;
+      try {
+        ({ user } = await apiFetch('/api/me'));
+      } catch { user = null; }
+      if (!user) { location.href = '/login'; return; }
+
+      document.getElementById('welcome').textContent = `${user.name}，歡迎回來`;
+      document.getElementById('pfName').value = user.name || '';
+      document.getElementById('pfPhone').value = user.phone || '';
+
+      try {
+        const { orders } = await apiFetch('/api/my/orders');
+        const wrap = document.getElementById('ordersWrap');
+        if (orders.length === 0) {
+          wrap.innerHTML = '<p class="body-text">還沒有訂單，<a href="/shop" style="color: var(--orange);">去逛逛吧</a></p>';
+        } else {
+          wrap.innerHTML = orders.map((o) => `
+            <div class="order-card">
+              <div class="order-card-head">
+                <span class="order-code">${escapeText(o.code)}</span>
+                <span class="status-pill ${o.status}">${STATUS_LABELS[o.status] || o.status}</span>
+              </div>
+              <p class="order-meta">
+                ${new Date(o.createdAt).toLocaleString('zh-Hant-TW')}　·
+                ${METHOD_LABELS[o.paymentMethod] || o.paymentMethod}（${PAYMENT_LABELS[o.paymentStatus] || o.paymentStatus}）
+              </p>
+              <div class="order-items-list">
+                ${o.items.map((it) => `<span>${escapeText(it.name)} × ${it.qty}　${formatPrice(it.price * it.qty)}</span>`).join('')}
+                <span style="margin-top: 0.4rem;"><strong>合計 ${formatPrice(o.total)}</strong></span>
+              </div>
+            </div>`).join('');
+        }
+      } catch {
+        document.getElementById('ordersWrap').innerHTML = '<p class="body-text">訂單載入失敗。</p>';
+      }
+    })();
+
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errBox = document.getElementById('profileError');
+      const saved = document.getElementById('profileSaved');
+      errBox.classList.remove('show');
+      saved.style.display = 'none';
+      try {
+        await apiFetch('/api/me', {
+          method: 'PUT',
+          body: {
+            name: document.getElementById('pfName').value,
+            phone: document.getElementById('pfPhone').value,
+            currentPassword: document.getElementById('pfCurrentPw').value || undefined,
+            newPassword: document.getElementById('pfNewPw').value || undefined,
+          },
+        });
+        saved.style.display = '';
+        document.getElementById('pfCurrentPw').value = '';
+        document.getElementById('pfNewPw').value = '';
+        refreshAuthState();
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+      }
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await apiFetch('/api/auth/logout', { method: 'POST', body: {} });
+      location.href = '/';
+    });
+  </script>
+</body>
+</html>

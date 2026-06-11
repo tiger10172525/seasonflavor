@@ -1,0 +1,5 @@
+# 資料庫（執行時自動建立）
+data/
+
+node_modules/
+.DS_Store

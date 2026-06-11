@@ -61,20 +61,4 @@ document.querySelectorAll('.product-card').forEach((card, i) => {
   card.classList.add(`reveal-delay-${i % 3 + 1}`);
 });
 
-// Contact form
-const form = document.getElementById('contactForm');
-form?.addEventListener('submit', (e) => {
-  e.preventDefault();
-  const btn = form.querySelector('button[type="submit"]');
-  btn.textContent = '訊息已送出 ✓';
-  btn.style.background = 'var(--sage)';
-  btn.style.borderColor = 'var(--sage)';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = '送出訊息';
-    btn.style.background = '';
-    btn.style.borderColor = '';
-    btn.disabled = false;
-    form.reset();
-  }, 3000);
-});
+// 聯絡表單送出邏輯改由 index.html 內的腳本串接 /api/contact

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>購物車與結帳｜肆菓 Season Flavor</title>
+  <meta name="description" content="肆菓線上訂購結帳。" />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav scrolled" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/#about">關於我們</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/order-lookup">訂單查詢</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="/login" class="nav-action" id="authLink">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M4 21c0-3.866 3.582-7 8-7s8 3.134 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span class="nav-action-label">登入</span>
+        </a>
+        <a href="/checkout" class="nav-action" aria-label="購物車">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M3 4h2l2.4 12.2A2 2 0 0 0 9.36 18h8.78a2 2 0 0 0 1.95-1.57L21.5 8H6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="10" cy="21" r="1" fill="currentColor"/>
+            <circle cx="18" cy="21" r="1" fill="currentColor"/>
+          </svg>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="選單">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="container">
+      <p class="section-label">Checkout</p>
+      <h1 class="section-title">購物車與結帳</h1>
+    </div>
+  </header>
+
+  <main class="section" style="padding-top: 0;">
+    <div class="container">
+
+      <!-- 結帳表單畫面 -->
+      <div class="form-card form-card-wide" id="checkoutView">
+        <div id="cartSection">
+          <h2>訂購內容</h2>
+          <div class="cart-items" id="cartItems"></div>
+          <div class="cart-summary" id="cartSummary"></div>
+        </div>
+
+        <form id="checkoutForm">
+          <div class="form-error" id="checkoutError"></div>
+
+          <h2>收件資訊</h2>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="coName">收件人姓名 *</label>
+              <input type="text" id="coName" required />
+            </div>
+            <div class="form-group">
+              <label for="coPhone">聯絡電話 *</label>
+              <input type="tel" id="coPhone" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="coEmail">電子信箱 *（訂單通知與查詢用）</label>
+            <input type="email" id="coEmail" required />
+          </div>
+
+          <h2>運送方式</h2>
+          <div class="choice-list" id="shippingChoices" style="margin-bottom: 1.5rem;">
+            <label class="choice">
+              <input type="radio" name="shipping" value="home" checked />
+              <span>
+                <span class="choice-title">宅配（黑貓低溫配送）</span><br />
+                <span class="choice-desc" id="homeFeeDesc"></span>
+              </span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="shipping" value="pickup" />
+              <span>
+                <span class="choice-title">面交自取（免運費）</span><br />
+                <span class="choice-desc" id="pickupDesc"></span>
+              </span>
+            </label>
+          </div>
+          <div class="form-group" id="addressGroup">
+            <label for="coAddress">收件地址 *</label>
+            <input type="text" id="coAddress" placeholder="請填寫完整收件地址" />
+          </div>
+
+          <h2>付款方式</h2>
+          <div class="choice-list" id="paymentChoices" style="margin-bottom: 1.5rem;"></div>
+
+          <div class="form-group">
+            <label for="coNote">訂單備註（選填）</label>
+            <textarea id="coNote" rows="3" placeholder="例如：希望的到貨時間、贈送對象..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-full" id="submitOrder">送出訂單</button>
+        </form>
+      </div>
+
+      <!-- 訂購完成畫面 -->
+      <div class="form-card form-card-wide" id="successView" style="display: none;">
+        <h2>訂購完成，謝謝您 🍓</h2>
+        <p class="body-text">您的訂單編號是 <strong id="successCode" style="color: var(--orange);"></strong>，請記下以便查詢。</p>
+        <div class="cart-summary" id="successSummary"></div>
+        <div id="bankSection" style="display: none;">
+          <div class="bank-box" id="bankInfo"></div>
+          <p class="body-text">完成轉帳後，請回報帳號後五碼，我們確認入帳後會盡快出貨：</p>
+          <form id="transferForm" class="form-row" style="align-items: end;">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="last5">轉帳帳號後五碼</label>
+              <input type="text" id="last5" inputmode="numeric" pattern="\d{5}" maxlength="5" placeholder="例如 12345" required />
+            </div>
+            <button type="submit" class="btn">回報匯款</button>
+          </form>
+          <p class="form-hint" id="transferResult"></p>
+        </div>
+        <p class="body-text" style="margin-top: 1.5rem;">
+          可隨時到 <a href="/order-lookup" style="color: var(--orange);">訂單查詢</a> 頁面，用訂單編號＋信箱查詢進度。
+        </p>
+        <a class="btn btn-outline" href="/shop">繼續逛逛</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/site.js"></script>
+  <script src="/js/script.js"></script>
+  <script>
+    let products = [];
+    let config = null;
+
+    function cartLines() {
+      const cart = Cart.read();
+      return products
+        .filter((p) => cart[String(p.id)])
+        .map((p) => ({ ...p, qty: cart[String(p.id)] }));
+    }
+
+    function renderCart() {
+      const itemsEl = document.getElementById('cartItems');
+      const summaryEl = document.getElementById('cartSummary');
+      const lines = cartLines();
+
+      if (lines.length === 0) {
+        itemsEl.innerHTML = '<div class="cart-empty">購物車是空的，<a href="/shop" style="color: var(--orange);">去逛逛吧</a></div>';
+        summaryEl.innerHTML = '';
+        document.getElementById('checkoutForm').style.display = 'none';
+        return;
+      }
+      document.getElementById('checkoutForm').style.display = '';
+
+      itemsEl.innerHTML = lines.map((p) => `
+        <div class="cart-item">
+          <img src="${escapeText(p.image || '')}" alt="${escapeText(p.name)}" onerror="this.style.opacity='0'" />
+          <div>
+            <div class="cart-item-name">${escapeText(p.name)}</div>
+            <div class="cart-item-price">${formatPrice(p.price)}</div>
+          </div>
+          <div style="text-align: right;">
+            <div class="qty-control">
+              <button type="button" data-dec="${p.id}" aria-label="減少">−</button>
+              <span>${p.qty}</span>
+              <button type="button" data-inc="${p.id}" aria-label="增加">＋</button>
+            </div>
+            <button type="button" class="cart-remove" data-remove="${p.id}">移除</button>
+          </div>
+        </div>`).join('');
+
+      const subtotal = lines.reduce((s, p) => s + p.price * p.qty, 0);
+      const shipping = currentShippingFee(subtotal);
+      summaryEl.innerHTML = `
+        <div class="cart-summary-row"><span>小計</span><span>${formatPrice(subtotal)}</span></div>
+        <div class="cart-summary-row"><span>運費</span><span>${shipping === 0 ? '免運' : formatPrice(shipping)}</span></div>
+        <div class="cart-summary-row total"><span>合計</span><span>${formatPrice(subtotal + shipping)}</span></div>`;
+    }
+
+    function currentShippingFee(subtotal) {
+      const method = document.querySelector('input[name="shipping"]:checked')?.value || 'home';
+      if (method === 'pickup') return 0;
+      return subtotal >= config.freeShippingThreshold ? 0 : config.shippingFeeHome;
+    }
+
+    function renderPayments() {
+      const wrap = document.getElementById('paymentChoices');
+      let firstEnabled = true;
+      wrap.innerHTML = config.paymentMethods.map((m) => {
+        const checked = m.enabled && firstEnabled ? 'checked' : '';
+        if (m.enabled && firstEnabled) firstEnabled = false;
+        const descs = {
+          bank_transfer: '下單後顯示匯款帳號，轉帳並回報後五碼後出貨',
+          cod: '收到商品時以現金付款給物流',
+          linepay: '即將推出',
+          credit_card: '即將推出',
+        };
+        return `
+          <label class="choice ${m.enabled ? '' : 'disabled'}">
+            <input type="radio" name="payment" value="${m.id}" ${checked} ${m.enabled ? '' : 'disabled'} />
+            <span>
+              <span class="choice-title">${escapeText(m.name)}</span><br />
+              <span class="choice-desc">${descs[m.id] || ''}</span>
+            </span>
+          </label>`;
+      }).join('');
+    }
+
+    async function init() {
+      try {
+        const [productsRes, configRes] = await Promise.all([
+          apiFetch('/api/products'),
+          apiFetch('/api/config'),
+        ]);
+        products = productsRes.products;
+        config = configRes;
+      } catch {
+        document.getElementById('cartItems').innerHTML = '<p class="body-text">載入失敗，請重新整理頁面。</p>';
+        return;
+      }
+
+      document.getElementById('homeFeeDesc').textContent =
+        `運費 ${formatPrice(config.shippingFeeHome)}，滿 ${formatPrice(config.freeShippingThreshold)} 免運`;
+      document.getElementById('pickupDesc').textContent = config.pickupInfo || '';
+      renderPayments();
+      renderCart();
+
+      // 會員自動帶入資料
+      const user = await refreshAuthState();
+      if (user) {
+        document.getElementById('coName').value = user.name || '';
+        document.getElementById('coEmail').value = user.email || '';
+        document.getElementById('coPhone').value = user.phone || '';
+      }
+    }
+
+    document.getElementById('cartItems').addEventListener('click', (e) => {
+      const inc = e.target.closest('[data-inc]');
+      const dec = e.target.closest('[data-dec]');
+      const rem = e.target.closest('[data-remove]');
+      const cart = Cart.read();
+      if (inc) Cart.setQty(inc.dataset.inc, (cart[inc.dataset.inc] || 0) + 1);
+      if (dec) Cart.setQty(dec.dataset.dec, (cart[dec.dataset.dec] || 0) - 1);
+      if (rem) Cart.remove(rem.dataset.remove);
+      if (inc || dec || rem) renderCart();
+    });
+
+    document.getElementById('shippingChoices').addEventListener('change', () => {
+      const isPickup = document.querySelector('input[name="shipping"]:checked').value === 'pickup';
+      document.getElementById('addressGroup').style.display = isPickup ? 'none' : '';
+      renderCart();
+    });
+
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const errBox = document.getElementById('checkoutError');
+      errBox.classList.remove('show');
+      const btn = document.getElementById('submitOrder');
+      btn.disabled = true;
+      btn.textContent = '送出中…';
+      try {
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+        const paymentMethod = document.querySelector('input[name="payment"]:checked')?.value;
+        if (!paymentMethod) throw new Error('請選擇付款方式');
+        const { order } = await apiFetch('/api/orders', {
+          method: 'POST',
+          body: {
+            items: Cart.toItems(),
+            customer: {
+              name: document.getElementById('coName').value,
+              email: document.getElementById('coEmail').value,
+              phone: document.getElementById('coPhone').value,
+              address: document.getElementById('coAddress').value,
+            },
+            shippingMethod,
+            paymentMethod,
+            note: document.getElementById('coNote').value,
+          },
+        });
+        Cart.clear();
+        showSuccess(order, document.getElementById('coEmail').value);
+      } catch (err) {
+        errBox.textContent = err.message;
+        errBox.classList.add('show');
+        errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '送出訂單';
+      }
+    });
+
+    function showSuccess(order, email) {
+      document.getElementById('checkoutView').style.display = 'none';
+      const view = document.getElementById('successView');
+      view.style.display = '';
+      document.getElementById('successCode').textContent = order.code;
+      document.getElementById('successSummary').innerHTML = `
+        <div class="cart-summary-row"><span>小計</span><span>${formatPrice(order.subtotal)}</span></div>
+        <div class="cart-summary-row"><span>運費</span><span>${order.shippingFee === 0 ? '免運' : formatPrice(order.shippingFee)}</span></div>
+        <div class="cart-summary-row total"><span>合計</span><span>${formatPrice(order.total)}</span></div>`;
+
+      if (order.bankInfo) {
+        document.getElementById('bankSection').style.display = '';
+        document.getElementById('bankInfo').innerHTML = `
+          <strong>匯款資訊</strong>
+          <span>銀行：${escapeText(order.bankInfo.bankName)}</span>
+          <span>帳號：${escapeText(order.bankInfo.account)}</span>
+          <span>戶名：${escapeText(order.bankInfo.holder)}</span>
+          <span>金額：${formatPrice(order.total)}</span>`;
+        document.getElementById('transferForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const result = document.getElementById('transferResult');
+          try {
+            const res = await apiFetch(`/api/orders/${order.code}/report-transfer`, {
+              method: 'POST',
+              body: { email, last5: document.getElementById('last5').value },
+            });
+            result.textContent = res.message;
+            result.style.color = 'var(--sage)';
+          } catch (err) {
+            result.textContent = err.message;
+            result.style.color = '#A4442A';
+          }
+        });
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    init();
+  </script>
+</body>
+</html>

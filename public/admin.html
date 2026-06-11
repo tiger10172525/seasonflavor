@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>後台管理｜肆菓 Season Flavor</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;500&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+
+  <!-- 登入畫面（未登入管理員時顯示） -->
+  <div class="admin-login" id="loginView" style="display: none;">
+    <div class="panel">
+      <h3 style="font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 1.25rem;">肆菓後台管理</h3>
+      <form id="adminLoginForm">
+        <div class="aerror" id="adminLoginError"></div>
+        <div class="afield">
+          <label for="adminEmail">管理員信箱</label>
+          <input type="email" id="adminEmail" required />
+        </div>
+        <div class="afield">
+          <label for="adminPassword">密碼</label>
+          <input type="password" id="adminPassword" required />
+        </div>
+        <button type="submit" class="abtn" style="width: 100%;">登入</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 後台主畫面 -->
+  <div class="admin-layout" id="adminView" style="display: none;">
+    <aside class="admin-side">
+      <div class="admin-logo">肆菓<small>ADMIN</small></div>
+      <nav class="admin-nav" id="adminNav">
+        <button data-view="dashboard" class="active">總覽</button>
+        <button data-view="orders">訂單管理</button>
+        <button data-view="products">商品管理</button>
+        <button data-view="customers">顧客 CRM</button>
+        <button data-view="messages">聯絡訊息</button>
+        <button data-view="settings">商店設定</button>
+      </nav>
+      <div class="admin-side-foot">
+        <a href="/" target="_blank">查看前台 ↗</a><br />
+        <button id="adminLogout">登出</button>
+      </div>
+    </aside>
+    <main class="admin-main" id="adminMain"></main>
+  </div>
+
+  <!-- 通用彈窗 -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" id="modalBox"></div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>
