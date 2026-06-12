@@ -41,7 +41,8 @@ const PAGE_ROUTES = {
 function serveStatic(res, filePath) {
   const ext = path.extname(filePath).toLowerCase();
   const type = MIME[ext] || 'application/octet-stream';
-  const isAsset = ext !== '.html';
+  // 圖片長快取；CSS/JS 每次驗證，避免改版後瀏覽器用到舊樣式
+  const isAsset = ['.jpg', '.jpeg', '.png', '.webp', '.svg', '.ico', '.woff2'].includes(ext);
   fs.readFile(filePath, (err, data) => {
     if (err) return seo.notFound(null, res);
     res.writeHead(200, {
