@@ -2,16 +2,16 @@
    肆菓 Season Flavor — 後台管理樣式
    ============================================ */
 :root {
-  --cream: #FAF7F2;
-  --cream-dark: #F2EDE4;
-  --brown: #2C2417;
-  --brown-mid: #5C4A2A;
-  --orange: #D4845A;
-  --sage: #8B9E6E;
-  --text: #3A3025;
-  --text-light: #7A6A52;
+  --cream: #F4EFE6;
+  --cream-dark: #E5DECB;
+  --brown: #1C2420;
+  --brown-mid: #2B362F;
+  --orange: #C2502F;
+  --sage: #7C8F6A;
+  --text: #2A2A24;
+  --text-light: #6E685A;
   --white: #FFFFFF;
-  --radius: 12px;
+  --radius: 2px;
   --font-serif: 'Noto Serif TC', serif;
   --font-sans: 'Noto Sans TC', sans-serif;
 }

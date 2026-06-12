@@ -34,7 +34,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
@@ -84,20 +84,29 @@
       <div class="hero-circle c3"></div>
     </div>
     <div class="hero-content">
-      <p class="hero-label fade-up">四季 · 自然 · 剛剛好</p>
+      <p class="hero-label fade-up">SEASON FLAVOR — 四季 · 自然 · 剛剛好</p>
       <h1 class="hero-title fade-up delay-1">
-        把四季，<br />做成剛剛好的甜
+        把四季，<br />做成<em>剛剛好</em>的甜
       </h1>
       <p class="hero-sub fade-up delay-2">
         用時令水果的真實風味，讓每一口都是剛好的停頓
       </p>
-      <a href="/shop" class="btn fade-up delay-3">線上訂購</a>
+      <a href="/shop" class="btn btn-light fade-up delay-3">線上訂購</a>
+      <p class="hero-meta fade-up delay-3">EST. 4 SEASONS — HANDMADE JAM JOURNAL — TAIWAN</p>
     </div>
     <div class="hero-scroll">
       <span>scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
+
+  <!-- Marquee -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>肆菓 Season Flavor</span><span>春 Spring</span><span>夏 Summer</span><span>秋 Autumn</span><span>冬 Winter</span><span>手工果醬 Handmade Jam</span><span>把四季做成剛剛好的甜</span>
+      <span>肆菓 Season Flavor</span><span>春 Spring</span><span>夏 Summer</span><span>秋 Autumn</span><span>冬 Winter</span><span>手工果醬 Handmade Jam</span><span>把四季做成剛剛好的甜</span>
+    </div>
+  </div>
 
   <!-- About -->
   <section class="about section" id="about">
@@ -106,7 +115,7 @@
         <div class="about-visual">
           <div class="flavor-grid">
             <a class="flavor-card" href="/products/strawberry-jam" data-flavor="strawberry">
-              <figure class="flavor-img strawberry-bg">
+              <figure class="flavor-img">
                 <img src="/images/strawberry.jpg" alt="肆菓手工草莓果醬，新鮮草莓與奶霜塔" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
@@ -115,7 +124,7 @@
               </div>
             </a>
             <a class="flavor-card" href="/products/mixed-berry-jam" data-flavor="berry">
-              <figure class="flavor-img berry-bg">
+              <figure class="flavor-img">
                 <img src="/images/mixed-berry.jpg" alt="肆菓綜合野莓果醬，藍莓覆盆子黑莓" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
@@ -124,7 +133,7 @@
               </div>
             </a>
             <a class="flavor-card upcoming" href="/products/kiwi-jam" data-flavor="kiwi">
-              <figure class="flavor-img kiwi-bg">
+              <figure class="flavor-img">
                 <img src="/images/kiwi.jpg" alt="肆菓奇異果果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
@@ -133,7 +142,7 @@
               </div>
             </a>
             <a class="flavor-card upcoming" href="/products/peach-jam" data-flavor="peach">
-              <figure class="flavor-img peach-bg">
+              <figure class="flavor-img">
                 <img src="/images/peach.jpg" alt="肆菓水蜜桃果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
               </figure>
               <div class="flavor-overlay">
@@ -144,6 +153,7 @@
           </div>
         </div>
         <div class="about-text">
+          <span class="sec-no">01 / ABOUT</span>
           <p class="section-label">About</p>
           <h2 class="section-title">在忙碌的日子裡，<br />我們相信甜點不只是甜</h2>
           <p class="body-text">
@@ -178,9 +188,10 @@
   <section class="philosophy section" id="philosophy">
     <div class="container">
       <div class="philosophy-header">
-        <p class="section-label">Philosophy</p>
-        <h2 class="section-title">簡單但不隨便</h2>
-        <p class="body-text center">我們不追求華麗的堆疊，<br />而是在熟悉中多一點驚喜</p>
+        <span class="sec-no light">02 / PHILOSOPHY</span>
+        <p class="section-label light">Philosophy</p>
+        <h2 class="section-title light">簡單但不隨便</h2>
+        <p class="body-text light">我們不追求華麗的堆疊，<br />而是在熟悉中多一點驚喜</p>
       </div>
       <div class="philosophy-grid">
         <div class="phil-card">
@@ -226,6 +237,7 @@
   <section class="products section" id="products">
     <div class="container">
       <div class="products-header">
+        <span class="sec-no">03 / PRODUCTS</span>
         <p class="section-label">Products</p>
         <h2 class="section-title">每一款甜點，<br />都是一段關於季節的記憶</h2>
       </div>
@@ -244,6 +256,7 @@
   <section class="story section">
     <div class="story-inner">
       <div class="story-text">
+        <span class="sec-no light">04 / OUR STORY</span>
         <p class="section-label light">Our Story</p>
         <h2 class="section-title light">不是傳統糕點，<br />也不是高不可攀的甜點品牌</h2>
         <p class="body-text light">
@@ -264,6 +277,7 @@
     <div class="container">
       <div class="contact-grid">
         <div class="contact-info">
+          <span class="sec-no">05 / CONTACT</span>
           <p class="section-label">Contact</p>
           <h2 class="section-title">聯絡肆菓</h2>
           <p class="body-text">有任何合作、訂購或想法，歡迎隨時找我們。</p>
@@ -312,7 +326,7 @@
           <a href="/order-lookup">訂單查詢</a>
           <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">Instagram</a>
         </div>
-        <p class="footer-copy">© 2026 肆菓 Season Flavor. All rights reserved.</p>
+        <p class="footer-copy">© 2026 肆菓 SEASON FLAVOR. ALL RIGHTS RESERVED.</p>
       </div>
     </div>
   </footer>
@@ -374,13 +388,9 @@
           },
         });
         btn.textContent = '訊息已送出 ✓';
-        btn.style.background = 'var(--sage)';
-        btn.style.borderColor = 'var(--sage)';
         contactForm.reset();
         setTimeout(() => {
           btn.textContent = '送出訊息';
-          btn.style.background = '';
-          btn.style.borderColor = '';
           btn.disabled = false;
         }, 3000);
       } catch (err) {

@@ -7,7 +7,7 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
@@ -119,7 +119,7 @@
         const { orders } = await apiFetch('/api/my/orders');
         const wrap = document.getElementById('ordersWrap');
         if (orders.length === 0) {
-          wrap.innerHTML = '<p class="body-text">還沒有訂單，<a href="/shop" style="color: var(--orange);">去逛逛吧</a></p>';
+          wrap.innerHTML = '<p class="body-text">還沒有訂單，<a href="/shop" style="color: var(--accent);">去逛逛吧</a></p>';
         } else {
           wrap.innerHTML = orders.map((o) => `
             <div class="order-card">

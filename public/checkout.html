@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
@@ -121,7 +121,7 @@
       <!-- 訂購完成畫面 -->
       <div class="form-card form-card-wide" id="successView" style="display: none;">
         <h2>訂購完成，謝謝您 🍓</h2>
-        <p class="body-text">您的訂單編號是 <strong id="successCode" style="color: var(--orange);"></strong>，請記下以便查詢。</p>
+        <p class="body-text">您的訂單編號是 <strong id="successCode" style="color: var(--accent);"></strong>，請記下以便查詢。</p>
         <div class="cart-summary" id="successSummary"></div>
         <div id="bankSection" style="display: none;">
           <div class="bank-box" id="bankInfo"></div>
@@ -136,7 +136,7 @@
           <p class="form-hint" id="transferResult"></p>
         </div>
         <p class="body-text" style="margin-top: 1.5rem;">
-          可隨時到 <a href="/order-lookup" style="color: var(--orange);">訂單查詢</a> 頁面，用訂單編號＋信箱查詢進度。
+          可隨時到 <a href="/order-lookup" style="color: var(--accent);">訂單查詢</a> 頁面，用訂單編號＋信箱查詢進度。
         </p>
         <a class="btn btn-outline" href="/shop">繼續逛逛</a>
       </div>
@@ -163,7 +163,7 @@
       const lines = cartLines();
 
       if (lines.length === 0) {
-        itemsEl.innerHTML = '<div class="cart-empty">購物車是空的，<a href="/shop" style="color: var(--orange);">去逛逛吧</a></div>';
+        itemsEl.innerHTML = '<div class="cart-empty">購物車是空的，<a href="/shop" style="color: var(--accent);">去逛逛吧</a></div>';
         summaryEl.innerHTML = '';
         document.getElementById('checkoutForm').style.display = 'none';
         return;
