@@ -1,83 +1,107 @@
 /* ============================================
-   肆菓 Season Flavor — Stylesheet v2
-   「果醬誌」編輯雜誌風：深墨綠 × 紙感米白
-   銳利直角・細框線・等寬標籤・章節編號
+   肆菓 Season Flavor — Stylesheet v3
+   「手作果醬鋪」：奶油紙底・拍立得・紙膠帶
+   手寫楷體・波浪底線・貼紙標籤・手繪邊框
    ============================================ */
 
 :root {
-  --paper:      #F4EFE6;
-  --paper-dark: #EAE2D2;
-  --ink:        #1C2420;
-  --ink-soft:   #2B362F;
-  --accent:     #C2502F;
-  --honey:      #D9A05B;
-  --sage:       #7C8F6A;
-  --white:      #FFFFFF;
-  --text:       #2A2A24;
-  --text-light: #6E685A;
-  --line:       rgba(28, 36, 32, 0.25);
-  --line-dark:  rgba(244, 239, 230, 0.25);
+  --cream:       #FBF5EA;
+  --cream-deep:  #F3E9D7;
+  --cocoa:       #4A382C;
+  --cocoa-soft:  #6B5847;
+  --jam:         #C75146;
+  --jam-deep:    #A93E35;
+  --apricot:     #E8A87C;
+  --honey:       #E3B458;
+  --leaf:        #8FA170;
+  --white:       #FFFEFB;
+  --text:        #4A4036;
+  --text-light:  #8A7A68;
+  --line:        rgba(74, 56, 44, 0.18);
 
+  --font-hand:  'LXGW WenKai TC', 'Noto Serif TC', serif;
   --font-serif: 'Noto Serif TC', serif;
   --font-sans:  'Noto Sans TC', sans-serif;
-  --font-mono:  'IBM Plex Mono', 'Courier New', monospace;
 
-  --max-w: 1200px;
-  --nav-h: 64px;
+  --max-w: 1140px;
+  --nav-h: 70px;
+
+  /* 手繪感的不規則圓角 */
+  --wonky: 255px 18px 225px 18px / 18px 225px 18px 255px;
+  --wonky-sm: 14px 5px 12px 6px / 5px 12px 6px 14px;
+
+  --shadow-soft: 0 10px 30px rgba(74, 56, 44, 0.1);
 
   --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-out: cubic-bezier(0, 0, 0.2, 1);
 }
+
+/* 波浪底線（手繪筆觸） */
+@property --noop { syntax: '*'; inherits: false; }
 
 /* Reset */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-sans);
-  background: var(--paper);
+  background: var(--cream);
   color: var(--text);
-  line-height: 1.8;
+  line-height: 1.85;
   overflow-x: hidden;
+}
+/* 紙張顆粒感 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
 }
 img { display: block; max-width: 100%; }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 
-::selection { background: var(--accent); color: var(--paper); }
+::selection { background: var(--honey); color: var(--cocoa); }
 
 /* ============================================
    Typography
    ============================================ */
 .section-label {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1rem;
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: var(--jam);
+  margin-bottom: 0.75rem;
   display: block;
+  letter-spacing: 0.1em;
 }
-.section-label::before { content: '— '; }
+.section-label::before { content: '✿ '; font-size: 0.8em; }
 .section-label.light { color: var(--honey); }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.9rem, 4.5vw, 3.1rem);
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--ink);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  line-height: 1.45;
+  color: var(--cocoa);
   margin-bottom: 1.5rem;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
 }
-.section-title.light { color: var(--paper); }
+.section-title.light { color: var(--cream); }
+.section-title em {
+  font-style: normal;
+  color: var(--jam);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='8' viewBox='0 0 28 8'%3E%3Cpath d='M1 5.5 Q4.5 1.5 8 5.5 T15 5.5 T22 5.5 T29 5.5' fill='none' stroke='%23E3B458' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left bottom / 28px 8px;
+  padding-bottom: 0.3em;
+}
 
 .body-text {
-  font-size: 0.96rem;
-  color: var(--text-light);
-  line-height: 2;
+  font-size: 0.97rem;
+  color: var(--cocoa-soft);
+  line-height: 2.05;
   margin-bottom: 1rem;
 }
-.body-text.light { color: rgba(244, 239, 230, 0.75); }
+.body-text.light { color: rgba(251, 245, 234, 0.8); }
 .body-text.center { text-align: center; }
 
 /* ============================================
@@ -88,61 +112,64 @@ ul { list-style: none; }
   margin: 0 auto;
   padding: 0 2rem;
 }
-.section { padding: 6.5rem 0; }
-
-/* 章節編號（首頁用） */
-.sec-no {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  color: var(--text-light);
-  display: block;
-  margin-bottom: 0.4rem;
-}
-.light .sec-no, .sec-no.light { color: rgba(244, 239, 230, 0.5); }
+.section { padding: 6rem 0; position: relative; }
+.sec-no { display: none; }
 
 /* ============================================
-   Buttons — 直角、框線、反白 hover
+   Buttons — 圓潤手繪感
    ============================================ */
 .btn {
   display: inline-block;
-  padding: 0.8rem 2.2rem;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  letter-spacing: 0.15em;
-  border: 1px solid var(--ink);
-  border-radius: 0;
+  padding: 0.85rem 2.3rem;
+  background: var(--jam);
+  color: var(--cream);
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  letter-spacing: 0.12em;
+  border: 2px solid var(--jam);
+  border-radius: var(--wonky);
   cursor: pointer;
-  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  box-shadow: 3px 4px 0 rgba(74, 56, 44, 0.16);
+  transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), background 0.25s var(--ease);
 }
-.btn:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
-.btn-outline { background: transparent; color: var(--ink); }
-.btn-outline:hover { background: var(--ink); color: var(--paper); }
-.btn-light { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-.btn-light:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.btn:hover {
+  background: var(--jam-deep);
+  border-color: var(--jam-deep);
+  transform: translate(1px, 2px) rotate(-0.5deg);
+  box-shadow: 1px 2px 0 rgba(74, 56, 44, 0.16);
+}
+.btn-outline {
+  background: transparent;
+  color: var(--jam);
+  box-shadow: none;
+}
+.btn-outline:hover { background: var(--jam); color: var(--cream); }
+.btn-light { background: var(--honey); border-color: var(--honey); color: var(--cocoa); }
+.btn-light:hover { background: var(--apricot); border-color: var(--apricot); color: var(--cocoa); }
 .btn-full { width: 100%; text-align: center; }
-.btn-sm { padding: 0.5rem 1.2rem; font-size: 0.78rem; letter-spacing: 0.1em; }
+.btn-sm { padding: 0.45rem 1.3rem; font-size: 0.88rem; }
 .btn:disabled, .btn[disabled] {
-  background: var(--paper-dark);
-  border-color: var(--line);
+  background: var(--cream-deep);
+  border-color: var(--cream-deep);
   color: var(--text-light);
   cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 /* ============================================
-   Navigation — 紙色、下框線、常駐
+   Navigation — 奶油紙、手寫 logo
    ============================================ */
 .nav {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
   height: var(--nav-h);
-  background: var(--paper);
-  border-bottom: 1px solid var(--ink);
+  background: rgba(251, 245, 234, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 2px dashed var(--line);
 }
-.nav.scrolled { box-shadow: 0 4px 0 rgba(28, 36, 32, 0.06); }
+.nav.scrolled { box-shadow: 0 6px 20px rgba(74, 56, 44, 0.07); }
 .nav-inner {
   max-width: var(--max-w);
   margin: 0 auto;
@@ -153,64 +180,65 @@ ul { list-style: none; }
   justify-content: space-between;
   gap: 1.5rem;
 }
-.nav-logo { display: flex; align-items: baseline; gap: 0.6rem; }
+.nav-logo { display: flex; align-items: baseline; gap: 0.55rem; }
 .logo-zh {
-  font-family: var(--font-serif);
-  font-size: 1.35rem;
-  font-weight: 600;
-  color: var(--ink);
-  letter-spacing: 0.15em;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.55rem;
+  color: var(--cocoa);
+  letter-spacing: 0.12em;
 }
 .logo-en {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
+  font-family: var(--font-hand);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
   color: var(--text-light);
 }
-.nav-links { display: flex; gap: 2rem; }
+.nav-links { display: flex; gap: 1.8rem; }
 .nav-links a {
-  font-size: 0.84rem;
-  letter-spacing: 0.1em;
-  color: var(--text);
+  font-family: var(--font-hand);
+  font-size: 0.98rem;
+  color: var(--cocoa-soft);
   position: relative;
-  padding: 0.25rem 0;
+  padding: 0.25rem 0.1rem;
+  transition: color 0.2s var(--ease);
 }
 .nav-links a::after {
   content: '';
   position: absolute;
-  left: 0; bottom: 0;
-  width: 0; height: 1px;
-  background: var(--accent);
-  transition: width 0.25s var(--ease);
+  left: 0; right: 100%; bottom: -1px;
+  height: 7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='8' viewBox='0 0 28 8'%3E%3Cpath d='M1 5.5 Q4.5 1.5 8 5.5 T15 5.5 T22 5.5 T29 5.5' fill='none' stroke='%23C75146' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left bottom / 28px 8px;
+  transition: right 0.25s var(--ease);
 }
-.nav-links a:hover { color: var(--accent); }
-.nav-links a:hover::after { width: 100%; }
+.nav-links a:hover { color: var(--jam); }
+.nav-links a:hover::after { right: 0; }
 
-.nav-actions { display: flex; align-items: center; gap: 1.25rem; }
+.nav-actions { display: flex; align-items: center; gap: 1.2rem; }
 .nav-action {
   position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.8rem;
-  letter-spacing: 0.08em;
-  color: var(--text);
+  font-family: var(--font-hand);
+  font-size: 0.92rem;
+  color: var(--cocoa-soft);
   transition: color 0.2s var(--ease);
 }
-.nav-action:hover { color: var(--accent); }
-.nav-action svg { width: 19px; height: 19px; }
+.nav-action:hover { color: var(--jam); }
+.nav-action svg { width: 20px; height: 20px; }
 .cart-badge {
   position: absolute;
-  top: -7px; right: -10px;
-  min-width: 16px; height: 16px;
+  top: -8px; right: -11px;
+  min-width: 18px; height: 18px;
   padding: 0 4px;
-  background: var(--accent);
-  color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  line-height: 16px;
+  background: var(--jam);
+  color: var(--cream);
+  font-size: 0.64rem;
+  line-height: 18px;
   text-align: center;
+  border-radius: 50% 45% 50% 48%;
+  transform: rotate(-6deg);
   display: none;
 }
 .cart-badge.show { display: block; }
@@ -225,44 +253,30 @@ ul { list-style: none; }
   padding: 6px 2px;
 }
 .nav-toggle span {
-  width: 22px; height: 1.5px;
-  background: var(--ink);
+  width: 23px; height: 2px;
+  border-radius: 2px;
+  background: var(--cocoa);
   transition: transform 0.25s var(--ease), opacity 0.2s;
 }
 
 /* ============================================
-   Hero — 深墨綠滿版、巨型標題
+   Hero — 暖紙底、手寫大標、拍立得
    ============================================ */
 .hero {
-  min-height: 100vh;
-  background: var(--ink);
-  color: var(--paper);
+  min-height: 92vh;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  align-items: center;
   position: relative;
-  padding: calc(var(--nav-h) + 3rem) 0 7rem;
+  padding: calc(var(--nav-h) + 4rem) 0 6rem;
   overflow: hidden;
+  background:
+    radial-gradient(ellipse 600px 480px at 88% 18%, rgba(232, 168, 124, 0.22), transparent 70%),
+    radial-gradient(ellipse 520px 420px at 8% 85%, rgba(143, 161, 112, 0.16), transparent 70%),
+    radial-gradient(ellipse 420px 360px at 70% 90%, rgba(227, 180, 88, 0.14), transparent 70%),
+    var(--cream);
 }
 .hero-bg { position: absolute; inset: 0; pointer-events: none; }
-/* 紙色細格線 */
-.hero-bg::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(var(--line-dark) 1px, transparent 1px),
-    linear-gradient(90deg, var(--line-dark) 1px, transparent 1px);
-  background-size: 120px 120px;
-  opacity: 0.18;
-}
-.hero-circle {
-  position: absolute;
-  border: 1px solid var(--line-dark);
-  border-radius: 50%;
-}
-.hero-circle.c1 { width: 480px; height: 480px; top: -160px; right: -120px; }
-.hero-circle.c2 { width: 300px; height: 300px; bottom: -80px; left: -100px; border-color: rgba(217, 160, 91, 0.3); }
-.hero-circle.c3 { width: 140px; height: 140px; top: 38%; right: 22%; border-color: rgba(194, 80, 47, 0.4); }
+.hero-circle { display: none; }
 
 .hero-content {
   max-width: var(--max-w);
@@ -270,59 +284,68 @@ ul { list-style: none; }
   margin: 0 auto;
   padding: 0 2rem;
   position: relative;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 3rem;
+  align-items: center;
 }
 .hero-label {
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.4em;
-  color: var(--honey);
-  margin-bottom: 2rem;
+  font-family: var(--font-hand);
+  font-size: 1.05rem;
+  letter-spacing: 0.3em;
+  color: var(--leaf);
+  margin-bottom: 1.5rem;
 }
 .hero-title {
-  font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 8vw, 5.4rem);
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: 0.04em;
-  margin-bottom: 2rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(2.5rem, 6vw, 4.1rem);
+  line-height: 1.4;
+  letter-spacing: 0.05em;
+  color: var(--cocoa);
+  margin-bottom: 1.75rem;
 }
 .hero-title em {
   font-style: normal;
-  color: var(--honey);
+  color: var(--jam);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='8' viewBox='0 0 28 8'%3E%3Cpath d='M1 5.5 Q4.5 1.5 8 5.5 T15 5.5 T22 5.5 T29 5.5' fill='none' stroke='%23E3B458' stroke-width='2.4' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x left bottom / 28px 8px;
+  padding-bottom: 0.32em;
 }
 .hero-sub {
-  font-size: 1rem;
-  letter-spacing: 0.08em;
-  color: rgba(244, 239, 230, 0.65);
-  margin-bottom: 3rem;
+  font-size: 1.02rem;
+  letter-spacing: 0.06em;
+  color: var(--cocoa-soft);
+  margin-bottom: 2.5rem;
 }
-.hero-meta {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  letter-spacing: 0.2em;
-  color: rgba(244, 239, 230, 0.4);
-  margin-top: 4rem;
-}
+.hero-meta { display: none; }
+
+/* 拍立得疊照 */
+.hero-polaroids { position: relative; height: 430px; }
+.hero-polaroids .polaroid { position: absolute; width: min(270px, 60%); }
+.hero-polaroids .polaroid:nth-child(1) { top: 6%; left: 4%; transform: rotate(-5deg); z-index: 2; }
+.hero-polaroids .polaroid:nth-child(2) { top: 30%; right: 2%; transform: rotate(3.5deg); z-index: 1; }
+.hero-polaroids .polaroid:hover { z-index: 3; }
+
 .hero-scroll {
   position: absolute;
-  bottom: 2.5rem;
-  right: 2.5rem;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.4rem;
 }
 .hero-scroll span {
-  font-family: var(--font-mono);
-  font-size: 0.62rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(244, 239, 230, 0.5);
-  writing-mode: vertical-rl;
+  font-family: var(--font-hand);
+  font-size: 0.82rem;
+  letter-spacing: 0.25em;
+  color: var(--text-light);
 }
 .scroll-line {
-  width: 1px; height: 48px;
-  background: rgba(244, 239, 230, 0.3);
+  width: 2px; height: 34px;
+  border-radius: 2px;
+  background: var(--line);
   position: relative;
   overflow: hidden;
 }
@@ -331,35 +354,49 @@ ul { list-style: none; }
   position: absolute;
   top: -100%; left: 0;
   width: 100%; height: 100%;
-  background: var(--honey);
-  animation: scrollDrop 2s var(--ease) infinite;
+  background: var(--jam);
+  animation: scrollDrop 2.2s var(--ease) infinite;
 }
 @keyframes scrollDrop { 0% { top: -100%; } 60% { top: 100%; } 100% { top: 100%; } }
 
 /* ============================================
-   Marquee 跑馬燈字條
+   拍立得相片（共用）＋ 紙膠帶
    ============================================ */
-.marquee {
-  background: var(--accent);
-  color: var(--paper);
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
-  overflow: hidden;
-  white-space: nowrap;
-  padding: 0.65rem 0;
+.polaroid {
+  display: block;
+  background: var(--white);
+  padding: 0.65rem 0.65rem 0.9rem;
+  border-radius: 3px;
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
-.marquee-track {
-  display: inline-block;
-  animation: marquee 28s linear infinite;
+.polaroid::before {
+  content: '';
+  position: absolute;
+  top: -11px; left: 50%;
+  width: 76px; height: 24px;
+  margin-left: -38px;
+  background: rgba(227, 180, 88, 0.5);
+  border-left: 1px dashed rgba(74, 56, 44, 0.18);
+  border-right: 1px dashed rgba(74, 56, 44, 0.18);
+  transform: rotate(-3deg);
+  box-shadow: 0 2px 4px rgba(74, 56, 44, 0.08);
 }
-.marquee-track span {
-  font-family: var(--font-mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  margin-right: 3.5rem;
+.polaroid:hover {
+  transform: rotate(0deg) translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(74, 56, 44, 0.16);
 }
-@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.polaroid-caption {
+  font-family: var(--font-hand);
+  font-size: 0.92rem;
+  color: var(--cocoa-soft);
+  text-align: center;
+  padding-top: 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
 
 /* ============================================
    果醬罐圖片 — 全站統一 1:1 比例與縮放
@@ -367,234 +404,259 @@ ul { list-style: none; }
 .flavor-img, .shop-card-img, .pf-img, .product-detail-img {
   aspect-ratio: 1 / 1;
   overflow: hidden;
-  background: var(--paper-dark);
+  background: var(--cream-deep);
   display: block;
+  border-radius: 2px;
 }
 .flavor-img img, .shop-card-img img, .pf-img img, .product-detail-img img {
   width: 100%; height: 100%;
   object-fit: cover;
-  transition: transform 0.5s var(--ease);
+  transition: transform 0.45s var(--ease);
 }
 .flavor-card:hover .flavor-img img,
 .shop-card:hover .shop-card-img img,
-.pf-card:hover .pf-img img { transform: scale(1.04); }
+.pf-card:hover .pf-img img { transform: scale(1.045); }
 
 /* ============================================
-   About — 紙色、2×2 等比圖格
+   貼紙標籤（現貨／即將推出）
    ============================================ */
-.about { background: var(--paper); border-bottom: 1px solid var(--ink); }
+.flavor-badge, .pf-badge {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  padding: 0.12rem 0.7rem;
+  border-radius: 999px;
+  transform: rotate(-3deg);
+  width: fit-content;
+}
+.flavor-badge.available, .pf-badge.available {
+  background: var(--leaf);
+  color: var(--cream);
+  border: 1.5px dashed rgba(251, 245, 234, 0.7);
+}
+.flavor-badge.coming, .pf-badge.coming {
+  background: var(--cream-deep);
+  color: var(--text-light);
+  border: 1.5px dashed var(--line);
+}
+
+/* ============================================
+   About — 拍立得拼貼牆
+   ============================================ */
+.about { background: var(--cream); }
 .about-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4.5rem;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 4rem;
   align-items: center;
 }
 .flavor-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  border: 1px solid var(--ink);
+  gap: 2rem 1.6rem;
+  padding: 1rem 0.5rem;
 }
-.flavor-card {
-  position: relative;
-  display: block;
-  border: 1px solid var(--ink);
-  margin: -0.5px;
-}
-.flavor-overlay {
-  position: absolute;
-  left: 0; right: 0; bottom: 0;
-  padding: 0.7rem 0.9rem;
-  background: linear-gradient(transparent, rgba(28, 36, 32, 0.78));
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-}
+.flavor-card { position: relative; }
+.flavor-card.polaroid { padding-bottom: 0.55rem; }
+.flavor-card:nth-child(1) { transform: rotate(-3deg); }
+.flavor-card:nth-child(2) { transform: rotate(2.2deg) translateY(14px); }
+.flavor-card:nth-child(3) { transform: rotate(1.6deg); }
+.flavor-card:nth-child(4) { transform: rotate(-2.4deg) translateY(10px); }
+.flavor-overlay { display: none; }
 .flavor-name {
-  font-family: var(--font-serif);
-  font-size: 0.88rem;
-  color: var(--paper);
-  letter-spacing: 0.1em;
+  font-family: var(--font-hand);
+  font-size: 0.95rem;
+  color: var(--cocoa);
 }
-.flavor-badge, .pf-badge {
-  display: inline-block;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  letter-spacing: 0.18em;
-  padding: 0.18rem 0.6rem;
-  border: 1px solid currentColor;
-  text-transform: uppercase;
-  width: fit-content;
-}
-.flavor-badge.available { color: var(--honey); }
-.flavor-badge.coming { color: rgba(244, 239, 230, 0.7); }
-.pf-badge.available { color: var(--sage); }
-.pf-badge.coming { color: var(--text-light); }
+.flavor-card.upcoming .flavor-img img { opacity: 0.85; }
 
 .about-stats {
   display: flex;
-  border: 1px solid var(--ink);
+  gap: 1rem;
   margin-top: 2.5rem;
 }
 .stat {
   flex: 1;
   text-align: center;
-  padding: 1.25rem 0.5rem;
-  border-right: 1px solid var(--ink);
+  padding: 1.1rem 0.5rem 0.9rem;
+  background: var(--white);
+  border: 2px solid var(--cream-deep);
+  border-radius: var(--wonky-sm);
 }
-.stat:last-child { border-right: none; }
+.stat:nth-child(1) { transform: rotate(-1.2deg); }
+.stat:nth-child(2) { transform: rotate(0.8deg); }
+.stat:nth-child(3) { transform: rotate(-0.6deg); }
 .stat-num {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-hand);
+  font-weight: 700;
   font-size: 1.9rem;
-  font-weight: 600;
-  color: var(--accent);
-  line-height: 1.3;
+  color: var(--jam);
+  line-height: 1.4;
 }
 .stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.2em;
+  font-family: var(--font-hand);
+  font-size: 0.82rem;
   color: var(--text-light);
 }
 
 /* ============================================
-   Philosophy — 深墨綠、框線三欄
+   Philosophy — 暖深可可、手繪卡片
    ============================================ */
-.philosophy { background: var(--ink); color: var(--paper); }
-.philosophy-header { max-width: 640px; margin-bottom: 4rem; }
+.philosophy {
+  background: var(--cocoa);
+  color: var(--cream);
+}
+.philosophy-header { max-width: 620px; margin: 0 auto 3.5rem; text-align: center; }
 .philosophy-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 1px solid var(--line-dark);
+  gap: 1.6rem;
 }
 .phil-card {
-  padding: 2.5rem 2rem;
-  border-right: 1px solid var(--line-dark);
+  padding: 2.2rem 1.8rem;
+  background: rgba(251, 245, 234, 0.06);
+  border: 2px dashed rgba(251, 245, 234, 0.25);
+  border-radius: var(--wonky-sm);
 }
-.phil-card:last-child { border-right: none; }
+.phil-card:nth-child(1) { transform: rotate(-0.8deg); }
+.phil-card:nth-child(2) { transform: rotate(0.6deg) translateY(8px); }
+.phil-card:nth-child(3) { transform: rotate(-0.5deg); }
 .phil-icon {
-  width: 44px; height: 44px;
+  width: 46px; height: 46px;
   color: var(--honey);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .phil-icon svg { width: 100%; height: 100%; }
 .phil-card h3 {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  margin-bottom: 0.75rem;
-  color: var(--paper);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.18rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.7rem;
+  color: var(--cream);
 }
 .phil-card p {
-  font-size: 0.86rem;
-  line-height: 1.95;
-  color: rgba(244, 239, 230, 0.6);
+  font-size: 0.88rem;
+  line-height: 2;
+  color: rgba(251, 245, 234, 0.7);
 }
 .philosophy-quote {
-  margin-top: 4.5rem;
-  padding-left: 2rem;
-  border-left: 2px solid var(--accent);
+  margin: 4rem auto 0;
+  max-width: 640px;
+  text-align: center;
 }
 .philosophy-quote blockquote {
-  font-family: var(--font-serif);
-  font-size: clamp(1.05rem, 2.2vw, 1.45rem);
-  line-height: 2;
-  color: rgba(244, 239, 230, 0.85);
-  letter-spacing: 0.05em;
+  font-family: var(--font-hand);
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  line-height: 2.1;
+  color: rgba(251, 245, 234, 0.9);
+  letter-spacing: 0.06em;
 }
+.philosophy-quote blockquote::before { content: '〝'; color: var(--honey); font-size: 1.6em; }
+.philosophy-quote blockquote::after { content: '〞'; color: var(--honey); font-size: 1.6em; }
 
 /* ============================================
-   Products — 紙色、等比四格
+   Products — 白卡手繪框
    ============================================ */
-.products { background: var(--paper); border-top: 1px solid var(--ink); }
-.products-header { margin-bottom: 3.5rem; max-width: 640px; }
+.products { background: var(--cream-deep); }
+.products-header { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
 .products-flavors {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-  border: 1px solid var(--ink);
+  gap: 1.6rem;
 }
 .pf-card {
-  background: var(--paper);
-  border-right: 1px solid var(--ink);
+  background: var(--white);
+  border: 2px solid rgba(74, 56, 44, 0.12);
+  border-radius: var(--wonky-sm);
+  padding: 0.8rem;
   display: flex;
   flex-direction: column;
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
-.pf-card:last-child { border-right: none; }
-.pf-img { border-bottom: 1px solid var(--ink); }
+.pf-card:nth-child(odd) { transform: rotate(-0.7deg); }
+.pf-card:nth-child(even) { transform: rotate(0.7deg); }
+.pf-card:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: var(--shadow-soft);
+}
 .pf-info {
-  padding: 1.25rem 1.25rem 1.5rem;
+  padding: 0.9rem 0.5rem 0.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.45rem;
   flex: 1;
 }
 .pf-info h4 {
-  font-family: var(--font-serif);
-  font-size: 1.02rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ink);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.08rem;
+  letter-spacing: 0.06em;
+  color: var(--cocoa);
 }
-.pf-info h4 a:hover { color: var(--accent); }
+.pf-info h4 a:hover { color: var(--jam); }
 .pf-info p {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-light);
-  line-height: 1.85;
+  line-height: 1.9;
   flex: 1;
 }
-.pf-card.upcoming .pf-img img { filter: grayscale(0.5); opacity: 0.75; }
 .products-cta { text-align: center; margin-top: 3.5rem; }
 .products-cta p {
-  font-size: 0.9rem;
-  color: var(--text-light);
+  font-family: var(--font-hand);
+  font-size: 0.98rem;
+  color: var(--cocoa-soft);
   margin-bottom: 1.5rem;
 }
 .products-cta .btn { margin: 0 0.4rem 0.6rem; }
 
 /* ============================================
-   Story — 深墨綠
+   Story — 暖可可
    ============================================ */
-.story { background: var(--ink-soft); color: var(--paper); }
+.story { background: var(--cocoa); color: var(--cream); }
 .story-inner {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 0 2rem;
 }
-.story-text { max-width: 620px; }
+.story-text { max-width: 600px; }
 
 /* ============================================
-   Contact — 紙色
+   Contact
    ============================================ */
-.contact { background: var(--paper); border-top: 1px solid var(--ink); }
+.contact { background: var(--cream); }
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
-  gap: 4.5rem;
+  gap: 4rem;
   align-items: start;
 }
-.contact-links { margin-top: 2rem; }
+.contact-links { margin-top: 1.75rem; }
 .contact-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  letter-spacing: 0.1em;
-  color: var(--ink);
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--ink);
-  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+  gap: 0.7rem;
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  color: var(--cocoa);
+  padding: 0.6rem 1.2rem;
+  background: var(--white);
+  border: 2px solid var(--cream-deep);
+  border-radius: var(--wonky-sm);
+  transform: rotate(-1deg);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
 }
-.contact-link:hover { background: var(--ink); color: var(--paper); }
-.contact-icon { width: 18px; height: 18px; }
+.contact-link:hover { transform: rotate(0deg); border-color: var(--jam); color: var(--jam); }
+.contact-icon { width: 19px; height: 19px; }
 
 .contact-form {
-  border: 1px solid var(--ink);
-  padding: 2.25rem;
   background: var(--white);
+  border: 2px solid var(--cream-deep);
+  border-radius: var(--wonky-sm);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-soft);
 }
 
 /* ============================================
@@ -604,33 +666,34 @@ ul { list-style: none; }
   max-width: 460px;
   margin: 0 auto;
   background: var(--white);
-  border: 1px solid var(--ink);
+  border: 2px solid var(--cream-deep);
+  border-radius: var(--wonky-sm);
   padding: 2.5rem;
+  box-shadow: var(--shadow-soft);
 }
 .form-card-wide { max-width: 760px; }
 .form-card h1, .form-card h2 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  font-size: 1.25rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.3rem;
   letter-spacing: 0.08em;
-  color: var(--ink);
+  color: var(--cocoa);
   margin-bottom: 1.5rem;
 }
 .form-group { margin-bottom: 1.25rem; }
 .form-group label {
   display: block;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  margin-bottom: 0.45rem;
-  color: var(--text);
+  font-family: var(--font-hand);
+  font-size: 0.88rem;
+  margin-bottom: 0.4rem;
+  color: var(--cocoa-soft);
 }
 .form-group input, .form-group textarea, .form-group select {
   width: 100%;
-  padding: 0.75rem 0.95rem;
-  border: 1px solid var(--line);
-  border-radius: 0;
-  background: var(--paper);
+  padding: 0.75rem 1rem;
+  border: 1.5px solid var(--line);
+  border-radius: 8px 6px 9px 6px;
+  background: var(--cream);
   font-family: var(--font-sans);
   font-size: 0.95rem;
   color: var(--text);
@@ -638,167 +701,185 @@ ul { list-style: none; }
 }
 .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
   outline: none;
-  border-color: var(--accent);
+  border-color: var(--jam);
 }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.form-hint { font-size: 0.78rem; color: var(--text-light); margin-top: 0.35rem; }
+.form-hint { font-size: 0.8rem; color: var(--text-light); margin-top: 0.35rem; }
 .form-error {
   display: none;
-  background: var(--ink);
-  color: var(--honey);
-  border-left: 3px solid var(--accent);
+  background: #F8E8E1;
+  color: var(--jam-deep);
+  border: 1.5px dashed var(--jam);
+  border-radius: var(--wonky-sm);
   padding: 0.75rem 1rem;
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   margin-bottom: 1.25rem;
 }
 .form-error.show { display: block; }
 .form-foot {
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--text-light);
   margin-top: 1.5rem;
 }
-.form-foot a { color: var(--accent); border-bottom: 1px solid var(--accent); }
+.form-foot a {
+  color: var(--jam);
+  border-bottom: 1.5px dashed var(--jam);
+}
 
 /* 單選卡（運送 / 付款） */
-.choice-list { display: grid; gap: 0.6rem; }
+.choice-list { display: grid; gap: 0.7rem; }
 .choice {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
   padding: 1rem 1.2rem;
-  border: 1px solid var(--line);
+  border: 1.5px solid var(--line);
+  border-radius: var(--wonky-sm);
   cursor: pointer;
+  background: var(--white);
   transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
 }
-.choice:has(input:checked) { border-color: var(--ink); background: var(--paper); box-shadow: inset 3px 0 0 var(--accent); }
-.choice input { margin-top: 0.35rem; accent-color: var(--accent); }
-.choice-title { font-size: 0.92rem; color: var(--ink); letter-spacing: 0.04em; }
-.choice-desc { font-size: 0.78rem; color: var(--text-light); }
+.choice:has(input:checked) {
+  border-color: var(--jam);
+  background: #FDF3EC;
+}
+.choice input { margin-top: 0.4rem; accent-color: var(--jam); }
+.choice-title { font-family: var(--font-hand); font-size: 0.98rem; color: var(--cocoa); }
+.choice-desc { font-size: 0.8rem; color: var(--text-light); }
 .choice.disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* ============================================
    頁面標頭（內頁）
    ============================================ */
 .page-head {
-  padding: calc(var(--nav-h) + 4rem) 0 3.5rem;
+  padding: calc(var(--nav-h) + 3.5rem) 0 3rem;
   text-align: center;
-  border-bottom: 1px solid var(--ink);
-  margin-bottom: 4rem;
 }
-.page-head .section-label::before { content: '· '; }
-.page-head .section-title { margin-bottom: 0.75rem; }
+.page-head .section-title { margin-bottom: 0.5rem; }
+.page-head .body-text {
+  font-family: var(--font-hand);
+}
 
 /* ============================================
    商店商品卡
    ============================================ */
 .shop-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 0;
-  border: 1px solid var(--ink);
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 1.8rem;
 }
 .shop-card {
   background: var(--white);
+  border: 2px solid rgba(74, 56, 44, 0.12);
+  border-radius: var(--wonky-sm);
+  padding: 0.8rem;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--ink);
-  margin: -0.5px;
-  transition: background 0.25s var(--ease);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
 }
-.shop-card:hover { background: var(--paper); }
-.shop-card-img { border-bottom: 1px solid var(--ink); }
+.shop-card:nth-child(odd) { transform: rotate(-0.6deg); }
+.shop-card:nth-child(even) { transform: rotate(0.6deg); }
+.shop-card:hover {
+  transform: rotate(0deg) translateY(-5px);
+  box-shadow: var(--shadow-soft);
+}
 .shop-card-body {
-  padding: 1.25rem 1.4rem 1.5rem;
+  padding: 1rem 0.5rem 0.6rem;
   display: flex;
   flex-direction: column;
   flex: 1;
-  gap: 0.55rem;
+  gap: 0.5rem;
 }
 .shop-card-body h3 {
-  font-family: var(--font-serif);
-  font-size: 1.08rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ink);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.12rem;
+  letter-spacing: 0.06em;
+  color: var(--cocoa);
 }
-.shop-card-body h3 a:hover { color: var(--accent); }
-.shop-card-tagline { font-size: 0.82rem; color: var(--text-light); flex: 1; line-height: 1.9; }
+.shop-card-body h3 a:hover { color: var(--jam); }
+.shop-card-tagline { font-size: 0.83rem; color: var(--text-light); flex: 1; line-height: 1.95; }
 .shop-card-foot {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.6rem;
+  margin-top: 0.5rem;
   gap: 0.5rem;
 }
 .price {
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  color: var(--accent);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--jam);
 }
 
 /* ============================================
    購物車
    ============================================ */
-.cart-items { display: grid; gap: 0; margin-bottom: 1.5rem; border-top: 1px solid var(--line); }
+.cart-items { display: grid; gap: 0; margin-bottom: 1.5rem; border-top: 1.5px dashed var(--line); }
 .cart-item {
   display: grid;
   grid-template-columns: 64px 1fr auto;
   gap: 1rem;
   align-items: center;
   padding: 1rem 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1.5px dashed var(--line);
 }
-.cart-item img { width: 64px; height: 64px; object-fit: cover; border: 1px solid var(--ink); }
-.cart-item-name { font-family: var(--font-serif); font-size: 0.95rem; color: var(--ink); letter-spacing: 0.05em; }
-.cart-item-price { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-light); }
+.cart-item img {
+  width: 64px; height: 64px;
+  object-fit: cover;
+  border-radius: 6px 4px 7px 4px;
+  border: 2px solid var(--cream-deep);
+}
+.cart-item-name { font-family: var(--font-hand); font-size: 1rem; color: var(--cocoa); }
+.cart-item-price { font-size: 0.8rem; color: var(--text-light); }
 .qty-control { display: inline-flex; align-items: center; gap: 0.6rem; }
 .qty-control button {
-  width: 26px; height: 26px;
-  border: 1px solid var(--line);
+  width: 27px; height: 27px;
+  border: 1.5px solid var(--line);
   background: var(--white);
-  border-radius: 0;
+  border-radius: 50% 45% 50% 48%;
   cursor: pointer;
-  color: var(--ink);
-  font-size: 0.9rem;
+  color: var(--cocoa);
+  font-size: 0.95rem;
   line-height: 1;
 }
-.qty-control button:hover { border-color: var(--accent); color: var(--accent); }
-.qty-control span { font-family: var(--font-mono); font-size: 0.85rem; min-width: 1.2em; text-align: center; }
+.qty-control button:hover { border-color: var(--jam); color: var(--jam); }
+.qty-control span { font-size: 0.9rem; min-width: 1.2em; text-align: center; }
 .cart-remove {
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: var(--text-light);
   background: none;
   border: none;
   cursor: pointer;
-  text-decoration: underline;
-  letter-spacing: 0.08em;
+  text-decoration: underline wavy var(--line);
 }
-.cart-remove:hover { color: var(--accent); }
-.cart-summary { font-size: 0.9rem; color: var(--text); display: grid; gap: 0.4rem; margin: 1.25rem 0; }
+.cart-remove:hover { color: var(--jam); text-decoration-color: var(--jam); }
+.cart-summary { font-size: 0.92rem; color: var(--text); display: grid; gap: 0.4rem; margin: 1.25rem 0; }
 .cart-summary-row { display: flex; justify-content: space-between; }
-.cart-summary-row span:last-child { font-family: var(--font-mono); }
 .cart-summary-row.total {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--ink);
-  border-top: 1px solid var(--ink);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.18rem;
+  color: var(--cocoa);
+  border-top: 1.5px dashed var(--line);
   padding-top: 0.7rem;
   margin-top: 0.3rem;
 }
-.cart-empty { text-align: center; color: var(--text-light); padding: 3rem 0; }
-.cart-empty a { color: var(--accent); border-bottom: 1px solid var(--accent); }
+.cart-summary-row.total span:last-child { color: var(--jam); }
+.cart-empty { text-align: center; color: var(--text-light); padding: 3rem 0; font-family: var(--font-hand); }
+.cart-empty a { color: var(--jam); border-bottom: 1.5px dashed var(--jam); }
 
 /* ============================================
    訂單卡片 / 狀態
    ============================================ */
 .order-card {
   background: var(--white);
-  border: 1px solid var(--ink);
+  border: 2px solid var(--cream-deep);
+  border-radius: var(--wonky-sm);
   padding: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 .order-card-head {
   display: flex;
@@ -808,45 +889,51 @@ ul { list-style: none; }
   gap: 0.5rem;
   margin-bottom: 0.75rem;
 }
-.order-code { font-family: var(--font-mono); font-size: 0.95rem; letter-spacing: 0.08em; color: var(--ink); }
+.order-code {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 1.02rem;
+  letter-spacing: 0.05em;
+  color: var(--cocoa);
+}
 .order-meta { font-size: 0.8rem; color: var(--text-light); }
 .order-items-list {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   color: var(--text);
-  border-top: 1px dashed var(--line);
+  border-top: 1.5px dashed var(--line);
   padding-top: 0.75rem;
   display: grid;
   gap: 0.25rem;
 }
 .status-pill {
   display: inline-block;
-  padding: 0.18rem 0.7rem;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  border: 1px solid currentColor;
-  text-transform: uppercase;
-  background: transparent;
-  color: var(--text-light);
+  padding: 0.16rem 0.8rem;
+  font-family: var(--font-hand);
+  font-size: 0.78rem;
+  border-radius: 999px;
+  transform: rotate(-2deg);
+  background: var(--cream-deep);
+  color: var(--cocoa-soft);
 }
-.status-pill.pending   { color: #9A7224; }
-.status-pill.paid      { color: var(--sage); }
-.status-pill.shipped   { color: #3A6491; }
-.status-pill.completed { color: var(--sage); }
-.status-pill.cancelled { color: var(--accent); }
+.status-pill.pending   { background: #F6E8C8; color: #8A6A1F; }
+.status-pill.paid      { background: #E6ECD9; color: #5C7041; }
+.status-pill.shipped   { background: #DFE9F2; color: #3E6286; }
+.status-pill.completed { background: #E6ECD9; color: #5C7041; }
+.status-pill.cancelled { background: #F8E0DA; color: var(--jam-deep); }
 
-/* 銀行轉帳資訊框 */
+/* 銀行轉帳資訊框 — 便條紙 */
 .bank-box {
-  background: var(--ink);
-  color: var(--paper);
-  border-left: 3px solid var(--honey);
+  background: #FBF0D9;
+  border: 1.5px dashed var(--honey);
+  border-radius: var(--wonky-sm);
   padding: 1.25rem 1.5rem;
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   margin: 1.25rem 0;
   display: grid;
   gap: 0.3rem;
+  transform: rotate(-0.4deg);
 }
-.bank-box strong { color: var(--honey); font-family: var(--font-mono); letter-spacing: 0.1em; font-weight: 400; }
+.bank-box strong { font-family: var(--font-hand); color: var(--cocoa); }
 
 /* ============================================
    商品詳細頁
@@ -858,91 +945,113 @@ ul { list-style: none; }
   align-items: start;
   padding-top: calc(var(--nav-h) + 3.5rem);
 }
-.product-detail-img { border: 1px solid var(--ink); }
-.breadcrumb {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  color: var(--text-light);
-  margin-bottom: 1.5rem;
+.product-detail-img {
+  background: var(--white);
+  padding: 0.7rem;
+  aspect-ratio: auto;
+  border-radius: 3px;
+  box-shadow: var(--shadow-soft);
+  transform: rotate(-1.5deg);
+  position: relative;
 }
-.breadcrumb a:hover { color: var(--accent); }
+.product-detail-img::before {
+  content: '';
+  position: absolute;
+  top: -11px; left: 50%;
+  width: 84px; height: 26px;
+  margin-left: -42px;
+  background: rgba(227, 180, 88, 0.5);
+  border-left: 1px dashed rgba(74, 56, 44, 0.18);
+  border-right: 1px dashed rgba(74, 56, 44, 0.18);
+  transform: rotate(-3deg);
+}
+.product-detail-img img {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.breadcrumb {
+  font-family: var(--font-hand);
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-bottom: 1.25rem;
+}
+.breadcrumb a:hover { color: var(--jam); }
 
 /* ============================================
-   Toast
+   Toast — 便利貼
    ============================================ */
 .toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 26px;
   left: 50%;
-  transform: translate(-50%, 80px);
-  background: var(--ink);
-  color: var(--paper);
-  border-left: 3px solid var(--accent);
-  padding: 0.8rem 1.75rem;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
+  transform: translate(-50%, 90px) rotate(-1.5deg);
+  background: #FBF0D9;
+  color: var(--cocoa);
+  font-family: var(--font-hand);
+  border: 1.5px dashed var(--honey);
+  border-radius: var(--wonky-sm);
+  padding: 0.8rem 1.8rem;
+  font-size: 0.94rem;
+  box-shadow: var(--shadow-soft);
   opacity: 0;
   transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
   z-index: 2000;
   pointer-events: none;
 }
-.toast.show { transform: translate(-50%, 0); opacity: 1; }
+.toast.show { transform: translate(-50%, 0) rotate(-1.5deg); opacity: 1; }
 
 /* ============================================
-   Footer — 深墨綠
+   Footer — 暖可可
    ============================================ */
 .footer {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--cocoa);
+  color: var(--cream);
   padding: 4rem 0 2.5rem;
 }
 .footer-inner { text-align: center; }
-.footer-brand { display: flex; justify-content: center; align-items: baseline; gap: 0.6rem; margin-bottom: 0.75rem; }
-.footer-brand .logo-zh { color: var(--paper); font-size: 1.5rem; }
-.footer-brand .logo-en { color: rgba(244, 239, 230, 0.5); }
+.footer-brand { display: flex; justify-content: center; align-items: baseline; gap: 0.55rem; margin-bottom: 0.6rem; }
+.footer-brand .logo-zh { color: var(--cream); font-size: 1.7rem; }
+.footer-brand .logo-en { color: rgba(251, 245, 234, 0.5); }
 .footer-tagline {
-  font-family: var(--font-serif);
-  font-size: 0.92rem;
-  letter-spacing: 0.15em;
-  color: rgba(244, 239, 230, 0.65);
+  font-family: var(--font-hand);
+  font-size: 1rem;
+  letter-spacing: 0.14em;
+  color: rgba(251, 245, 234, 0.75);
   margin-bottom: 2rem;
 }
 .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 2rem; }
 .footer-links a {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(244, 239, 230, 0.7);
-  border-bottom: 1px solid transparent;
+  font-family: var(--font-hand);
+  font-size: 0.9rem;
+  color: rgba(251, 245, 234, 0.75);
+  border-bottom: 1.5px dashed transparent;
 }
 .footer-links a:hover { color: var(--honey); border-bottom-color: var(--honey); }
 .footer-copy {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  color: rgba(244, 239, 230, 0.35);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: rgba(251, 245, 234, 0.4);
 }
 
 /* ============================================
    進場動畫
    ============================================ */
-.fade-up { opacity: 0; transform: translateY(28px); animation: fadeUp 0.9s var(--ease-out) forwards; }
+.fade-up { opacity: 0; transform: translateY(26px); animation: fadeUp 0.9s var(--ease-out) forwards; }
 .fade-up.delay-1 { animation-delay: 0.15s; }
 .fade-up.delay-2 { animation-delay: 0.3s; }
 .fade-up.delay-3 { animation-delay: 0.45s; }
 @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
-.reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal { opacity: 0; transition: opacity 0.9s var(--ease-out); }
+.reveal.visible { opacity: 1; }
 .reveal-delay-1 { transition-delay: 0.12s; }
 .reveal-delay-2 { transition-delay: 0.24s; }
 .reveal-delay-3 { transition-delay: 0.36s; }
 
 @media (prefers-reduced-motion: reduce) {
   .fade-up, .reveal { opacity: 1; transform: none; animation: none; transition: none; }
-  .marquee-track { animation: none; }
   .scroll-line::after { animation: none; }
 }
 
@@ -951,8 +1060,20 @@ ul { list-style: none; }
    ============================================ */
 @media (max-width: 1024px) {
   .products-flavors { grid-template-columns: repeat(2, 1fr); }
-  .pf-card:nth-child(2n) { border-right: none; }
-  .pf-card { border-bottom: 1px solid var(--ink); }
+}
+
+@media (max-width: 900px) {
+  .hero-content { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-polaroids {
+    height: auto;
+    display: flex;
+    gap: 1.2rem;
+    justify-content: center;
+  }
+  .hero-polaroids .polaroid { position: static; width: min(46%, 230px); }
+  .hero-polaroids .polaroid:nth-child(1) { transform: rotate(-3.5deg); }
+  .hero-polaroids .polaroid:nth-child(2) { transform: rotate(2.5deg); }
+  .hero { min-height: 0; }
 }
 
 @media (max-width: 860px) {
@@ -960,25 +1081,23 @@ ul { list-style: none; }
     position: fixed;
     top: var(--nav-h);
     left: 0; right: 0;
-    background: var(--paper);
-    border-bottom: 1px solid var(--ink);
+    background: var(--cream);
+    border-bottom: 2px dashed var(--line);
     flex-direction: column;
     gap: 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s var(--ease);
   }
-  .nav-links.open { max-height: 320px; }
-  .nav-links li { border-top: 1px solid var(--line); }
+  .nav-links.open { max-height: 340px; }
+  .nav-links li { border-top: 1.5px dashed var(--line); }
   .nav-links a { display: block; padding: 0.9rem 2rem; }
   .nav-toggle { display: flex; }
   .nav-action .nav-action-label { display: none; }
 
   .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
-  .philosophy-grid { grid-template-columns: 1fr; }
-  .phil-card { border-right: none; border-bottom: 1px solid var(--line-dark); }
-  .phil-card:last-child { border-bottom: none; }
-  .product-detail { grid-template-columns: 1fr; gap: 2rem; }
+  .philosophy-grid { grid-template-columns: 1fr; gap: 1.2rem; }
+  .product-detail { grid-template-columns: 1fr; gap: 2.5rem; }
   .form-row { grid-template-columns: 1fr; }
   .section { padding: 4.5rem 0; }
   .hero-scroll { display: none; }
@@ -986,7 +1105,8 @@ ul { list-style: none; }
 
 @media (max-width: 560px) {
   .products-flavors { grid-template-columns: 1fr; }
-  .pf-card { border-right: none; }
   .container { padding: 0 1.25rem; }
   .nav-inner { padding: 0 1.25rem; }
+  .flavor-grid { gap: 1.4rem 1rem; }
+  .about-stats { flex-direction: column; }
 }
