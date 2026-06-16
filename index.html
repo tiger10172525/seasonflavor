@@ -24,6 +24,14 @@
         <li><a href="#products">甜點系列</a></li>
         <li><a href="#contact">聯絡我們</a></li>
       </ul>
+      <button class="cart-btn" id="cartBtn" aria-label="購物車">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0" stroke-linecap="round"/>
+        </svg>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
       <button class="nav-toggle" id="navToggle" aria-label="選單">
         <span></span><span></span><span></span>
       </button>
@@ -244,6 +252,10 @@
             <span class="pf-badge available">現貨</span>
             <h4>草莓果醬</h4>
             <p>溫柔的酸與甜，像是春天剛開始的感覺</p>
+            <div class="pf-footer">
+              <span class="pf-price">NT$280</span>
+              <button class="btn-add-cart" data-id="strawberry" data-name="草莓果醬" data-price="280">加入購物車</button>
+            </div>
           </div>
         </div>
         <div class="pf-card">
@@ -254,6 +266,10 @@
             <span class="pf-badge available">現貨</span>
             <h4>綜合野莓果醬</h4>
             <p>深邃的果香，帶著一點點神秘的尾韻</p>
+            <div class="pf-footer">
+              <span class="pf-price">NT$280</span>
+              <button class="btn-add-cart" data-id="berry" data-name="綜合野莓果醬" data-price="280">加入購物車</button>
+            </div>
           </div>
         </div>
         <div class="pf-card upcoming">
@@ -357,6 +373,33 @@
       </div>
     </div>
   </footer>
+
+  <!-- Cart Overlay -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+
+  <!-- Cart Drawer -->
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>購物車</h3>
+      <button class="cart-close" id="cartClose" aria-label="關閉購物車">✕</button>
+    </div>
+    <div class="cart-body">
+      <p class="cart-empty" id="cartEmpty">購物車裡還沒有商品</p>
+      <div class="cart-items" id="cartItems"></div>
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>合計</span>
+        <span id="cartTotal">NT$0</span>
+      </div>
+      <button class="btn-linepay" id="checkoutBtn" disabled>
+        LINE Pay 結帳
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast" role="alert"></div>
 
   <script src="script.js"></script>
 </body>
