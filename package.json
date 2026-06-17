@@ -1,0 +1,13 @@
+{
+  "name": "seasonflavor",
+  "version": "1.0.0",
+  "description": "肆菓 Season Flavor — 手工果醬品牌官網",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "private": true
+}

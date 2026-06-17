@@ -20,6 +20,29 @@ node server.js
 | `SF_DATA_DIR` | `./data` | SQLite 資料庫位置 |
 | `SF_ADMIN_EMAIL` / `SF_ADMIN_PASSWORD` | 見上 | 首次啟動建立的管理員 |
 
+## 部署到 Railway
+
+1. 在 [Railway](https://railway.app) 建立新專案，連結這個 GitHub repo
+2. Railway 會自動偵測 Node.js，用 `node server.js` 啟動
+3. 加上 **Volume**（掛載到 `/data`），設定環境變數 `SF_DATA_DIR=/data`，讓資料庫持久保存
+4. 在 Railway Settings → Custom Domain 加上 `www.seasonflavor.com`
+5. 到 DNS 設定 CNAME 指向 Railway 給的位址
+
+環境變數建議在 Railway Dashboard 設定：
+```
+SF_ADMIN_EMAIL=你的管理員信箱
+SF_ADMIN_PASSWORD=你的管理員密碼
+```
+
+### 訂單通知 Email
+
+後台 → 商店設定 → 訂單通知 Email，填入 SMTP 資訊即可。Gmail 設定：
+- SMTP 主機：`smtp.gmail.com`
+- 連接埠：`465`
+- 帳號：`seasonflavortw@gmail.com`
+- 密碼：到 Google 帳號 → 安全性 → 應用程式密碼，產生一組 16 碼密碼
+- 通知收件信箱：`seasonflavortw@gmail.com`
+
 ## 功能總覽
 
 ### 前台
@@ -29,6 +52,7 @@ node server.js
 - **結帳 `/checkout`**：訪客或會員皆可下單；宅配（滿額免運）／自取；銀行轉帳（含匯款後五碼回報）／貨到付款
 - **訂單查詢 `/order-lookup`**：訂單編號＋信箱雙重驗證查詢
 - **會員**：註冊 `/register`、登入 `/login`、會員中心 `/account`（資料修改、改密碼、訂單紀錄）；會員結帳自動帶入資料，訪客訂單註冊後自動歸戶（同 email）
+- **訂單通知**：有人下單自動寄 email 到店家信箱，含付款方式、商品明細、金額
 
 ### 後台 `/admin`
 - **總覽**：營收（總計／近 30 天）、訂單狀態統計、會員數、未讀訊息、熱賣商品、低庫存提醒
@@ -36,7 +60,7 @@ node server.js
 - **商品管理**：新增／編輯、價格庫存、上下架、「即將推出」檔位
 - **顧客 CRM**：會員＋訪客自動建檔（以 email 歸戶）、累積消費與訂單數、自訂標籤、CRM 備註、完整訂單歷史
 - **聯絡訊息**：官網表單訊息匣（未讀／已讀／已回覆）
-- **商店設定**：網站網址、運費與免運門檻、匯款帳戶、付款方式開關
+- **商店設定**：網站網址、運費與免運門檻、匯款帳戶、付款方式開關、SMTP 通知設定
 
 ### SEO
 - 每頁 title／description／canonical／Open Graph／Twitter Card
@@ -58,6 +82,8 @@ src/
   api.js           前台 API
   admin-api.js     後台 API（管理員限定）
   seo.js           sitemap / robots / 商品頁 SSR
+  mail.js          SMTP 訂單通知（node:tls，零依賴）
+  utils.js         共用工具函式
 templates/         商品頁 SSR 模板
 public/            前台頁面與靜態資源
 data/              SQLite 資料庫（gitignore，執行時自動建立）
