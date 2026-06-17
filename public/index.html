@@ -6,6 +6,8 @@
   <title>肆菓 Season Flavor｜把四季，做成剛剛好的甜 — 手工果醬與季節甜點</title>
   <meta name="description" content="肆菓 Season Flavor，用時令水果的真實風味製作手工果醬與甜點。草莓、綜合野莓現貨供應，奇異果、水蜜桃季節限定。線上訂購，把四季的甜帶回家。" />
   <link rel="canonical" href="https://www.seasonflavor.com/" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="肆菓 Season Flavor" />
   <meta property="og:title" content="肆菓 Season Flavor｜把四季，做成剛剛好的甜" />
@@ -13,7 +15,11 @@
   <meta property="og:url" content="https://www.seasonflavor.com/" />
   <meta property="og:image" content="https://www.seasonflavor.com/images/strawberry.jpg" />
   <meta property="og:locale" content="zh_TW" />
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Organization JSON-LD -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -24,18 +30,45 @@
     "sameAs": ["https://www.instagram.com/seasonflavor_/"]
   }
   </script>
+
+  <!-- WebSite JSON-LD with SearchAction -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "肆菓 Season Flavor",
-    "url": "https://www.seasonflavor.com"
+    "url": "https://www.seasonflavor.com",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.seasonflavor.com/shop?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
   }
   </script>
+
+  <!-- LocalBusiness / FoodEstablishment JSON-LD (GEO) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FoodEstablishment",
+    "name": "肆菓 Season Flavor",
+    "url": "https://www.seasonflavor.com",
+    "description": "用時令水果的真實風味製作手工果醬與甜點，把四季的甜帶回家。",
+    "priceRange": "$",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Taipei",
+      "addressRegion": "Taipei",
+      "addressCountry": "TW"
+    },
+    "sameAs": ["https://www.instagram.com/seasonflavor_/"]
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@300;400;700&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+TC:wght@400;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=3" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css?v=4" />
 </head>
 <body>
 
@@ -47,11 +80,11 @@
         <span class="logo-en">Season Flavor</span>
       </a>
       <ul class="nav-links">
-        <li><a href="/#about">關於我們</a></li>
-        <li><a href="/#philosophy">品牌理念</a></li>
+        <li><a href="#about">關於我們</a></li>
+        <li><a href="#philosophy">品牌理念</a></li>
         <li><a href="/shop">線上訂購</a></li>
         <li><a href="/order-lookup">訂單查詢</a></li>
-        <li><a href="/#contact">聯絡我們</a></li>
+        <li><a href="#contact">聯絡我們</a></li>
       </ul>
       <div class="nav-actions">
         <a href="/login" class="nav-action" id="authLink">
@@ -78,30 +111,23 @@
 
   <!-- Hero -->
   <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-circle c1"></div>
+      <div class="hero-circle c2"></div>
+      <div class="hero-circle c3"></div>
+    </div>
     <div class="hero-content">
-      <div>
-        <p class="hero-label fade-up">四季 · 自然 · 剛剛好</p>
-        <h1 class="hero-title fade-up delay-1">
-          把四季，<br />做成<em>剛剛好</em>的甜
-        </h1>
-        <p class="hero-sub fade-up delay-2">
-          用時令水果的真實風味，讓每一口都是剛好的停頓
-        </p>
-        <a href="/shop" class="btn fade-up delay-3">線上訂購</a>
-      </div>
-      <div class="hero-polaroids fade-up delay-2">
-        <a class="polaroid" href="/products/strawberry-jam">
-          <span class="flavor-img"><img src="/images/strawberry.jpg" alt="肆菓手工草莓果醬" /></span>
-          <span class="polaroid-caption">草莓果醬</span>
-        </a>
-        <a class="polaroid" href="/products/mixed-berry-jam">
-          <span class="flavor-img"><img src="/images/mixed-berry.jpg" alt="肆菓綜合野莓果醬" /></span>
-          <span class="polaroid-caption">綜合野莓果醬</span>
-        </a>
-      </div>
+      <p class="hero-label fade-up">四季 · 自然 · 剛剛好</p>
+      <h1 class="hero-title fade-up delay-1">
+        把四季，<br />做成剛剛好的甜
+      </h1>
+      <p class="hero-sub fade-up delay-2">
+        用時令水果的真實風味，讓每一口都是剛好的停頓
+      </p>
+      <a href="#products" class="btn fade-up delay-3">探索甜點系列</a>
     </div>
     <div class="hero-scroll">
-      <span>往下逛逛</span>
+      <span>scroll</span>
       <div class="scroll-line"></div>
     </div>
   </section>
@@ -112,42 +138,51 @@
       <div class="about-grid">
         <div class="about-visual">
           <div class="flavor-grid">
-            <a class="flavor-card polaroid" href="/products/strawberry-jam">
-              <span class="flavor-img">
-                <img src="/images/strawberry.jpg" alt="肆菓手工草莓果醬，新鮮草莓與奶霜塔" loading="lazy" onerror="this.style.opacity='0'" />
-              </span>
-              <span class="polaroid-caption">
+
+            <div class="flavor-card" data-flavor="strawberry">
+              <figure class="flavor-img strawberry-bg">
+                <img src="/images/strawberry.jpg" alt="草莓系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge available">現貨</span>
                 <span class="flavor-name">草莓系列</span>
+              </div>
+            </div>
+
+            <div class="flavor-card" data-flavor="berry">
+              <figure class="flavor-img berry-bg">
+                <img src="/images/mixed-berry.jpg" alt="綜合莓果系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
                 <span class="flavor-badge available">現貨</span>
-              </span>
-            </a>
-            <a class="flavor-card polaroid" href="/products/mixed-berry-jam">
-              <span class="flavor-img">
-                <img src="/images/mixed-berry.jpg" alt="肆菓綜合野莓果醬，藍莓覆盆子黑莓" loading="lazy" onerror="this.style.opacity='0'" />
-              </span>
-              <span class="polaroid-caption">
                 <span class="flavor-name">綜合莓果系列</span>
-                <span class="flavor-badge available">現貨</span>
-              </span>
-            </a>
-            <a class="flavor-card polaroid upcoming" href="/products/kiwi-jam">
-              <span class="flavor-img">
-                <img src="/images/kiwi.jpg" alt="肆菓奇異果果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
-              </span>
-              <span class="polaroid-caption">
+              </div>
+            </div>
+
+            <div class="flavor-card upcoming" data-flavor="kiwi">
+              <figure class="flavor-img kiwi-bg">
+                <img src="/images/kiwi.jpg" alt="奇異果系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
+                <span class="flavor-badge coming">即將推出</span>
                 <span class="flavor-name">奇異果系列</span>
+              </div>
+            </div>
+
+            <div class="flavor-card upcoming" data-flavor="peach">
+              <figure class="flavor-img peach-bg">
+                <img src="/images/peach.jpg" alt="水蜜桃系列" loading="lazy"
+                     onerror="this.style.opacity='0'" />
+              </figure>
+              <div class="flavor-overlay">
                 <span class="flavor-badge coming">即將推出</span>
-              </span>
-            </a>
-            <a class="flavor-card polaroid upcoming" href="/products/peach-jam">
-              <span class="flavor-img">
-                <img src="/images/peach.jpg" alt="肆菓水蜜桃果醬，季節限定" loading="lazy" onerror="this.style.opacity='0'" />
-              </span>
-              <span class="polaroid-caption">
                 <span class="flavor-name">水蜜桃系列</span>
-                <span class="flavor-badge coming">即將推出</span>
-              </span>
-            </a>
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="about-text">
@@ -185,9 +220,9 @@
   <section class="philosophy section" id="philosophy">
     <div class="container">
       <div class="philosophy-header">
-        <p class="section-label light">Philosophy</p>
-        <h2 class="section-title light">簡單但不隨便</h2>
-        <p class="body-text light">我們不追求華麗的堆疊，<br />而是在熟悉中多一點驚喜</p>
+        <p class="section-label">Philosophy</p>
+        <h2 class="section-title">簡單但不隨便</h2>
+        <p class="body-text center">我們不追求華麗的堆疊，<br />而是在熟悉中多一點驚喜</p>
       </div>
       <div class="philosophy-grid">
         <div class="phil-card">
@@ -229,7 +264,7 @@
     </div>
   </section>
 
-  <!-- Products（從 API 動態載入） -->
+  <!-- Products (dynamically loaded from API) -->
   <section class="products section" id="products">
     <div class="container">
       <div class="products-header">
@@ -237,7 +272,7 @@
         <h2 class="section-title">每一款甜點，<br />都是一段關於季節的記憶</h2>
       </div>
       <div class="products-flavors" id="homeProducts">
-        <!-- 由 /api/products 渲染 -->
+        <!-- Rendered by /api/products -->
       </div>
       <div class="products-cta">
         <p>現貨商品可直接線上訂購，季節限定請鎖定 Instagram</p>
@@ -261,7 +296,7 @@
           我們希望你拿起甜點的那一刻，是為了真正享受它，
           而不只是為了記錄它。
         </p>
-        <a href="/#contact" class="btn btn-light">和我們說說話</a>
+        <a href="#contact" class="btn btn-light">和我們說說話</a>
       </div>
     </div>
   </section>
@@ -319,15 +354,15 @@
           <a href="/order-lookup">訂單查詢</a>
           <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">Instagram</a>
         </div>
-        <p class="footer-copy">© 2026 肆菓 SEASON FLAVOR. ALL RIGHTS RESERVED.</p>
+        <p class="footer-copy">&copy; 2026 肆菓 Season Flavor. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
-  <script src="/js/site.js?v=3"></script>
-  <script src="/js/script.js?v=3"></script>
+  <script src="/js/site.js?v=4"></script>
+  <script src="/js/script.js?v=4"></script>
   <script>
-    // 首頁商品區：從 API 動態渲染
+    // Homepage products: dynamically rendered from API
     (async () => {
       const wrap = document.getElementById('homeProducts');
       try {
@@ -363,7 +398,7 @@
       }
     })();
 
-    // 聯絡表單 → 後台訊息匣
+    // Contact form -> API
     const contactForm = document.getElementById('contactForm');
     contactForm?.addEventListener('submit', async (e) => {
       e.preventDefault();
