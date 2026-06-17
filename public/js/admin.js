@@ -535,6 +535,21 @@ async function renderSettings() {
       <div class="afield"><label><input type="checkbox" id="stPayLinepay" ${check('payment_linepay')} /> LINE Pay（金流串接完成後再開啟）</label></div>
       <div class="afield"><label><input type="checkbox" id="stPayCard" ${check('payment_credit_card')} /> 信用卡（金流串接完成後再開啟）</label></div>
 
+      <h3 style="margin-top: 1.5rem;">訂單通知 Email</h3>
+      <p class="muted" style="margin-bottom: 0.75rem;">有新訂單時自動寄信到指定信箱。使用 Gmail 請用「應用程式密碼」。</p>
+      <div class="afield-row">
+        <div class="afield"><label>SMTP 主機</label><input id="stSmtpHost" value="${esc(s.smtp_host)}" placeholder="smtp.gmail.com" /></div>
+        <div class="afield"><label>連接埠</label><input id="stSmtpPort" type="number" value="${esc(s.smtp_port)}" placeholder="465" style="max-width: 100px;" /></div>
+      </div>
+      <div class="afield-row">
+        <div class="afield"><label>SMTP 帳號</label><input id="stSmtpUser" value="${esc(s.smtp_user)}" placeholder="you@gmail.com" /></div>
+        <div class="afield"><label>SMTP 密碼</label><input id="stSmtpPass" type="password" value="${esc(s.smtp_pass)}" placeholder="應用程式密碼" /></div>
+      </div>
+      <div class="afield-row">
+        <div class="afield"><label>寄件人信箱</label><input id="stSmtpFrom" value="${esc(s.smtp_from)}" placeholder="留空則同帳號" /></div>
+        <div class="afield"><label>通知收件信箱</label><input id="stNotifyEmail" value="${esc(s.notify_email)}" placeholder="seasonflavortw@gmail.com" /></div>
+      </div>
+
       <button class="abtn" id="saveSettingsBtn">儲存設定</button>
       <span class="muted" id="settingsSaved" style="display: none; margin-left: 0.75rem; color: var(--sage);">已儲存 ✓</span>
     </div>`;
@@ -559,6 +574,12 @@ async function renderSettings() {
           payment_cod: document.getElementById('stPayCod').checked ? '1' : '0',
           payment_linepay: document.getElementById('stPayLinepay').checked ? '1' : '0',
           payment_credit_card: document.getElementById('stPayCard').checked ? '1' : '0',
+          smtp_host: document.getElementById('stSmtpHost').value,
+          smtp_port: document.getElementById('stSmtpPort').value,
+          smtp_user: document.getElementById('stSmtpUser').value,
+          smtp_pass: document.getElementById('stSmtpPass').value,
+          smtp_from: document.getElementById('stSmtpFrom').value,
+          notify_email: document.getElementById('stNotifyEmail').value,
         },
       });
       saved.style.display = '';

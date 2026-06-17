@@ -132,6 +132,13 @@ const DEFAULT_SETTINGS = {
   payment_cod: '1',
   payment_linepay: '0',
   payment_credit_card: '0',
+  // SMTP 訂單通知
+  smtp_host: '',
+  smtp_port: '465',
+  smtp_user: '',
+  smtp_pass: '',
+  smtp_from: '',
+  notify_email: 'seasonflavortw@gmail.com',
 };
 
 function getSetting(key) {

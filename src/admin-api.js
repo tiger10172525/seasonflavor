@@ -256,6 +256,7 @@ const EDITABLE_SETTINGS = [
   'site_url', 'shipping_fee_home', 'free_shipping_threshold',
   'bank_name', 'bank_account', 'bank_holder', 'pickup_info',
   'payment_bank_transfer', 'payment_cod', 'payment_linepay', 'payment_credit_card',
+  'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass', 'smtp_from', 'notify_email',
 ];
 
 function getSettings(req, res) {

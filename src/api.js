@@ -8,6 +8,7 @@ const { db, getSetting } = require('./db');
 const { hashPassword, verifyPassword } = require('./password');
 const auth = require('./auth');
 const { readJson, sendJson, httpError, isEmail, str, nowIso } = require('./utils');
+const { notifyNewOrder } = require('./mail');
 
 // ---------- CRM：以 email 建立／更新顧客主檔 ----------
 function upsertCustomer({ email, name, phone, userId }) {
@@ -235,6 +236,11 @@ async function createOrder(req, res) {
     };
   }
   sendJson(res, 201, payload);
+
+  notifyNewOrder({
+    code, customerName: name, email, phone, address,
+    shippingMethod, shippingFee, paymentMethod, subtotal, total, note, items: lines,
+  });
 }
 
 function serializeOrder(order) {
