@@ -17,13 +17,26 @@ function siteUrl() {
 
 function sitemap(req, res) {
   const base = siteUrl();
-  const staticPages = ['', '/shop', '/login', '/register', '/order-lookup'];
-  const products = db.prepare('SELECT slug, created_at FROM products WHERE active = 1').all();
+  const today = new Date().toISOString().slice(0, 10);
+  const staticPages = [
+    { loc: '', priority: '1.0', freq: 'weekly' },
+    { loc: '/shop', priority: '0.9', freq: 'daily' },
+    { loc: '/order-lookup', priority: '0.4', freq: 'monthly' },
+    { loc: '/login', priority: '0.3', freq: 'yearly' },
+    { loc: '/register', priority: '0.3', freq: 'yearly' },
+  ];
+  const products = db.prepare('SELECT slug, image, created_at FROM products WHERE active = 1').all();
   const urls = [
-    ...staticPages.map((p) => `  <url><loc>${base}${p}</loc></url>`),
-    ...products.map((p) => `  <url><loc>${base}/products/${escapeHtml(p.slug)}</loc></url>`),
+    ...staticPages.map(
+      (p) =>
+        `  <url><loc>${base}${p.loc}</loc><lastmod>${today}</lastmod><changefreq>${p.freq}</changefreq><priority>${p.priority}</priority></url>`
+    ),
+    ...products.map((p) => {
+      const img = p.image ? `\n    <image:image><image:loc>${base}${escapeHtml(p.image)}</image:loc></image:image>` : '';
+      return `  <url><loc>${base}/products/${escapeHtml(p.slug)}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority>${img}</url>`;
+    }),
   ].join('\n');
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n${urls}\n</urlset>\n`;
   res.writeHead(200, { 'Content-Type': 'application/xml; charset=utf-8' });
   res.end(xml);
 }
@@ -77,7 +90,7 @@ function productPage(req, res, slug) {
     '@type': 'BreadcrumbList',
     itemListElement: [
       { '@type': 'ListItem', position: 1, name: '首頁', item: base },
-      { '@type': 'ListItem', position: 2, name: '甜點系列', item: `${base}/shop` },
+      { '@type': 'ListItem', position: 2, name: '線上訂購', item: `${base}/shop` },
       { '@type': 'ListItem', position: 3, name: p.name, item: url },
     ],
   };

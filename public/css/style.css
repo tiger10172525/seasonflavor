@@ -984,9 +984,12 @@ ul { list-style: none; }
 
 .shop-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
   margin-bottom: 3rem;
+  max-width: 960px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .shop-card {
   background: var(--white);
@@ -1009,7 +1012,54 @@ ul { list-style: none; }
   transition: transform 0.5s var(--ease);
 }
 .shop-card:hover .shop-card-img img { transform: scale(1.04); }
-.shop-card-body { padding: 1.5rem; }
+.shop-card-body {
+  padding: 1.25rem 1.4rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.shop-card-body h3 {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 400;
+  color: var(--brown);
+  margin: 0.15rem 0 0.1rem;
+}
+.shop-card-body h3 a { color: inherit; }
+.shop-card-tagline {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.65;
+  margin-bottom: 0.6rem;
+  min-height: 2.6em;
+}
+.shop-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: auto;
+}
+.shop-card-foot .price {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  color: var(--orange);
+  font-weight: 400;
+  white-space: nowrap;
+}
+.btn-sm {
+  padding: 0.55rem 1.1rem;
+  font-size: 0.8rem;
+  border-radius: 100px;
+}
+.shop-card .pf-badge {
+  align-self: flex-start;
+}
+.page-head {
+  text-align: center;
+  padding: calc(var(--nav-h) + 3.5rem) 0 2.5rem;
+}
+.page-head .section-title { margin-bottom: 0.75rem; }
 .shop-card-name {
   font-family: var(--font-serif);
   font-size: 1.25rem; font-weight: 400;
@@ -1264,8 +1314,11 @@ ul { list-style: none; }
 .co-bank-info a { color: var(--orange); }
 
 /* Responsive */
+@media (max-width: 900px) {
+  .shop-grid { grid-template-columns: repeat(2, 1fr); max-width: 620px; }
+}
 @media (max-width: 768px) {
-  .shop-grid { grid-template-columns: 1fr; }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); }
   .shop-coming-row { flex-direction: column; gap: 1.25rem; }
   .shop-coming-cards { gap: 1rem; }
   .co-form-row { grid-template-columns: 1fr; }

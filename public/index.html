@@ -14,40 +14,85 @@
   <meta property="og:image" content="https://www.seasonflavor.com/images/strawberry.jpg" />
   <meta property="og:locale" content="zh_TW" />
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="keywords" content="肆菓, Season Flavor, 手工果醬, 季節果醬, 草莓果醬, 綜合野莓果醬, 無添加果醬, 台北手工果醬, 當季水果果醬, 線上訂購果醬" />
+  <meta name="author" content="肆菓 Season Flavor" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta property="og:image:alt" content="肆菓 Season Flavor 手工草莓果醬" />
+  <meta name="twitter:title" content="肆菓 Season Flavor｜把四季，做成剛剛好的甜" />
+  <meta name="twitter:description" content="用時令水果的真實風味製作手工果醬，線上訂購宅配到府。" />
+  <meta name="twitter:image" content="https://www.seasonflavor.com/images/strawberry.jpg" />
+  <meta name="geo.region" content="TW-TPE" />
+  <meta name="geo.placename" content="台北市" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
+    "@id": "https://www.seasonflavor.com/#organization",
     "name": "肆菓 Season Flavor",
+    "alternateName": "肆菓",
     "url": "https://www.seasonflavor.com",
     "logo": "https://www.seasonflavor.com/images/strawberry.jpg",
+    "image": "https://www.seasonflavor.com/images/strawberry.jpg",
     "sameAs": ["https://www.instagram.com/seasonflavor_/"],
-    "description": "用時令水果的真實風味製作手工果醬與甜點"
+    "description": "肆菓 Season Flavor 用當令水果的真實風味，手工製作無添加防腐劑的季節果醬。",
+    "slogan": "把四季，做成剛剛好的甜"
   }
   </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": "https://www.seasonflavor.com/#website",
     "name": "肆菓 Season Flavor",
-    "url": "https://www.seasonflavor.com"
+    "url": "https://www.seasonflavor.com",
+    "inLanguage": "zh-Hant",
+    "publisher": { "@id": "https://www.seasonflavor.com/#organization" },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://www.seasonflavor.com/shop?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
   }
   </script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "FoodEstablishment",
+    "@id": "https://www.seasonflavor.com/#business",
     "name": "肆菓 Season Flavor",
     "url": "https://www.seasonflavor.com",
+    "image": "https://www.seasonflavor.com/images/strawberry.jpg",
     "description": "手工果醬與季節甜點品牌，用時令水果的真實風味，讓每一口都是剛好的停頓。",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "台北市",
+      "addressRegion": "台北市",
       "addressCountry": "TW"
     },
-    "priceRange": "$",
-    "servesCuisine": "甜點、手工果醬",
+    "areaServed": { "@type": "Country", "name": "台灣" },
+    "priceRange": "$$",
+    "servesCuisine": ["手工果醬", "季節甜點"],
+    "currenciesAccepted": "TWD",
+    "paymentAccepted": "銀行轉帳, 貨到付款",
     "sameAs": ["https://www.instagram.com/seasonflavor_/"]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "果醬的保存期限多久？要怎麼保存？",
+        "acceptedAnswer": { "@type": "Answer", "text": "因為堅持不添加防腐劑，未開封請冷藏保存，賞味期約 1 個月；開封後請冷藏並於 2 週內食用完畢，每次取用請使用乾燥潔淨的湯匙，避免沾染水氣。" } },
+      { "@type": "Question", "name": "怎麼下單？有哪些付款方式？",
+        "acceptedAnswer": { "@type": "Answer", "text": "直接在線上訂購頁面選購加入購物車即可結帳。目前提供銀行轉帳（ATM／網銀）與貨到付款，皆為先付款後出貨。" } },
+      { "@type": "Question", "name": "運費怎麼算？多少免運？",
+        "acceptedAnswer": { "@type": "Answer", "text": "宅配運費 NT$120，單筆訂單滿 NT$1,500 免運。台北地區也可選擇面交自取，自取免運費。" } },
+      { "@type": "Question", "name": "大概多久會出貨？",
+        "acceptedAnswer": { "@type": "Answer", "text": "確認收到款項後，我們會在 2–3 個工作天內手工製作並出貨。因為都是小批量現做，遇到旺季可能稍有延後。" } },
+      { "@type": "Question", "name": "「即將推出」的口味什麼時候會有？",
+        "acceptedAnswer": { "@type": "Answer", "text": "奇異果、水蜜桃等口味會跟著當令水果的產季推出，數量有限。想收到上架通知，歡迎追蹤 IG @seasonflavor_。" } }
+    ]
   }
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -272,6 +317,55 @@
           而不只是為了記錄它。
         </p>
         <a href="#contact" class="btn btn-light">和我們說說話</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq section" id="faq">
+    <div class="container">
+      <div class="faq-header">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">常見問題</h2>
+        <p class="body-text center">關於訂購、配送與保存，這裡有你想知道的</p>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary class="faq-question">果醬的保存期限多久？要怎麼保存？</summary>
+          <div class="faq-answer">
+            <p>因為堅持<strong>不添加防腐劑</strong>，未開封請冷藏保存，賞味期約 1 個月；開封後請冷藏並於 2 週內食用完畢，每次取用請使用乾燥潔淨的湯匙，避免沾染水氣。</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">怎麼下單？有哪些付款方式？</summary>
+          <div class="faq-answer">
+            <p>直接在<a href="/shop">線上訂購</a>頁面選購加入購物車即可結帳。目前提供<strong>銀行轉帳（ATM／網銀）</strong>與<strong>貨到付款</strong>，皆為先付款後出貨；轉帳後系統會引導你回報帳號末五碼，方便我們快速核帳。</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">運費怎麼算？多少免運？</summary>
+          <div class="faq-answer">
+            <p>宅配運費 NT$120，單筆訂單滿 <strong>NT$1,500 免運</strong>。台北地區也可選擇面交自取（請私訊 IG 約定時間地點），自取免運費。</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">大概多久會出貨？</summary>
+          <div class="faq-answer">
+            <p>確認收到款項後，我們會在 <strong>2–3 個工作天</strong>內手工製作並出貨。因為都是小批量現做，遇到旺季可能稍有延後，會再個別通知你。</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">「即將推出」的口味什麼時候會有？</summary>
+          <div class="faq-answer">
+            <p>奇異果、水蜜桃等口味會跟著<strong>當令水果的產季</strong>推出，數量有限。想第一時間收到上架通知，歡迎追蹤我們的 IG <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener">@seasonflavor_</a>。</p>
+          </div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">可以宅配送禮或開立發票嗎？</summary>
+          <div class="faq-answer">
+            <p>可以！結帳備註欄填寫收件人資訊即可直接寄送，需要簡單包裝或附小卡也歡迎留言告訴我們。需要發票或大量訂購，請透過 IG 私訊聯絡。</p>
+          </div>
+        </details>
       </div>
     </div>
   </section>
