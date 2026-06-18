@@ -53,7 +53,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=4" />
+  <link rel="stylesheet" href="/css/style.css?v=5" />
 </head>
 <body>
 
@@ -163,15 +163,15 @@
         </div>
         <div class="about-text">
           <p class="section-label">About</p>
-          <h2 class="section-title">在忙碌的日子裡，<br />我們相信甜點不只是甜</h2>
+          <h2 class="section-title">「肆」是四季輪轉的節奏，<br />「菓」是水果也是糕菓</h2>
           <p class="body-text">
-            它是一種剛剛好的停頓，是讓生活慢下來的理由。
+            兩個字放在一起，就是我們做的事：跟著當令水果的步伐，把它們做成手工果醬，收進日常的甜點裡。
           </p>
           <p class="body-text">
-            肆菓，從「四季」出發，把每個時令的味道收進日常。用水果的真實風味，搭配簡單卻細緻的製作，讓每一口都自然、剛好、不過度。
+            每一罐果醬都選用當季盛產的水果，減少多餘添加，保留食材最直接的風味。
           </p>
           <p class="body-text">
-            不管是送禮、自己享用，或是某個想犒賞自己的時刻，肆菓都希望陪你，把生活過得更有味道一點。
+            這裡沒有複雜的配方，只有對的時節、對的原料，以及剛剛好的一點甜。
           </p>
           <div class="about-stats">
             <div class="stat">
@@ -245,10 +245,10 @@
     <div class="container">
       <div class="products-header">
         <p class="section-label">Products</p>
-        <h2 class="section-title">每一款甜點，<br />都是一段關於季節的記憶</h2>
+        <h2 class="section-title">每一款果醬，<br />都是一段關於季節的記憶</h2>
       </div>
-      <div class="products-grid" id="productsGrid">
-        <p class="body-text center">載入中…</p>
+      <div class="products-flavors" id="productsGrid">
+        <!-- 動態載入 -->
       </div>
       <div class="products-cta">
         <p>想知道現在有什麼季節限定？</p>
@@ -344,26 +344,24 @@
       try {
         const { products } = await apiFetch('/api/products');
         const grid = document.getElementById('productsGrid');
-        const BADGE = { available: '現貨', coming: '即將推出' };
-        const colors = [
-          'linear-gradient(135deg, #F2A7B8 0%, #E8718A 100%)',
-          'linear-gradient(135deg, #A89CC8 0%, #7B6FAA 100%)',
-          'linear-gradient(135deg, #B8D88A 0%, #6E9E42 100%)',
-          'linear-gradient(135deg, #F6C89A 0%, #E8A070 100%)',
-        ];
-        grid.innerHTML = products.map((p, i) => `
-          <div class="product-card${i === 0 ? ' featured' : ''}">
-            <a href="/products/${escapeText(p.slug)}" class="product-img" style="background: ${colors[i % colors.length]};">
-              <img src="${escapeText(p.image)}" alt="${escapeText(p.name)}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;" onerror="this.style.opacity='0'" />
-              <span class="product-badge">${BADGE[p.badge] || p.badge}</span>
+        if (!products || products.length === 0) { grid.innerHTML = ''; return; }
+        const BADGE_LABEL = { available: '現貨', coming: '即將推出' };
+        grid.innerHTML = products.map(p => {
+          const badgeClass = p.badge === 'coming' ? 'coming' : 'available';
+          const cardClass  = p.badge === 'coming' ? 'pf-card upcoming' : 'pf-card';
+          const label      = BADGE_LABEL[p.badge] || p.badge;
+          return `
+          <div class="${cardClass}">
+            <a href="/products/${escapeText(p.slug)}" class="pf-img">
+              <img src="${escapeText(p.image)}" alt="${escapeText(p.name)}" loading="lazy" onerror="this.style.opacity='0'" />
             </a>
-            <div class="product-info">
-              <h3>${escapeText(p.name)}</h3>
+            <div class="pf-info">
+              <span class="pf-badge ${badgeClass}">${label}</span>
+              <h4>${escapeText(p.name)}</h4>
               <p>${escapeText(p.tagline)}</p>
-              <span class="price">NT$ ${Number(p.price).toLocaleString()}</span>
             </div>
-          </div>
-        `).join('');
+          </div>`;
+        }).join('');
       } catch { /* 載入失敗靜默 */ }
     })();
 
