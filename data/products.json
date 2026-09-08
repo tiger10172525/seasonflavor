@@ -1,0 +1,49 @@
+{
+  "currency": "NT$",
+  "products": [
+    {
+      "id": "strawberry",
+      "series": "草莓系列",
+      "name": "草莓果醬",
+      "status": "available",
+      "price": 280,
+      "image": "images/strawberry.jpg",
+      "bgClass": "strawberry-bg",
+      "desc": "溫柔的酸與甜，像是春天剛開始的感覺",
+      "aiPrompt": "Top-down flat lay of a beautiful strawberry mousse tart on white ceramic plate, fresh whole and halved strawberries on top, light cream filling, minimalist food styling, soft warm natural light, shallow depth of field, cream background, editorial food photography, pastel tones"
+    },
+    {
+      "id": "mixed-berry",
+      "series": "綜合莓果系列",
+      "name": "綜合野莓果醬",
+      "status": "available",
+      "price": 320,
+      "image": "images/mixed-berry.jpg",
+      "bgClass": "berry-bg",
+      "desc": "深邃的果香，帶著一點點神秘的尾韻",
+      "aiPrompt": "Overhead shot of a mixed berry tart with fresh blueberries, raspberries and blackberries arranged on cream custard filling, deep purple tones, soft natural side lighting, minimalist white background, professional food photography, slightly rustic ceramic plate"
+    },
+    {
+      "id": "kiwi",
+      "series": "奇異果系列",
+      "name": "奇異果果醬",
+      "status": "upcoming",
+      "price": 300,
+      "image": "images/kiwi.jpg",
+      "bgClass": "kiwi-bg",
+      "desc": "清爽帶勁的綠意，讓人精神一振的酸甜",
+      "aiPrompt": "Beautiful kiwi fruit tart from directly above, thin round kiwi slices arranged in concentric circles on cream tart base, vibrant green with golden center, white ceramic plate, soft natural window light, editorial food photography, minimal propping, cream and sage color palette"
+    },
+    {
+      "id": "peach",
+      "series": "水蜜桃系列",
+      "name": "水蜜桃果醬",
+      "status": "upcoming",
+      "price": 320,
+      "image": "images/peach.jpg",
+      "bgClass": "peach-bg",
+      "desc": "多汁飽滿，是夏天最讓人期待的一種甜",
+      "aiPrompt": "Elegant white peach tart seen from above, thin translucent peach slices fanned artfully on silky cream filling, blush pink and peach tones, delicate styling, soft diffused light, cream linen background, high-end food photography, Japanese minimalist aesthetic"
+    }
+  ]
+}

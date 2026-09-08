@@ -1,0 +1,43 @@
+{
+  "_comment": "折扣碼設定。前端會用這份做即時試算與 UX，實際金額由 Google Apps Script 後端用相同的碼表重新驗證後才記錄，避免被竄改。新增/修改折扣碼時，請同步更新 apps-script/Code.gs 內的 DISCOUNTS。",
+  "codes": [
+    {
+      "code": "WELCOME10",
+      "type": "percent",
+      "value": 10,
+      "label": "新客歡迎碼",
+      "kind": "general",
+      "active": true,
+      "minSubtotal": 0
+    },
+    {
+      "code": "SEASON50",
+      "type": "fixed",
+      "value": 50,
+      "label": "季節限定折抵",
+      "kind": "general",
+      "active": true,
+      "minSubtotal": 500
+    },
+    {
+      "code": "AMANDA15",
+      "type": "percent",
+      "value": 15,
+      "label": "Amanda 專屬碼",
+      "kind": "influencer",
+      "influencer": "Amanda",
+      "active": true,
+      "minSubtotal": 0
+    },
+    {
+      "code": "FOODIE20",
+      "type": "percent",
+      "value": 20,
+      "label": "美食部落客專屬碼",
+      "kind": "influencer",
+      "influencer": "Foodie Diary",
+      "active": true,
+      "minSubtotal": 800
+    }
+  ]
+}

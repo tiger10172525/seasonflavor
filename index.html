@@ -23,6 +23,7 @@
         <li><a href="#philosophy">品牌理念</a></li>
         <li><a href="#products">甜點系列</a></li>
         <li><a href="#contact">聯絡我們</a></li>
+        <li><a href="#" class="nav-order" data-open-order>立即訂購</a></li>
       </ul>
       <button class="nav-toggle" id="navToggle" aria-label="選單">
         <span></span><span></span><span></span>
@@ -45,7 +46,10 @@
       <p class="hero-sub fade-up delay-2">
         用時令水果的真實風味，讓每一口都是剛好的停頓
       </p>
-      <a href="#products" class="btn fade-up delay-3">探索甜點系列</a>
+      <div class="hero-actions fade-up delay-3">
+        <a href="#products" class="btn">探索甜點系列</a>
+        <a href="#" class="btn btn-outline" data-open-order>立即訂購</a>
+      </div>
     </div>
     <div class="hero-scroll">
       <span>scroll</span>
@@ -58,89 +62,8 @@
     <div class="container">
       <div class="about-grid">
         <div class="about-visual">
-          <div class="flavor-grid">
-
-            <!--
-              🍓 草莓系列（現貨）
-              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/strawberry.jpg
-              → AI 生圖 Prompt (Midjourney / DALL-E):
-                 "Top-down flat lay of a beautiful strawberry mousse tart on white ceramic plate,
-                  fresh whole and halved strawberries on top, light cream filling, minimalist food
-                  styling, soft warm natural light, shallow depth of field, cream background,
-                  editorial food photography, pastel tones"
-            -->
-            <div class="flavor-card" data-flavor="strawberry">
-              <figure class="flavor-img strawberry-bg">
-                <img src="images/strawberry.jpg" alt="草莓系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
-              </figure>
-              <div class="flavor-overlay">
-                <span class="flavor-badge available">現貨</span>
-                <span class="flavor-name">草莓系列</span>
-              </div>
-            </div>
-
-            <!--
-              🫐 綜合莓果系列（現貨）
-              → 請從 IG @seasonflavor_ 下載產品圖，存至 images/mixed-berry.jpg
-              → AI 生圖 Prompt:
-                 "Overhead shot of a mixed berry tart with fresh blueberries, raspberries and
-                  blackberries arranged on cream custard filling, deep purple tones, soft natural
-                  side lighting, minimalist white background, professional food photography,
-                  slightly rustic ceramic plate"
-            -->
-            <div class="flavor-card" data-flavor="berry">
-              <figure class="flavor-img berry-bg">
-                <img src="images/mixed-berry.jpg" alt="綜合莓果系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
-              </figure>
-              <div class="flavor-overlay">
-                <span class="flavor-badge available">現貨</span>
-                <span class="flavor-name">綜合莓果系列</span>
-              </div>
-            </div>
-
-            <!--
-              🥝 奇異果系列（即將推出）
-              → AI 生圖 Prompt:
-                 "Beautiful kiwi fruit tart from directly above, thin round kiwi slices arranged
-                  in concentric circles on cream tart base, vibrant green with golden center,
-                  white ceramic plate, soft natural window light, editorial food photography,
-                  minimal propping, cream and sage color palette"
-              → 生成後存至 images/kiwi.jpg
-            -->
-            <div class="flavor-card upcoming" data-flavor="kiwi">
-              <figure class="flavor-img kiwi-bg">
-                <img src="images/kiwi.jpg" alt="奇異果系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
-              </figure>
-              <div class="flavor-overlay">
-                <span class="flavor-badge coming">即將推出</span>
-                <span class="flavor-name">奇異果系列</span>
-              </div>
-            </div>
-
-            <!--
-              🍑 水蜜桃系列（即將推出）
-              → AI 生圖 Prompt:
-                 "Elegant white peach tart seen from above, thin translucent peach slices fanned
-                  artfully on silky cream filling, blush pink and peach tones, delicate styling,
-                  soft diffused light, cream linen background, high-end food photography,
-                  Japanese minimalist aesthetic"
-              → 生成後存至 images/peach.jpg
-            -->
-            <div class="flavor-card upcoming" data-flavor="peach">
-              <figure class="flavor-img peach-bg">
-                <img src="images/peach.jpg" alt="水蜜桃系列" loading="lazy"
-                     onerror="this.style.opacity='0'" />
-              </figure>
-              <div class="flavor-overlay">
-                <span class="flavor-badge coming">即將推出</span>
-                <span class="flavor-name">水蜜桃系列</span>
-              </div>
-            </div>
-
-          </div>
+          <!-- 口味卡片由 data/products.json 產生（與下方甜點系列共用同一份資料） -->
+          <div class="flavor-grid" id="flavorGrid" aria-live="polite"></div>
         </div>
         <div class="about-text">
           <p class="section-label">About</p>
@@ -230,56 +153,19 @@
       </div>
       <!-- Mockup 大圖 -->
       <div class="products-mockup">
-        <img src="images/products-mockup.jpg" alt="肆菓果醬系列" loading="lazy" />
+        <img src="images/products-mockup.jpg" alt="肆菓果醬系列" loading="lazy" onerror="this.closest('.products-mockup').style.display='none'" />
         <div class="mockup-tag">SEASON FLAVOR × 手工果醬系列</div>
       </div>
 
-      <!-- 四款口味 -->
-      <div class="products-flavors">
-        <div class="pf-card">
-          <div class="pf-img strawberry-bg">
-            <img src="images/strawberry.jpg" alt="草莓果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge available">現貨</span>
-            <h4>草莓果醬</h4>
-            <p>溫柔的酸與甜，像是春天剛開始的感覺</p>
-          </div>
-        </div>
-        <div class="pf-card">
-          <div class="pf-img berry-bg">
-            <img src="images/mixed-berry.jpg" alt="綜合野莓果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge available">現貨</span>
-            <h4>綜合野莓果醬</h4>
-            <p>深邃的果香，帶著一點點神秘的尾韻</p>
-          </div>
-        </div>
-        <div class="pf-card upcoming">
-          <div class="pf-img kiwi-bg">
-            <img src="images/kiwi.jpg" alt="奇異果果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge coming">即將推出</span>
-            <h4>奇異果果醬</h4>
-            <p>清爽帶勁的綠意，讓人精神一振的酸甜</p>
-          </div>
-        </div>
-        <div class="pf-card upcoming">
-          <div class="pf-img peach-bg">
-            <img src="images/peach.jpg" alt="水蜜桃果醬" loading="lazy" onerror="this.style.opacity='0'" />
-          </div>
-          <div class="pf-info">
-            <span class="pf-badge coming">即將推出</span>
-            <h4>水蜜桃果醬</h4>
-            <p>多汁飽滿，是夏天最讓人期待的一種甜</p>
-          </div>
-        </div>
-      </div>
+      <!-- 四款口味：由 data/products.json 產生（與上方 About 共用同一份資料） -->
+      <div class="products-flavors" id="productsGrid" aria-live="polite"></div>
+
       <div class="products-cta">
-        <p>想知道現在有什麼季節限定？</p>
-        <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" class="btn btn-outline">查看 Instagram</a>
+        <p>看好了嗎？現貨口味現在就能下單</p>
+        <div class="hero-actions">
+          <a href="#" class="btn" data-open-order>立即訂購</a>
+          <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" class="btn btn-outline">查看 Instagram</a>
+        </div>
       </div>
     </div>
   </section>
@@ -358,6 +244,86 @@
     </div>
   </footer>
 
+  <!-- Order Modal -->
+  <div class="order-modal" id="orderModal" hidden>
+    <div class="order-overlay" data-close-order></div>
+    <div class="order-dialog" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+      <button class="order-close" data-close-order aria-label="關閉">&times;</button>
+      <p class="section-label">Order</p>
+      <h3 class="order-title" id="orderTitle">訂購肆菓果醬</h3>
+
+      <div class="order-items" id="orderItems"></div>
+
+      <div class="order-fields">
+        <div class="form-group">
+          <label for="ordName">姓名 *</label>
+          <input type="text" id="ordName" placeholder="收件人姓名" required />
+        </div>
+        <div class="form-group">
+          <label for="ordEmail">Email *</label>
+          <input type="email" id="ordEmail" placeholder="用於寄送訂單確認信" required />
+        </div>
+        <div class="form-group">
+          <label for="ordPhone">電話</label>
+          <input type="tel" id="ordPhone" placeholder="方便聯絡的電話（選填）" />
+        </div>
+        <div class="form-group">
+          <label for="ordNote">備註</label>
+          <textarea id="ordNote" rows="2" placeholder="取貨方式、指定日期或其他需求（選填）"></textarea>
+        </div>
+      </div>
+
+      <div class="order-code">
+        <input type="text" id="ordCode" placeholder="折扣碼 / 網紅專屬碼（選填）" autocomplete="off" />
+        <button type="button" class="btn btn-outline" id="applyCode">套用</button>
+      </div>
+      <p class="code-msg" id="codeMsg" hidden></p>
+
+      <div class="order-summary">
+        <div class="sum-row"><span>小計</span><span id="sumSubtotal">NT$ 0</span></div>
+        <div class="sum-row discount" id="sumDiscountRow" hidden>
+          <span id="sumDiscountLabel">折扣</span><span id="sumDiscount">-NT$ 0</span>
+        </div>
+        <div class="sum-row total"><span>總計</span><span id="sumTotal">NT$ 0</span></div>
+      </div>
+
+      <button type="button" class="btn btn-full" id="submitOrder">送出訂單</button>
+      <p class="order-status" id="orderStatus" hidden></p>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       口味卡片版型（可自由手動微調，不會被更新覆蓋）
+       JS 會複製這些 <template>，再把 data/products.json 的資料填進
+       有 data-field 標記的位置。改樣式改這裡；改資料改 products.json。
+       ============================================================ -->
+  <template id="flavorCardTpl">
+    <div class="flavor-card">
+      <figure class="flavor-img">
+        <img src="" alt="" loading="lazy" onerror="this.style.opacity='0'" data-field="img" />
+      </figure>
+      <div class="flavor-overlay">
+        <span class="flavor-badge" data-field="badge"></span>
+        <span class="flavor-name" data-field="series"></span>
+      </div>
+    </div>
+  </template>
+
+  <template id="productCardTpl">
+    <div class="pf-card">
+      <div class="pf-img">
+        <img src="" alt="" loading="lazy" onerror="this.style.opacity='0'" data-field="img" />
+      </div>
+      <div class="pf-info">
+        <span class="pf-badge" data-field="badge"></span>
+        <h4 data-field="name"></h4>
+        <p data-field="desc"></p>
+        <button type="button" class="pf-order" data-add-order>＋ 加入訂單</button>
+      </div>
+    </div>
+  </template>
+
+  <script src="config.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
