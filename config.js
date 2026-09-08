@@ -10,6 +10,6 @@
 // ownerEmail：示範模式的 mailto 備援收件信箱（實際上線後由後端寄送，
 //   這裡只是後備方案）。
 window.SF_CONFIG = {
-  orderEndpoint: '',
+  orderEndpoint: 'https://script.google.com/macros/s/AKfycbxlQPdDVCJsSsOHq1Vfew0zi9NZwcMX-c3-7wVOjXtIwzBFd_wh-7UDuC4C0T4NYZr5/exec',
   ownerEmail: 'seasonflavortw@gmail.com'
 };
