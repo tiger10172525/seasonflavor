@@ -376,10 +376,13 @@ ul { list-style: none; }
   position: absolute;
   inset: 0;
 }
+/* 圖片框架已定住：固定正方形 + cover + 置中。
+   搭配 800×800 標準化圖檔，任何照片都會以相同比例呈現、不會跑掉。 */
 .flavor-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
   transition: transform 0.5s var(--ease);
 }
@@ -617,6 +620,7 @@ ul { list-style: none; }
   position: relative;
   overflow: hidden;
 }
+/* 圖片框架已定住：固定正方形 + cover + 置中（同上）。 */
 .pf-img img {
   width: 100%;
   height: 100%;
@@ -624,10 +628,6 @@ ul { list-style: none; }
   object-position: center;
   display: block;
   transition: transform 0.4s var(--ease);
-}
-.pf-card:nth-child(1) .pf-img img,
-.pf-card:nth-child(2) .pf-img img {
-  object-position: center;
 }
 .pf-card:hover .pf-img img { transform: scale(1.06); }
 

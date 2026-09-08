@@ -41,6 +41,21 @@ images/               產品圖
   `status` 填 `"available"`（現貨，可下單）或 `"upcoming"`（即將推出，不可下單）。
 - **改折扣碼** → 改 `data/discounts.json`，並同步更新 `apps-script/Code.gs` 裡的 `DISCOUNTS`（後端是金額的最終依據）。
 
+### 照片規格（已定住，不會再跑掉）
+
+照片一致性用「兩層鎖」保證，怎麼換圖都不會歪：
+
+1. **顯示層（CSS）**：每張產品圖都被強制放進「固定正方形框 + `object-fit: cover` + 置中」，
+   不管來源照片長怎樣，框架永遠一樣。這條規則寫在 `style.css` 的 `.flavor-img img` 與 `.pf-img img`。
+2. **來源層（工具）**：所有產品圖都標準化成 **800×800**，罐子以草莓為基準對齊。
+   要換新照片時：
+   1. 把新照片（原始檔）放進 `images_orig/`（檔名對應：`strawberry / mixed-berry / kiwi / peach`）
+   2. 執行 `node normalize-jars.cjs`
+   3. 它會自動縮放/置中對齊，輸出到 `images_norm/`，確認 OK 後覆蓋到 `images/`
+   4. 若某張還是差一點，調 `normalize-jars.cjs` 最上面 `ADJUST` 裡該張的 `scale / dxFrac / dyFrac`
+
+> 換句話說：**照片框架永遠固定**；就算丟一張沒對齊的新圖，跑一次工具就會回到基準，不會破版。
+
 > **只想快速看樣子？** 直接雙擊 `preview.html` —— 它把 CSS、程式、資料、圖片
 > 全部打包成一個檔，不需伺服器、不需其他檔案。
 >
