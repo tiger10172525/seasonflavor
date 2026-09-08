@@ -74,7 +74,7 @@ images/               產品圖
 ```js
 window.SF_CONFIG = {
   orderEndpoint: 'https://script.google.com/macros/s/AKfycb.../exec',
-  ownerEmail: 'seasonflavor.order@gmail.com'
+  ownerEmail: 'seasonflavortw@gmail.com'
 };
 ```
 

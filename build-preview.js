@@ -18,6 +18,7 @@ const read = (p) => fs.readFileSync(path.join(root, p), 'utf8');
 const html = read('index.html');
 const css = read('style.css');
 const js = read('script.js');
+const configJs = read('config.js');
 const products = JSON.parse(read('data/products.json'));
 const discounts = JSON.parse(read('data/discounts.json'));
 
@@ -35,7 +36,7 @@ products.products.forEach((p) => { if (p.image) p.image = toDataURI(p.image); })
 
 const inlineData =
   '<script>\n' +
-  'window.SF_CONFIG = { orderEndpoint: "", ownerEmail: "seasonflavor.order@gmail.com" };\n' +
+  configJs + '\n' +
   'window.SF_INLINE_DATA = {\n' +
   '  products: ' + JSON.stringify(products) + ',\n' +
   '  discounts: ' + JSON.stringify(discounts) + '\n' +

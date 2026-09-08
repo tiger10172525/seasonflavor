@@ -11,7 +11,7 @@
 
 // ── 設定 ──────────────────────────────────────────────────
 // 收單通知信箱（店家）。留空則寄給目前的 Apps Script 帳號。
-var NOTIFY_EMAIL = '';
+var NOTIFY_EMAIL = 'seasonflavortw@gmail.com';
 // 訂單要寫入的試算表 ID（網址 /d/ 與 /edit 之間那段）。
 // 留空則自動使用「與此指令碼綁定的試算表」的第一個工作表。
 var SHEET_ID = '';

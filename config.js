@@ -11,5 +11,5 @@
 //   這裡只是後備方案）。
 window.SF_CONFIG = {
   orderEndpoint: '',
-  ownerEmail: 'seasonflavor.order@gmail.com'
+  ownerEmail: 'seasonflavortw@gmail.com'
 };
