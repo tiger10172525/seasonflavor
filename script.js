@@ -386,10 +386,17 @@ function mailtoFallback(payload) {
 // 初始化
 // ============================================
 (async function init() {
-  const [pData, dData] = await Promise.all([
-    loadJSON('data/products.json', FALLBACK_PRODUCTS),
-    loadJSON('data/discounts.json', { codes: [] })
-  ]);
+  let pData, dData;
+  if (window.SF_INLINE_DATA) {
+    // 單檔預覽版：資料已內嵌，不需 fetch
+    pData = window.SF_INLINE_DATA.products || FALLBACK_PRODUCTS;
+    dData = window.SF_INLINE_DATA.discounts || { codes: [] };
+  } else {
+    [pData, dData] = await Promise.all([
+      loadJSON('data/products.json', FALLBACK_PRODUCTS),
+      loadJSON('data/discounts.json', { codes: [] })
+    ]);
+  }
   CURRENCY = pData.currency || 'NT$';
   PRODUCTS = pData.products || [];
   DISCOUNTS = dData.codes || [];

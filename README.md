@@ -9,6 +9,8 @@ index.html            首頁（版型都在這裡，可放心手動微調）
 style.css             樣式
 script.js             互動邏輯：渲染商品、訂購、折扣、送單
 config.js             你要填的設定（後端網址、備援信箱）
+preview.html          單檔預覽版：雙擊即可看完整網站（由 build-preview.js 產生）
+build-preview.js      產生 preview.html 的腳本
 data/
   products.json       商品資料（單一來源，About 與甜點系列共用）
   discounts.json      折扣碼（含網紅專屬碼）
@@ -39,9 +41,15 @@ images/               產品圖
   `status` 填 `"available"`（現貨，可下單）或 `"upcoming"`（即將推出，不可下單）。
 - **改折扣碼** → 改 `data/discounts.json`，並同步更新 `apps-script/Code.gs` 裡的 `DISCOUNTS`（後端是金額的最終依據）。
 
-> 本機預覽請用本地伺服器（例如 `python3 -m http.server`）開啟，
-> 因為瀏覽器直接用 `file://` 開啟時無法讀取 `data/*.json`。
-> 若真的直接開檔，網站會退回 `script.js` 內建的備援資料，仍可正常顯示、不會空白。
+> **只想快速看樣子？** 直接雙擊 `preview.html` —— 它把 CSS、程式、資料、圖片
+> 全部打包成一個檔，不需伺服器、不需其他檔案。
+>
+> 改過 `data/products.json`、`style.css` 或 `index.html` 後，
+> 重跑 `node build-preview.js` 就會更新 `preview.html`。
+>
+> 若要預覽「正式的多檔版本」，請用本地伺服器（例如 `python3 -m http.server`）開啟整個資料夾，
+> 因為瀏覽器直接用 `file://` 開單獨的 `index.html` 時無法讀取 `data/*.json`
+> （此時網站會退回 `script.js` 內建的備援資料，仍可顯示、不會空白）。
 
 ---
 
