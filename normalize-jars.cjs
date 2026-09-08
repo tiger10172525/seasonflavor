@@ -60,12 +60,12 @@ const b64 = (f) => 'data:image/jpeg;base64,' + fs.readFileSync(path.join(SRC, f)
   const OUTSZ = 800;
 
   // 手動微調（偵測框無法完全對應肉眼看的罐身時，用這裡校正）
-  // scale：相對縮放（<1 縮小）；dyFrac：垂直位移（佔輸出高度比例，+ 往下）
+  // scale：相對縮放（<1 縮小）；dxFrac：水平位移（+ 往右）；dyFrac：垂直位移（+ 往下）
   const ADJUST = {
-    'strawberry.jpg':  { scale: 1.00, dyFrac: 0 },
-    'mixed-berry.jpg': { scale: 1.00, dyFrac: 0 },
-    'kiwi.jpg':        { scale: 0.97, dyFrac: 0.045 },
-    'peach.jpg':       { scale: 0.98, dyFrac: 0.045 }
+    'strawberry.jpg':  { scale: 1.00, dxFrac: 0,     dyFrac: 0 },
+    'mixed-berry.jpg': { scale: 1.00, dxFrac: -0.03, dyFrac: 0 },
+    'kiwi.jpg':        { scale: 0.97, dxFrac: 0,     dyFrac: 0.015 },
+    'peach.jpg':       { scale: 0.98, dxFrac: 0,     dyFrac: 0.015 }
   };
   const target = {
     cx: base.cx / base.W, cy: base.cy / base.H,
@@ -93,7 +93,7 @@ const b64 = (f) => 'data:image/jpeg;base64,' + fs.readFileSync(path.join(SRC, f)
       const targetJarH = target.h * OUTSZ;
       const s = (targetJarH / box.h) * adj.scale;
       // 讓罐子中心對到目標中心（含手動垂直微調）
-      const dx = target.cx * OUTSZ - box.cx * s;
+      const dx = target.cx * OUTSZ - box.cx * s + (adj.dxFrac || 0) * OUTSZ;
       const dy = target.cy * OUTSZ - box.cy * s + (adj.dyFrac || 0) * OUTSZ;
       ctx.imageSmoothingQuality = 'high';
       ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, dx, dy, img.naturalWidth * s, img.naturalHeight * s);
