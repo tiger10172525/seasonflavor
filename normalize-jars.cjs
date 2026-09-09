@@ -64,7 +64,7 @@ const b64 = (f) => 'data:image/jpeg;base64,' + fs.readFileSync(path.join(SRC, f)
   const ADJUST = {
     'strawberry.jpg':  { scale: 1.00, dxFrac: 0,     dyFrac: 0 },
     'mixed-berry.jpg': { scale: 1.00, dxFrac: -0.03, dyFrac: 0 },
-    'kiwi.jpg':        { scale: 1.03, dxFrac: 0,     dyFrac: 0.015 },
+    'kiwi.jpg':        { scale: 1.03, dxFrac: 0.035, dyFrac: 0.015 },
     'peach.jpg':       { scale: 1.04, dxFrac: 0,     dyFrac: 0.015 }
   };
   const target = {
