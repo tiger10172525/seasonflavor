@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肆菓 後台管理</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f4f0;
+      --brown: #5c3d2e;
+      --orange: #c8773a;
+      --sage: #7a9e7e;
+      --text: #2c2c2c;
+      --muted: #888;
+      --border: #e0ddd8;
+      --red: #c0392b;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'PingFang TC', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── 登入畫面 ── */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 360px;
+      text-align: center;
+    }
+    .login-box h1 { font-size: 1.4rem; color: var(--brown); margin-bottom: 6px; }
+    .login-box p  { color: var(--muted); font-size: .85rem; margin-bottom: 28px; }
+    .login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .95rem;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .login-box input:focus { border-color: var(--orange); }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--brown);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .login-box button:hover { background: var(--orange); }
+    .login-error { color: var(--red); font-size: .82rem; margin-top: 10px; display: none; }
+
+    /* ── 後台主體 ── */
+    #adminScreen { display: none; }
+
+    .admin-header {
+      background: var(--brown);
+      color: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header h1 { font-size: 1.1rem; letter-spacing: .04em; }
+    .admin-header button {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .82rem;
+    }
+
+    .admin-body { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* ── 統計卡 ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); margin-bottom: 6px; }
+    .stat-value { font-size: 1.7rem; font-weight: 700; color: var(--brown); }
+    .stat-value.orange { color: var(--orange); }
+    .stat-value.green  { color: var(--sage); }
+
+    /* ── 圖表 ── */
+    .chart-section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .chart-header h2 { font-size: 1rem; color: var(--brown); }
+    .chart-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .chart-tab {
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: .82rem;
+      transition: all .2s;
+    }
+    .chart-tab.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+    .chart-wrap { height: 240px; position: relative; }
+
+    /* ── 訂單表格 ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-header h2 { font-size: 1rem; color: var(--brown); }
+    .refresh-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: .82rem;
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    .refresh-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: .82rem;
+      transition: all .2s;
+    }
+    .filter-btn.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+
+    .table-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #faf9f7;
+      text-align: left;
+      padding: 12px 16px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 14px 16px;
+      font-size: .88rem;
+      border-bottom: 1px solid #f0ede9;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9f7; }
+    tr.returning-customer td { background: #fff8f2; }
+    tr.returning-customer:hover td { background: #fff2e6; }
+
+    .order-id { font-family: monospace; color: var(--brown); font-weight: 600; font-size: .85rem; }
+    .items-cell { white-space: pre-line; font-size: .82rem; color: var(--muted); max-width: 220px; }
+    .total-cell { font-weight: 600; white-space: nowrap; }
+
+    /* 回頭客標記 */
+    .returning-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: .7rem;
+      font-weight: 600;
+      background: #ffe4cc;
+      color: var(--orange);
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    /* 狀態標籤 */
+    .status-select {
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .82rem;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .status-select:focus { border-color: var(--orange); }
+
+    .note-cell { font-size: .8rem; color: var(--muted); max-width: 160px; word-break: break-word; }
+
+    /* 空狀態 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state p { margin-top: 12px; font-size: .9rem; }
+
+    /* 載入中 */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .admin-body { padding: 20px 12px; }
+      th, td { padding: 10px 10px; }
+      .items-cell { max-width: 130px; }
+      .chart-wrap { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── 登入 ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>肆菓 Season Flavor</h1>
+    <p>後台管理系統</p>
+    <input type="password" id="pwInput" placeholder="輸入密碼" />
+    <button onclick="login()">登入</button>
+    <p class="login-error" id="loginError">密碼錯誤，請再試一次</p>
+  </div>
+</div>
+
+<!-- ── 後台主體 ── -->
+<div id="adminScreen">
+  <div class="admin-header">
+    <h1>肆菓 後台管理</h1>
+    <button onclick="logout()">登出</button>
+  </div>
+
+  <div class="admin-body">
+    <!-- 統計 -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">總訂單數</div>
+        <div class="stat-value" id="statTotal">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">待付款</div>
+        <div class="stat-value orange" id="statPending">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">已付款（待出貨）</div>
+        <div class="stat-value green" id="statPaid">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">總營收（已付款）</div>
+        <div class="stat-value" id="statRevenue">—</div>
+      </div>
+    </div>
+
+    <!-- 銷售圖表 -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2>銷售趨勢（已付款訂單）</h2>
+        <div class="chart-tabs">
+          <button class="chart-tab active" onclick="setChartPeriod('day', this)">日</button>
+          <button class="chart-tab" onclick="setChartPeriod('week', this)">週</button>
+          <button class="chart-tab" onclick="setChartPeriod('month', this)">月</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="salesChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 訂單列表 -->
+    <div class="section-header">
+      <h2>訂單列表</h2>
+      <div style="display:flex;gap:8px">
+        <button class="refresh-btn" onclick="exportCSV()">匯出 CSV（Excel）</button>
+        <button class="refresh-btn" onclick="loadOrders()">重新整理</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="setFilter('all', this)">全部</button>
+      <button class="filter-btn" onclick="setFilter('待付款', this)">待付款</button>
+      <button class="filter-btn" onclick="setFilter('已付款', this)">已付款</button>
+      <button class="filter-btn" onclick="setFilter('已出貨', this)">已出貨</button>
+      <button class="filter-btn" onclick="setFilter('完成', this)">完成</button>
+    </div>
+
+    <div class="table-wrap" id="tableWrap">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 【安全版】不再寫死 token 與密碼。
+  // 密碼由伺服器端（/admin-orders Function）以環境變數 ADMIN_KEY 驗證，
+  // Airtable token 也藏在伺服器端 AIRTABLE_TOKEN，前端看不到。
+  const API = '/admin-orders';
+  let ADMIN_KEY = sessionStorage.getItem('sf_admin_key') || '';
+
+  let allOrders    = [];
+  let activeFilter = 'all';
+  let salesChart   = null;
+  let chartPeriod  = 'day';
+
+  // ── 登入 ──────────────────────────────────────
+  async function login() {
+    const pw = document.getElementById('pwInput').value;
+    const errEl = document.getElementById('loginError');
+    if (!pw) return;
+    try {
+      const res = await fetch(API, { headers: { 'x-admin-key': pw } });
+      if (res.status === 401) { errEl.textContent = '密碼錯誤，請再試一次'; errEl.style.display = 'block'; return; }
+      if (!res.ok) { errEl.textContent = '伺服器錯誤，請稍後再試'; errEl.style.display = 'block'; return; }
+      ADMIN_KEY = pw;
+      sessionStorage.setItem('sf_admin_key', pw);
+      errEl.style.display = 'none';
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminScreen').style.display = 'block';
+      loadOrders();
+    } catch (e) {
+      errEl.textContent = '連線失敗，請檢查網路';
+      errEl.style.display = 'block';
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('sf_admin_key');
+    location.reload();
+  }
+
+  document.getElementById('pwInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') login();
+  });
+
+  if (ADMIN_KEY) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminScreen').style.display = 'block';
+    loadOrders();
+  }
+
+  // ── 載入訂單 ──────────────────────────────────
+  async function loadOrders() {
+    document.getElementById('tableWrap').innerHTML =
+      '<div class="loading"><div class="spinner"></div>載入中…</div>';
+
+    try {
+      let records = [];
+      let offset  = null;
+
+      do {
+        const url = API + (offset ? `?offset=${encodeURIComponent(offset)}` : '');
+        const res = await fetch(url, { headers: { 'x-admin-key': ADMIN_KEY } });
+        if (res.status === 401) { sessionStorage.removeItem('sf_admin_key'); location.reload(); return; }
+        const data = await res.json();
+        if (data.error) throw new Error(data.error.message || data.error);
+        records = records.concat(data.records || []);
+        offset  = data.offset;
+      } while (offset);
+
+      allOrders = records.sort((a, b) => {
+        const ta = a.fields.created_at || '';
+        const tb = b.fields.created_at || '';
+        return tb.localeCompare(ta);
+      });
+
+      updateStats();
+      renderChart();
+      renderTable();
+    } catch (err) {
+      document.getElementById('tableWrap').innerHTML =
+        `<div class="empty-state"><p>⚠️ 載入失敗：${err.message}</p></div>`;
+    }
+  }
+
+  // ── 統計 ──────────────────────────────────────
+  function updateStats() {
+    const f = allOrders.map(r => r.fields);
+    document.getElementById('statTotal').textContent   = f.length;
+    document.getElementById('statPending').textContent = f.filter(x => x.status === '待付款').length;
+    document.getElementById('statPaid').textContent    = f.filter(x => x.status === '已付款').length;
+    const revenue = f.filter(x => ['已付款','已出貨','完成'].includes(x.status))
+                     .reduce((s, x) => s + (x.total || 0), 0);
+    document.getElementById('statRevenue').textContent = `NT$ ${revenue.toLocaleString()}`;
+  }
+
+  // ── 圖表 ──────────────────────────────────────
+  function parseCreatedAt(str) {
+    if (!str) return null;
+    const isPM = str.includes('下午');
+    const cleaned = str.replace('下午','').replace('上午','').trim().replace(/\//g, '-');
+    const d = new Date(cleaned);
+    if (isNaN(d)) return null;
+    if (isPM && d.getHours() < 12) d.setHours(d.getHours() + 12);
+    return d;
+  }
+
+  function setChartPeriod(period, btn) {
+    chartPeriod = period;
+    document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderChart();
+  }
+
+  function renderChart() {
+    const paid = allOrders.filter(r => ['已付款','已出貨','完成'].includes(r.fields.status));
+    const groups = {};
+
+    paid.forEach(r => {
+      const d = parseCreatedAt(r.fields.created_at);
+      if (!d) return;
+      let key;
+      if (chartPeriod === 'day') {
+        key = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+      } else if (chartPeriod === 'week') {
+        const w = new Date(d);
+        w.setDate(w.getDate() - w.getDay());
+        key = `${w.getFullYear()}/${w.getMonth()+1}/${w.getDate()}`;
+      } else {
+        key = `${d.getFullYear()}/${d.getMonth()+1}`;
+      }
+      if (!groups[key]) groups[key] = { revenue: 0, orders: 0 };
+      groups[key].revenue += r.fields.total || 0;
+      groups[key].orders  += 1;
+    });
+
+    const labels   = Object.keys(groups).sort();
+    const revenues = labels.map(k => groups[k].revenue);
+    const counts   = labels.map(k => groups[k].orders);
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+    if (salesChart) salesChart.destroy();
+
+    salesChart = new Chart(ctx, {
+      data: {
+        labels,
+        datasets: [
+          {
+            type: 'bar',
+            label: '營收 NT$',
+            data: revenues,
+            backgroundColor: 'rgba(200,119,58,0.65)',
+            borderColor: 'rgba(200,119,58,1)',
+            borderWidth: 1,
+            yAxisID: 'y',
+          },
+          {
+            type: 'line',
+            label: '訂單數',
+            data: counts,
+            borderColor: 'rgba(122,158,126,1)',
+            backgroundColor: 'rgba(122,158,126,0.1)',
+            borderWidth: 2,
+            pointRadius: 4,
+            tension: 0.3,
+            yAxisID: 'y1',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          y:  {
+            position: 'left',
+            ticks: { callback: v => 'NT$' + v.toLocaleString() },
+            grid: { color: '#f0ede9' }
+          },
+          y1: {
+            position: 'right',
+            grid: { drawOnChartArea: false },
+            ticks: { stepSize: 1 }
+          },
+          x: { grid: { color: '#f0ede9' } }
+        },
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 12 } } },
+          tooltip: {
+            callbacks: {
+              label: ctx => ctx.dataset.label === '營收 NT$'
+                ? ` NT$ ${ctx.parsed.y.toLocaleString()}`
+                : ` ${ctx.parsed.y} 筆`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // ── 回頭客偵測 ────────────────────────────────
+  function buildPhoneMap() {
+    const map = {};
+    allOrders.forEach(r => {
+      const p = r.fields.phone;
+      if (p) map[p] = (map[p] || 0) + 1;
+    });
+    return map;
+  }
+
+  // ── 篩選 ──────────────────────────────────────
+  function setFilter(filter, btn) {
+    activeFilter = filter;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTable();
+  }
+
+  // ── 渲染表格 ──────────────────────────────────
+  function renderTable() {
+    const filtered = activeFilter === 'all'
+      ? allOrders
+      : allOrders.filter(r => r.fields.status === activeFilter);
+
+    if (filtered.length === 0) {
+      document.getElementById('tableWrap').innerHTML =
+        '<div class="empty-state"><p>目前沒有訂單</p></div>';
+      return;
+    }
+
+    const phoneMap = buildPhoneMap();
+
+    const rows = filtered.map(r => {
+      const f = r.fields;
+      const email      = getEmailFromNote(f.note);
+      const cleanNote  = getCleanNote(f.note);
+      const isReturning = (phoneMap[f.phone] || 0) > 1;
+      const mailtoHref = email
+        ? `mailto:${email}?subject=【肆菓 Season Flavor】訂單確認 ${f.order_id}&body=您好 ${f.name || ''}，%0A%0A感謝您的訂購！%0A%0A訂單編號：${f.order_id}%0A商品：${encodeURIComponent((f.items||'').replace(/\n/g,' | '))}%0A金額：NT$ ${f.total || 0}%0A%0A請於 3 天內完成 ATM 轉帳，轉帳後請截圖傳至 IG @seasonflavor_ 。%0A%0A肆菓 Season Flavor`
+        : '';
+
+      return `
+        <tr class="${isReturning ? 'returning-customer' : ''}">
+          <td>
+            <span class="order-id">${f.order_id || '—'}</span><br>
+            <span style="font-size:.76rem;color:var(--muted)">${f.created_at || ''}</span>
+          </td>
+          <td>
+            <strong>${f.name || '—'}</strong>${isReturning ? '<span class="returning-badge">回頭客</span>' : ''}<br>
+            <span style="font-size:.8rem;color:var(--muted)">${f.phone || ''}</span><br>
+            ${email ? `<a href="${mailtoHref}" style="font-size:.76rem;color:var(--orange);text-decoration:none" title="寄信給客戶">✉ ${email}</a>` : ''}
+          </td>
+          <td class="items-cell">${f.items || '—'}</td>
+          <td class="total-cell">NT$ ${(f.total || 0).toLocaleString()}</td>
+          <td>${f.payment || '—'}</td>
+          <td>
+            <select class="status-select" onchange="updateStatus('${r.id}', this.value)">
+              ${['待付款','已付款','已出貨','完成'].map(s =>
+                `<option value="${s}" ${f.status === s ? 'selected' : ''}>${s}</option>`
+              ).join('')}
+            </select>
+          </td>
+          <td class="note-cell">
+            ${f.address || ''}
+            ${cleanNote ? '<br><span style="color:var(--muted)">' + cleanNote + '</span>' : ''}
+          </td>
+        </tr>`;
+    }).join('');
+
+    document.getElementById('tableWrap').innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>訂單編號 / 時間</th>
+            <th>客戶</th>
+            <th>商品</th>
+            <th>金額</th>
+            <th>付款方式</th>
+            <th>狀態</th>
+            <th>地址 / 備註</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }
+
+  // ── 解析 Email ────────────────────────────────
+  function getEmailFromNote(note) {
+    if (!note) return '';
+    const m = note.match(/Email:\s*([^\n]+)/);
+    return m ? m[1].trim() : '';
+  }
+  function getCleanNote(note) {
+    if (!note) return '';
+    return note.replace(/Email:[^\n]*\n?/, '').trim();
+  }
+
+  // ── 匯出 CSV ──────────────────────────────────
+  function exportCSV() {
+    if (allOrders.length === 0) { alert('目前沒有訂單可匯出'); return; }
+    const target = activeFilter === 'all' ? allOrders : allOrders.filter(r => r.fields.status === activeFilter);
+    const headers = ['訂單編號','時間','姓名','電話','Email','回頭客','商品明細','金額(NT$)','付款方式','狀態','收件地址','備註'];
+    const phoneMap = buildPhoneMap();
+    const esc = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const rows = target.map(r => {
+      const f = r.fields;
+      return [
+        f.order_id || '',
+        f.created_at || '',
+        f.name || '',
+        f.phone || '',
+        getEmailFromNote(f.note),
+        (phoneMap[f.phone] || 0) > 1 ? '是' : '',
+        (f.items || '').replace(/\n/g, ' | '),
+        f.total || 0,
+        f.payment || '',
+        f.status || '',
+        f.address || '',
+        getCleanNote(f.note),
+      ].map(esc).join(',');
+    });
+    const csv = '﻿' + [headers.map(esc).join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `肆菓訂單_${activeFilter === 'all' ? '全部' : activeFilter}_${new Date().toLocaleDateString('zh-TW').replace(/\//g,'-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── 更新狀態 ──────────────────────────────────
+  async function updateStatus(recordId, newStatus) {
+    try {
+      const res = await fetch(API, {
+        method: 'PATCH',
+        headers: { 'x-admin-key': ADMIN_KEY, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ recordId, fields: { status: newStatus } }),
+      });
+      if (res.status === 401) { sessionStorage.removeItem('sf_admin_key'); location.reload(); return; }
+      if (!res.ok) throw new Error('更新失敗');
+      const rec = allOrders.find(r => r.id === recordId);
+      if (rec) rec.fields.status = newStatus;
+      updateStats();
+      renderChart();
+    } catch (err) {
+      alert('狀態更新失敗，請重試');
+    }
+  }
+</script>
+</body>
+</html>
