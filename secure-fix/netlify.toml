@@ -1,0 +1,24 @@
+# Netlify 設定
+
+[build]
+  functions = "netlify/functions"
+
+# 乾淨網址 → 對應 Netlify Functions（前端呼叫 /order、/admin-orders 即可）
+[[redirects]]
+  from = "/order"
+  to = "/.netlify/functions/order"
+  status = 200
+
+[[redirects]]
+  from = "/admin-orders"
+  to = "/.netlify/functions/admin-orders"
+  status = 200
+
+# 安全標頭
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
