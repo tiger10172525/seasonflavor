@@ -52,7 +52,17 @@ const PRODUCTS = [
 // ─── 狀態 ──────────────────────────────────
 let cart = JSON.parse(localStorage.getItem('sf_cart') || '[]');
 let selectedPayment = 'atm';
+let appliedDiscount = null; // 目前套用的折扣
 const localQty = {};
+
+// ─── 折扣碼設定（要改折扣碼／網紅碼就改這裡）──────────────
+// type: 'percent'（百分比，value 10 = 打 9 折）或 'fixed'（固定折 NT$）
+// min: 最低消費門檻（沒有就不用寫）；influencer: 網紅名字（一般碼不用寫）
+const DISCOUNT_CODES = {
+  'WELCOME10': { type: 'percent', value: 10, label: '新客 9 折' },
+  'SEASON50':  { type: 'fixed',   value: 50, label: '季節折 NT$50', min: 500 },
+  'AMANDA':    { type: 'percent', value: 15, label: 'Amanda 專屬', influencer: 'Amanda' },
+};
 PRODUCTS.filter(p => p.available).forEach(p => { localQty[p.id] = 1; });
 
 // ─── 渲染商店 ──────────────────────────────
@@ -247,6 +257,7 @@ function closeCartDrawer() {
 
 // ─── 結帳 Modal ────────────────────────────
 function openCheckout() {
+  appliedDiscount = null;
   closeCartDrawer();
   renderCheckoutForm();
   document.getElementById('checkoutOverlay')?.classList.add('open');
@@ -278,7 +289,16 @@ function renderCheckoutForm() {
       <div class="co-section">
         <h4 class="co-section-title">訂單明細</h4>
         ${rows}
-        <div class="co-row co-total"><span>合計</span><span>NT$ ${getTotal().toLocaleString()}</span></div>
+        <div style="display:flex;gap:.5rem;margin:.7rem 0 .3rem">
+          <input type="text" id="coDiscount" placeholder="折扣碼（選填）" autocomplete="off"
+                 style="flex:1;padding:.55rem .8rem;border:1.5px solid var(--cream-dark);border-radius:8px;background:var(--cream);font-size:.85rem;color:var(--text);outline:none" />
+          <button type="button" class="btn btn-outline" style="padding:.45rem 1.1rem" onclick="applyDiscount()">套用</button>
+        </div>
+        <p id="coDiscountMsg" style="font-size:.78rem;margin:0 0 .4rem;min-height:1em"></p>
+        <div class="co-row" id="coDiscountLine" style="display:none;color:var(--sage)">
+          <span id="coDiscountLabel">折扣</span><span id="coDiscountAmt">-NT$ 0</span>
+        </div>
+        <div class="co-row co-total"><span>合計</span><span id="coTotalAmt">NT$ ${getTotal().toLocaleString()}</span></div>
       </div>
 
       <div class="co-section">
@@ -331,6 +351,56 @@ function selectPay(method) {
   el.innerHTML = msgs[method] || '';
 }
 
+// ─── 折扣碼 ────────────────────────────────
+function computeDiscount(rawCode, subtotal) {
+  if (!rawCode) return null;
+  const code = rawCode.trim().toUpperCase();
+  const d = DISCOUNT_CODES[code];
+  if (!d) return { error: '折扣碼無效' };
+  if (subtotal < (d.min || 0)) return { error: `此折扣碼需滿 NT$${d.min}` };
+  const amount = d.type === 'percent'
+    ? Math.round(subtotal * d.value / 100)
+    : Math.min(d.value, subtotal);
+  return { code, label: d.label, influencer: d.influencer || '', amount };
+}
+
+function applyDiscount() {
+  const input = document.getElementById('coDiscount');
+  const msg = document.getElementById('coDiscountMsg');
+  const code = input ? input.value : '';
+  if (!code.trim()) {
+    appliedDiscount = null;
+    if (msg) msg.textContent = '';
+    updateCheckoutTotal();
+    return;
+  }
+  const res = computeDiscount(code, getTotal());
+  if (res && res.error) {
+    appliedDiscount = null;
+    if (msg) { msg.textContent = res.error; msg.style.color = 'var(--orange)'; }
+  } else if (res) {
+    appliedDiscount = res;
+    const tag = res.influencer ? `（網紅：${res.influencer}）` : '';
+    if (msg) { msg.textContent = `已套用 ${res.label}${tag}，折抵 NT$${res.amount}`; msg.style.color = 'var(--sage)'; }
+  }
+  updateCheckoutTotal();
+}
+
+function updateCheckoutTotal() {
+  const subtotal = getTotal();
+  const amt = appliedDiscount ? appliedDiscount.amount : 0;
+  const line = document.getElementById('coDiscountLine');
+  if (line) {
+    line.style.display = appliedDiscount ? 'flex' : 'none';
+    const lbl = document.getElementById('coDiscountLabel');
+    const a = document.getElementById('coDiscountAmt');
+    if (appliedDiscount && lbl) lbl.textContent = `折扣（${appliedDiscount.label}）`;
+    if (a) a.textContent = `-NT$ ${amt.toLocaleString()}`;
+  }
+  const tot = document.getElementById('coTotalAmt');
+  if (tot) tot.textContent = `NT$ ${(subtotal - amt).toLocaleString()}`;
+}
+
 // ─── 送出訂單（安全版：改送到 /order，token 在伺服器端）──
 async function submitOrder() {
   const name    = document.getElementById('coName')?.value.trim();
@@ -365,7 +435,11 @@ async function submitOrder() {
     return `${p.name} ×${i.qty}  NT$${(p.price * i.qty).toLocaleString()}`;
   }).join('\n');
 
-  const noteWithEmail = [email ? `Email: ${email}` : '', note].filter(Boolean).join('\n');
+  const subtotal = getTotal();
+  const discount = appliedDiscount ? Math.min(appliedDiscount.amount, subtotal) : 0;
+  const finalTotal = subtotal - discount;
+  const discountNote = appliedDiscount ? `折扣碼: ${appliedDiscount.code} -NT$${discount}` : '';
+  const noteWithEmail = [email ? `Email: ${email}` : '', discountNote, note].filter(Boolean).join('\n');
 
   // POST 訂單至 /order（Cloudflare Pages Function）→ 由伺服器端寫入 Airtable
   try {
@@ -378,7 +452,7 @@ async function submitOrder() {
         phone:      phone,
         address:    address,
         items:      itemsText,
-        total:      getTotal(),
+        total:      finalTotal,
         payment:    'ATM 轉帳',
         created_at: new Date().toLocaleString('zh-TW', { timeZone: 'Asia/Taipei' }),
         note:       noteWithEmail,
@@ -395,7 +469,7 @@ async function submitOrder() {
   const order = {
     orderId, name, phone, email, address, note,
     items: cart.map(i => { const p = PRODUCTS.find(x=>x.id===i.id); return {id:i.id, name:p.name, price:p.price, qty:i.qty}; }),
-    total: getTotal(),
+    total: finalTotal,
     paymentMethod: selectedPayment,
     status: 'pending',
     createdAt: new Date().toISOString(),
