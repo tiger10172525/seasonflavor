@@ -259,7 +259,10 @@ function setCodeMsg(msg, ok) {
 
 // Modal open/close
 const modal = document.getElementById('orderModal');
+let orderDoneTimer = null;
+
 function openOrder() {
+  restoreOrderForm();   // 若上次停在「下單完成」畫面，先復原成正常表單
   renderOrderItems();
   recalc();
   modal.hidden = false;
@@ -268,6 +271,39 @@ function openOrder() {
 function closeOrder() {
   modal.hidden = true;
   document.body.style.overflow = '';
+}
+
+// 下單成功：顯示完成畫面，短暫停留後自動關閉
+function showOrderDone(orderId, email) {
+  const dialog = document.querySelector('.order-dialog');
+  if (!dialog) return;
+  // 隱藏表單內容（保留關閉鈕）
+  dialog.querySelectorAll(':scope > *:not(.order-close)').forEach((el) => { el.style.display = 'none'; });
+  let done = dialog.querySelector('.order-done');
+  if (!done) {
+    done = document.createElement('div');
+    done.className = 'order-done';
+    dialog.appendChild(done);
+  }
+  done.style.display = '';
+  done.innerHTML =
+    '<div class="order-done-check">✓</div>' +
+    '<h3>下單完成！</h3>' +
+    `<p>訂單編號 <strong>${orderId}</strong></p>` +
+    `<p class="order-done-sub">確認信已寄到 ${email}<br>我們會盡快與你聯絡 💛</p>`;
+  clearTimeout(orderDoneTimer);
+  orderDoneTimer = setTimeout(() => { closeOrder(); restoreOrderForm(); }, 2600);
+}
+
+// 復原成正常訂購表單（移除完成畫面、重新顯示各區塊）
+function restoreOrderForm() {
+  clearTimeout(orderDoneTimer);
+  const dialog = document.querySelector('.order-dialog');
+  if (!dialog) return;
+  const done = dialog.querySelector('.order-done');
+  if (done) done.style.display = 'none';
+  dialog.querySelectorAll(':scope > *:not(.order-close):not(.order-done)').forEach((el) => { el.style.display = ''; });
+  setStatus('', '');
 }
 document.querySelectorAll('[data-open-order]').forEach((el) => {
   el.addEventListener('click', (e) => { e.preventDefault(); openOrder(); });
@@ -351,13 +387,19 @@ async function submitOrder() {
     });
     const data = await res.json();
     if (data.ok) {
-      setStatus(`訂單已送出！訂單編號 ${data.orderId}，確認信已寄到 ${email}。`, 'ok');
+      // 清空購物車與表單，避免下次開啟殘留
       Object.keys(cart).forEach((k) => delete cart[k]);
       appliedDiscount = null;
-      document.getElementById('ordCode').value = '';
+      ['ordCode', 'ordName', 'ordEmail', 'ordPhone', 'ordNote'].forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
       setCodeMsg('', false);
       renderOrderItems();
       recalc();
+      // 顯示「下單完成」，短暫停留後自動關閉訂購視窗
+      showOrderDone(data.orderId, email);
+      return;
     } else {
       setStatus('送出失敗：' + (data.error || '請稍後再試'), 'err');
     }
