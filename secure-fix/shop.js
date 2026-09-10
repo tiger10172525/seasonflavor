@@ -63,6 +63,32 @@ const DISCOUNT_CODES = {
   'SEASON50':  { type: 'fixed',   value: 50, label: '季節折 NT$50', min: 500 },
   'AMANDA':    { type: 'percent', value: 15, label: 'Amanda 專屬', influencer: 'Amanda' },
 };
+
+// ─── 食品標示（請把「（請補…）」換成實際資料）──────────────
+// 每款一份；營養標示填每 100 公克的數值
+const FOOD_LABELS = {
+  'strawberry': {
+    name: '肆菓・草莓果醬', origin: '台灣',
+    ingredients: '草莓、冰糖、果膠（100% 手工製作・全素食）',
+    weight: '120 公克',
+    expiry: '自製造日起 2 個月（開封後請冷藏並盡快食用完畢）',
+    storage: '未開封可放置陰涼處、避免陽光直射；開封後請冷藏',
+    manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
+    nutrition: { serving: '每 100 公克', calories: '（請補草莓的營養數值）', protein: '（請補）', fat: '（請補）', satfat: '（請補）', transfat: '0 公克', carb: '（請補）', sugar: '（請補）', sodium: '（請補）' },
+  },
+  'mixed-berry': {
+    name: '肆菓・綜合野莓果醬', origin: '台灣',
+    ingredients: '草莓、藍莓、覆盆子、黑莓楊梅、冰糖、果膠（100% 手工製作・全素食）',
+    weight: '120 公克',
+    expiry: '自製造日起 2 個月（開封後請冷藏並盡快食用完畢）',
+    storage: '未開封可放置陰涼處；開封後請冷藏',
+    manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
+    nutrition: { serving: '每 100 公克', calories: '156 大卡', protein: '1.7 公克', fat: '0.7 公克', satfat: '0 公克', transfat: '0 公克', carb: '35.8 公克', sugar: '22 公克', sodium: '9 毫克' },
+  },
+  'kiwi':  { name: '肆菓 手工奇異果果醬', origin: '台灣', ingredients: '（請補）', weight: '（請補）', expiry: '（請補）', storage: '—', manufacturer: '（請補）', nutrition: {} },
+  'peach': { name: '肆菓 手工水蜜桃果醬', origin: '台灣', ingredients: '（請補）', weight: '（請補）', expiry: '（請補）', storage: '—', manufacturer: '（請補）', nutrition: {} },
+};
+
 PRODUCTS.filter(p => p.available).forEach(p => { localQty[p.id] = 1; });
 
 // ─── 渲染商店 ──────────────────────────────
@@ -265,6 +291,59 @@ function openCheckout() {
 }
 function closeCheckout() {
   document.getElementById('checkoutOverlay')?.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ─── 商品資訊 Modal（點甜點系列卡片彈出，含食品標示）──
+function openProductModal(id) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return;
+  const L = FOOD_LABELS[id] || {};
+  const n = L.nutrition || {};
+  const nutriBlock = n.serving ? `
+    <h4 class="co-section-title">營養標示（${n.serving}）</h4>
+    <table class="pm-label">
+      <tr><td>熱量</td><td>${n.calories || '—'}</td></tr>
+      <tr><td>蛋白質</td><td>${n.protein || '—'}</td></tr>
+      <tr><td>脂肪</td><td>${n.fat || '—'}</td></tr>
+      <tr><td>　飽和脂肪</td><td>${n.satfat || '—'}</td></tr>
+      <tr><td>　反式脂肪</td><td>${n.transfat || '—'}</td></tr>
+      <tr><td>碳水化合物</td><td>${n.carb || '—'}</td></tr>
+      <tr><td>　糖</td><td>${n.sugar || '—'}</td></tr>
+      <tr><td>鈉</td><td>${n.sodium || '—'}</td></tr>
+    </table>` : '';
+
+  document.getElementById('productContent').innerHTML = `
+    <div class="pm-top">
+      <div class="pm-img ${p.flavor}-bg"><img src="${p.image}" alt="${p.name}" onerror="this.style.opacity='0'"></div>
+      <div class="pm-head">
+        <span class="pf-badge ${p.available ? 'available' : 'coming'}">${p.available ? '現貨' : '即將推出'}</span>
+        <h3>${p.name}</h3>
+        <p class="pm-desc">${p.description}</p>
+        ${p.available ? `<p class="pm-price">NT$ ${p.price}</p>` : ''}
+      </div>
+    </div>
+    <h4 class="co-section-title">食品標示</h4>
+    <table class="pm-label">
+      <tr><td>品名</td><td>${L.name || p.name}</td></tr>
+      <tr><td>成分</td><td>${L.ingredients || '—'}</td></tr>
+      <tr><td>淨重</td><td>${L.weight || '—'}</td></tr>
+      <tr><td>原產地</td><td>${L.origin || '台灣'}</td></tr>
+      <tr><td>保存期限</td><td>${L.expiry || '—'}</td></tr>
+      <tr><td>保存方式</td><td>${L.storage || '—'}</td></tr>
+      <tr><td>廠商資訊</td><td>${L.manufacturer || '—'}</td></tr>
+    </table>
+    ${nutriBlock}
+    <p class="pm-note">本產品為食品，依《通訊交易解除權合理例外情事適用準則》屬易腐敗、保存期限較短之商品，恕不適用七日猶豫期（鑑賞期）。</p>
+    ${p.available
+      ? `<button class="btn btn-full" onclick="addToCart('${p.id}'); closeProductModal();">加入購物車</button>`
+      : `<button class="btn btn-full" disabled style="opacity:.6;cursor:not-allowed">即將推出</button>`}
+  `;
+  document.getElementById('productOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeProductModal() {
+  document.getElementById('productOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
 
@@ -510,5 +589,22 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('checkoutCloseBtn')?.addEventListener('click', closeCheckout);
   document.getElementById('checkoutOverlay')?.addEventListener('click', e => {
     if (e.target.id === 'checkoutOverlay') closeCheckout();
+  });
+
+  // 甜點系列卡片 → 點擊開商品資訊（第二個購買入口 + 食品標示）
+  const flavorMap = { 'strawberry-bg': 'strawberry', 'berry-bg': 'mixed-berry', 'kiwi-bg': 'kiwi', 'peach-bg': 'peach' };
+  document.querySelectorAll('.products-flavors .pf-card').forEach(card => {
+    const img = card.querySelector('.pf-img');
+    if (!img) return;
+    const cls = [...img.classList].find(c => flavorMap[c]);
+    const id = flavorMap[cls];
+    if (!id) return;
+    card.style.cursor = 'pointer';
+    card.title = '點我看商品資訊';
+    card.addEventListener('click', () => openProductModal(id));
+  });
+  document.getElementById('productCloseBtn')?.addEventListener('click', closeProductModal);
+  document.getElementById('productOverlay')?.addEventListener('click', e => {
+    if (e.target.id === 'productOverlay') closeProductModal();
   });
 });
