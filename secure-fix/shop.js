@@ -74,7 +74,7 @@ const FOOD_LABELS = {
     expiry: '自製造日起 2 個月（開封後請冷藏並盡快食用完畢）',
     storage: '未開封可放置陰涼處、避免陽光直射；開封後請冷藏',
     manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
-    nutrition: { serving: '每 100 公克', calories: '（請補草莓的營養數值）', protein: '（請補）', fat: '（請補）', satfat: '（請補）', transfat: '0 公克', carb: '（請補）', sugar: '（請補）', sodium: '（請補）' },
+    nutrition: { serving: '每 100 公克', calories: '142 大卡', protein: '0.8 公克', fat: '0.2 公克', satfat: '0 公克', transfat: '0 公克', carb: '34.3 公克', sugar: '19 公克', sodium: '8 毫克' },
   },
   'mixed-berry': {
     name: '肆菓・綜合野莓果醬', origin: '台灣',
@@ -85,8 +85,24 @@ const FOOD_LABELS = {
     manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
     nutrition: { serving: '每 100 公克', calories: '156 大卡', protein: '1.7 公克', fat: '0.7 公克', satfat: '0 公克', transfat: '0 公克', carb: '35.8 公克', sugar: '22 公克', sodium: '9 毫克' },
   },
-  'kiwi':  { name: '肆菓 手工奇異果果醬', origin: '台灣', ingredients: '（請補）', weight: '（請補）', expiry: '（請補）', storage: '—', manufacturer: '（請補）', nutrition: {} },
-  'peach': { name: '肆菓 手工水蜜桃果醬', origin: '台灣', ingredients: '（請補）', weight: '（請補）', expiry: '（請補）', storage: '—', manufacturer: '（請補）', nutrition: {} },
+  'kiwi': {
+    name: '肆菓・奇異果果醬', origin: '台灣',
+    ingredients: '奇異果、冰糖、果膠（100% 手工製作・全素食）',
+    weight: '120 公克',
+    expiry: '自製造日起 2 個月（開封後請冷藏並盡快食用完畢）',
+    storage: '未開封可放置陰涼處；開封後請冷藏',
+    manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
+    nutrition: { serving: '每 100 公克', calories: '148 大卡', protein: '0.8 公克', fat: '0.3 公克', satfat: '0 公克', transfat: '0 公克', carb: '35.8 公克', sugar: '21 公克', sodium: '（標籤未標，請補）' },
+  },
+  'peach': {
+    name: '肆菓・水蜜桃果醬', origin: '台灣',
+    ingredients: '水蜜桃、冰糖、果膠（100% 手工製作・全素食）',
+    weight: '120 公克',
+    expiry: '自製造日起 2 個月（開封後請冷藏並盡快食用完畢）',
+    storage: '未開封可放置陰涼處；開封後請冷藏',
+    manufacturer: '肆菓 Season Flavor（手工製作）・聯絡：IG @seasonflavor_',
+    nutrition: { serving: '每 100 公克', calories: '146 大卡', protein: '0.9 公克', fat: '0.2 公克', satfat: '0 公克', transfat: '0 公克', carb: '35.2 公克', sugar: '26 公克', sodium: '6 毫克' },
+  },
 };
 
 PRODUCTS.filter(p => p.available).forEach(p => { localQty[p.id] = 1; });
