@@ -423,6 +423,11 @@ function renderCheckoutForm() {
           <button class="pay-pill" data-m="cvs" onclick="selectPay('cvs')">超商代碼</button>
         </div>
         <div class="pay-info" id="payInfo"></div>
+        <div class="form-group" style="margin-top:.85rem">
+          <label>匯款帳號後五碼（方便核對付款）</label>
+          <input type="text" id="coBank5" inputmode="numeric" maxlength="5" placeholder="例：12345"
+                 oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
+        </div>
       </div>
 
       <p id="coError" style="color:var(--orange);font-size:.82rem;margin-bottom:.6rem;display:none"></p>
@@ -553,8 +558,10 @@ async function submitOrder() {
   const subtotal = getTotal();
   const discount = appliedDiscount ? Math.min(appliedDiscount.amount, subtotal) : 0;
   const finalTotal = subtotal - discount;
+  const bank5 = (document.getElementById('coBank5')?.value || '').trim();
   const discountNote = appliedDiscount ? `折扣碼: ${appliedDiscount.code} -NT$${discount}` : '';
-  const noteWithEmail = [email ? `Email: ${email}` : '', discountNote, note].filter(Boolean).join('\n');
+  const bank5Note = bank5 ? `匯款帳號後五碼: ${bank5}` : '';
+  const noteWithEmail = [email ? `Email: ${email}` : '', bank5Note, discountNote, note].filter(Boolean).join('\n');
 
   // POST 訂單至 /order（Cloudflare Pages Function）→ 由伺服器端寫入 Airtable
   try {
