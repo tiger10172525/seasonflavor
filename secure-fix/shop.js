@@ -425,6 +425,12 @@ function renderCheckoutForm() {
         <div class="pay-info" id="payInfo"></div>
       </div>
 
+      <p id="coError" style="color:var(--orange);font-size:.82rem;margin-bottom:.6rem;display:none"></p>
+      <p style="font-size:.72rem;color:var(--text-light);line-height:1.6;margin-bottom:.7rem">
+        本產品為手工食品，恕不適用七日鑑賞期。送出訂單即表示您已閱讀並同意
+        <a href="terms.html" target="_blank" style="color:var(--orange)">服務條款</a>與
+        <a href="privacy.html" target="_blank" style="color:var(--orange)">隱私權政策</a>。
+      </p>
       <button class="btn btn-full" id="submitOrderBtn" onclick="submitOrder()">確認訂購</button>
     </div>`;
 
@@ -504,14 +510,28 @@ async function submitOrder() {
   const address = document.getElementById('coAddress')?.value.trim();
   const note    = document.getElementById('coNote')?.value.trim();
 
-  // 驗證
-  let valid = true;
+  // 驗證：必填 + 格式（擋亂填）
+  const showErr = (m) => { const e = document.getElementById('coError'); if (e) { e.textContent = m; e.style.display = 'block'; } };
+  const clearErr = () => { const e = document.getElementById('coError'); if (e) e.style.display = 'none'; };
+  clearErr();
+  let firstBad = '';
   ['coName','coPhone','coEmail','coAddress'].forEach(id => {
     const el = document.getElementById(id);
-    if (el && !el.value.trim()) { el.style.borderColor = 'var(--orange)'; valid = false; }
+    if (el && !el.value.trim()) { el.style.borderColor = 'var(--orange)'; if (!firstBad) firstBad = '請填寫所有必填欄位'; }
     else if (el) el.style.borderColor = '';
   });
-  if (!valid) return;
+  // Email 格式
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('coEmail').style.borderColor = 'var(--orange)';
+    if (!firstBad) firstBad = 'Email 格式不正確，請確認（例：name@example.com）';
+  }
+  // 台灣手機：09 開頭共 10 碼（允許 - 或空白）
+  const phoneDigits = (phone || '').replace(/[-\s]/g, '');
+  if (phone && !/^09\d{8}$/.test(phoneDigits)) {
+    document.getElementById('coPhone').style.borderColor = 'var(--orange)';
+    if (!firstBad) firstBad = '手機號碼格式不正確（請填 09 開頭共 10 碼）';
+  }
+  if (firstBad) { showErr(firstBad); return; }
 
   if (selectedPayment !== 'atm') {
     selectPay('atm');
