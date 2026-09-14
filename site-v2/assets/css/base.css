@@ -570,3 +570,10 @@ button { font: inherit; color: inherit; background: none; border: none; cursor: 
   .section { padding-block: var(--s-7); }
   .foot-nav a { border-right: none; padding: 2px var(--s-3); }
 }
+
+/* 首頁主視覺：商品實拍的背景偏冷白，放大裁切讓瓶身佔滿橢圓，
+   減少冷色背景與米白底色的落差（只做顯示裁切，不修改原圖檔） */
+.hero__media .media img {
+  transform: scale(1.42);
+  transform-origin: center 56%;
+}
