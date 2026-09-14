@@ -1,0 +1,572 @@
+/* ============================================================
+   肆菓 Season Flavor — Design System v2
+   全站共用 tokens / 版面 / 元件。各頁不另寫數值。
+   ============================================================ */
+
+:root {
+  /* ---- Color ---- */
+  --bg:            #F4F0E8;
+  --surface:       #FAF7F1;
+  --surface-2:     #EFE9DE;
+  --text:          #2F211B;
+  --text-2:        #786C63;
+  --text-3:        #9C9086;
+  --border:        #D9D1C5;
+  --border-2:      #C6BBAB;
+  --accent:        #3E241B;   /* 按鈕 / 強調 */
+  --accent-ink:    #F7F2EA;   /* 按鈕上的字 */
+  --leaf:          #8C9A72;   /* 植物線稿 */
+
+  /* ---- Type scale ---- */
+  --f-display:  clamp(1.95rem, 3.1vw, 2.55rem);
+  --f-h1:       clamp(1.95rem, 3.4vw, 2.6rem);
+  --f-h2:       clamp(1.35rem, 2.2vw, 1.6rem);
+  --f-h3:       1.0rem;
+  --f-body:     0.94rem;
+  --f-small:    0.85rem;
+  --f-caption:  0.76rem;
+  --f-nav:      0.83rem;
+  --f-price:    0.95rem;
+
+  --lh-tight:   1.45;
+  --lh-normal:  1.9;
+
+  /* ---- Space scale ---- */
+  --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
+  --s-5: 24px;  --s-6: 32px;  --s-7: 48px;  --s-8: 64px;
+  --s-9: 88px;  --s-10: 120px;
+
+  /* ---- Layout ---- */
+  --container:      1240px;
+  --container-text: 780px;
+  --gutter:         clamp(20px, 4vw, 56px);
+  --header-h:       76px;
+
+  /* ---- Shape ---- */
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-pill: 999px;
+  --arch: 46% 46% 8px 8px / 32% 32% 6px 6px;   /* 拱形圖（柔和圓頂，非半圓） */
+  --oval: 50%;                      /* 橢圓圖 */
+
+  --ease: cubic-bezier(.32,.72,.35,1);
+}
+
+/* ============================================================
+   Reset / Base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Noto Sans TC", system-ui, -apple-system, "PingFang TC",
+               "Microsoft JhengHei", sans-serif;
+  font-size: var(--f-body);
+  font-weight: 300;
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img { max-width: 100%; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    transition-duration: .001ms !important;
+  }
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+.serif  { font-family: "Noto Serif TC", Georgia, "Songti TC", serif; }
+.serif-en { font-family: "Cormorant Garamond", Georgia, serif; }
+
+.display {
+  font-family: "Noto Serif TC", Georgia, serif;
+  font-size: var(--f-display);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+  letter-spacing: .02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.h1 {
+  font-family: "Noto Serif TC", Georgia, serif;
+  font-size: var(--f-h1);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: .03em;
+  margin: 0;
+}
+
+.h2 {
+  font-family: "Noto Serif TC", Georgia, serif;
+  font-size: var(--f-h2);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: .02em;
+  margin: 0;
+}
+
+.h3 { font-size: var(--f-h3); font-weight: 500; margin: 0; letter-spacing: .04em; }
+
+/* 英文副標（襯線、細、字距寬） */
+.en-sub {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.02rem;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--text-2);
+  line-height: 1.6;
+  letter-spacing: .04em;
+  margin: 0;
+}
+
+/* 頁面標題下的英文（正體、字距很寬） */
+.en-label {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 400;
+  color: var(--text-2);
+  letter-spacing: .16em;
+  margin: 0;
+}
+
+.body    { font-size: var(--f-body);  line-height: var(--lh-normal); margin: 0; }
+.small   { font-size: var(--f-small); color: var(--text-2); margin: 0; }
+.caption {
+  font-size: var(--f-caption);
+  color: var(--text-3);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.muted { color: var(--text-2); }
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section       { padding-block: var(--s-9); }
+.section-tight { padding-block: var(--s-7); }
+
+/* 頁首標題區（About / Products / Journal … 共用） */
+.page-head { margin-bottom: var(--s-8); }
+.page-head .en-label { margin-top: var(--s-2); }
+.page-head .lede {
+  margin-top: var(--s-4);
+  color: var(--text-2);
+  font-size: var(--f-body);
+  max-width: 46ch;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.site-header__inner {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-5);
+}
+
+.brand { display: block; line-height: 1.25; }
+.brand__en {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: .07em;
+  display: block;
+}
+.brand__zh {
+  font-family: "Noto Serif TC", Georgia, serif;
+  font-size: .78rem;
+  font-weight: 400;
+  letter-spacing: .34em;
+  color: var(--text-2);
+  display: block;
+}
+
+.nav { display: flex; align-items: center; gap: clamp(18px, 2.2vw, 34px); }
+.nav__link {
+  font-size: var(--f-nav);
+  font-weight: 400;
+  letter-spacing: .08em;
+  color: var(--text);
+  padding-block: 4px;
+  position: relative;
+  transition: color .3s var(--ease);
+}
+.nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s var(--ease);
+}
+.nav__link:hover { color: var(--text); }
+.nav__link:hover::after,
+.nav__link[aria-current="page"]::after { transform: scaleX(1); }
+.nav__link[aria-current="page"] { color: var(--text); }
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px; height: 34px;
+  color: var(--text);
+  position: relative;
+}
+.icon-btn svg { width: 19px; height: 19px; }
+
+.cart-count {
+  position: absolute;
+  top: 1px; right: 0;
+  min-width: 15px; height: 15px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: .62rem;
+  line-height: 15px;
+  text-align: center;
+  padding-inline: 3px;
+}
+.cart-count[hidden] { display: none !important; }
+
+.nav-toggle { display: none; }
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  padding: 13px 30px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: var(--f-small);
+  font-weight: 400;
+  letter-spacing: .1em;
+  border-radius: var(--r-sm);
+  transition: opacity .3s var(--ease);
+}
+.btn:hover { opacity: .86; }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-2);
+}
+.btn--ghost:hover { background: var(--surface); opacity: 1; }
+
+/* 文字連結 + 箭頭（查看詳情 →） */
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--f-small);
+  letter-spacing: .06em;
+  color: var(--text);
+}
+.link-arrow svg { width: 15px; height: 9px; transition: transform .35s var(--ease); }
+.link-arrow:hover svg { transform: translateX(5px); }
+
+/* ============================================================
+   Media shapes
+   ============================================================ */
+.media { position: relative; overflow: hidden; background: var(--surface-2); }
+.media img { width: 100%; height: 100%; object-fit: cover; }
+.media--arch { border-radius: var(--arch); }
+.media--oval { border-radius: var(--oval); }
+.media--soft { border-radius: var(--r-md); }
+
+.ratio-portrait  { aspect-ratio: 3 / 4; }
+.ratio-tall      { aspect-ratio: 4 / 5.2; }
+.ratio-landscape { aspect-ratio: 4 / 3; }
+.ratio-wide      { aspect-ratio: 16 / 10; }
+.ratio-square    { aspect-ratio: 1 / 1; }
+
+/* ---- 佔位圖（照片待補）---- */
+.placeholder {
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0 14px,
+      color-mix(in srgb, var(--border) 34%, transparent) 14px 15px
+    ),
+    var(--surface-2);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  text-align: center;
+  padding: var(--s-5);
+}
+.placeholder svg { width: 40px; height: 40px; color: var(--leaf); opacity: .65; }
+.placeholder span {
+  font-size: var(--f-caption);
+  letter-spacing: .16em;
+  color: var(--text-3);
+}
+
+/* ============================================================
+   Feature list（當季水果 / 無多餘添加 / 小批手工 / 台灣製作）
+   ============================================================ */
+.features { display: flex; flex-direction: column; gap: var(--s-5); }
+.feature { display: flex; align-items: center; gap: var(--s-4); }
+.feature svg {
+  width: 21px; height: 21px;
+  flex: none;
+  color: var(--text);
+  stroke-width: 1.15;
+}
+.feature span { font-size: var(--f-small); letter-spacing: .1em; }
+
+/* 橫向排列版（產品頁下方） */
+.features--row {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--s-7);
+}
+.features--row .feature { flex-direction: column; gap: var(--s-3); text-align: center; }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--s-9) var(--s-6);
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+.site-footer__deco {
+  position: absolute;
+  top: -40px; right: -60px;
+  width: 340px; height: 340px;
+  color: var(--leaf);
+  opacity: .12;
+  pointer-events: none;
+}
+.site-footer__inner { position: relative; }
+.site-footer .brand__en { font-size: 1.62rem; }
+.site-footer .brand__zh { font-size: .95rem; letter-spacing: .4em; margin-top: 2px; }
+.site-footer__tag {
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: .96rem;
+  color: var(--text-2);
+  letter-spacing: .04em;
+  margin: var(--s-4) 0 0;
+}
+.social { display: flex; justify-content: center; gap: var(--s-4); margin-top: var(--s-6); }
+.social a {
+  width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border-2);
+  border-radius: var(--r-pill);
+  color: var(--text);
+  transition: background .3s var(--ease);
+}
+.social a:hover { background: var(--surface); }
+.social svg { width: 16px; height: 16px; }
+
+.foot-nav {
+  display: flex; justify-content: center; flex-wrap: wrap;
+  gap: var(--s-2) 0;
+  margin-top: var(--s-7);
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--border);
+}
+.foot-nav a {
+  font-size: var(--f-small);
+  letter-spacing: .06em;
+  padding-inline: var(--s-4);
+  border-right: 1px solid var(--border);
+  line-height: 1.2;
+}
+.foot-nav a:last-child { border-right: none; }
+.foot-nav a:hover { color: var(--text-2); }
+
+.foot-legal { margin-top: var(--s-5); }
+.foot-legal a {
+  font-size: var(--f-caption);
+  color: var(--text-2);
+  letter-spacing: .06em;
+  padding-inline: var(--s-3);
+}
+.foot-copy {
+  margin-top: var(--s-4);
+  font-size: var(--f-caption);
+  color: var(--text-3);
+  letter-spacing: .06em;
+}
+
+/* ============================================================
+   Home
+   ============================================================ */
+.hero {
+  display: grid;
+  grid-template-columns: 1.18fr 1.04fr 0.92fr;
+  gap: clamp(28px, 3.4vw, 60px);
+  align-items: center;
+  padding-block: var(--s-7) var(--s-8);
+}
+
+.hero__title { margin-bottom: var(--s-5); }
+.hero__scroll {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-top: var(--s-8);
+  color: var(--text-3);
+}
+.hero__scroll::before {
+  content: "";
+  width: 1px; height: 46px;
+  background: var(--border-2);
+}
+.hero__scroll span {
+  font-size: var(--f-caption);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+}
+
+.hero__media { width: 100%; }
+.hero__aside .body { margin-bottom: var(--s-7); }
+
+/* ============================================================
+   About
+   ============================================================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.08fr;
+  gap: clamp(36px, 5vw, 92px);
+  align-items: start;
+}
+.about-copy .h2 { margin-bottom: var(--s-5); }
+.about-copy p + p { margin-top: var(--s-5); }
+.about-copy .closing {
+  margin-top: var(--s-6);
+  font-family: "Noto Serif TC", Georgia, serif;
+  letter-spacing: .04em;
+}
+
+.about-visual { position: relative; padding-bottom: var(--s-6); }
+.about-visual__script {
+  position: absolute;
+  right: 2%;
+  bottom: -10px;
+  font-family: "Cormorant Garamond", Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 1.7vw, 1.45rem);
+  color: var(--text);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.about-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2vw, 28px);
+  margin-top: var(--s-8);
+}
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 1199px) {
+  .hero {
+    grid-template-columns: 1fr 1fr;
+    row-gap: var(--s-7);
+  }
+  .hero__aside { grid-column: 1 / -1; }
+  .hero__aside .features { flex-direction: row; flex-wrap: wrap; gap: var(--s-5) var(--s-7); }
+}
+
+@media (max-width: 767px) {
+  :root { --header-h: 62px; }
+
+  .nav {
+    position: fixed;
+    inset: var(--header-h) 0 auto 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: var(--s-4) var(--gutter) var(--s-6);
+    transform: translateY(-12px);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .3s var(--ease), transform .3s var(--ease), visibility .3s;
+  }
+  .nav[data-open="true"] { opacity: 1; visibility: visible; transform: none; }
+  .nav__link { width: 100%; padding-block: var(--s-3); border-bottom: 1px solid var(--border); }
+  .nav__link::after { display: none; }
+
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center; justify-content: center;
+    width: 34px; height: 34px;
+  }
+  .nav-toggle svg { width: 20px; height: 20px; }
+
+  .header-actions { display: flex; align-items: center; gap: var(--s-1); }
+
+  .hero {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    padding-block: var(--s-6) var(--s-7);
+    gap: var(--s-6);
+  }
+  .hero__media { order: -1; max-width: 340px; margin-inline: auto; }
+  .hero__scroll { display: none; }
+  .hero__aside .features { flex-direction: column; gap: var(--s-4); }
+
+  .about-grid { grid-template-columns: 1fr; }
+  .about-visual__script { position: static; margin-top: var(--s-4); text-align: left; }
+  .about-gallery { grid-template-columns: 1fr; }
+
+  .section { padding-block: var(--s-7); }
+  .foot-nav a { border-right: none; padding: 2px var(--s-3); }
+}
