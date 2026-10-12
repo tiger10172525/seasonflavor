@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>肆菓 後台管理</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <script src="/chart.umd.min.js"></script><!-- Chart.js v4.5.1，放站內固定版本，不從 CDN 載入 -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f5f4f0;
+      --brown: #5c3d2e;
+      --orange: #c8773a;
+      --sage: #7a9e7e;
+      --text: #2c2c2c;
+      --muted: #888;
+      --border: #e0ddd8;
+      --red: #c0392b;
+    }
+
+    body {
+      font-family: 'Helvetica Neue', Arial, 'PingFang TC', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── 登入畫面 ── */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-box {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 360px;
+      text-align: center;
+    }
+    .login-box h1 { font-size: 1.4rem; color: var(--brown); margin-bottom: 6px; }
+    .login-box p  { color: var(--muted); font-size: .85rem; margin-bottom: 28px; }
+    .login-box input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .95rem;
+      margin-bottom: 12px;
+      outline: none;
+    }
+    .login-box input:focus { border-color: var(--orange); }
+    .login-box button {
+      width: 100%;
+      padding: 12px;
+      background: var(--brown);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: .95rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .login-box button:hover { background: var(--orange); }
+    .login-error { color: var(--red); font-size: .82rem; margin-top: 10px; display: none; }
+
+    /* ── 後台主體 ── */
+    #adminScreen { display: none; }
+
+    .admin-header {
+      background: var(--brown);
+      color: #fff;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .admin-header h1 { font-size: 1.1rem; letter-spacing: .04em; }
+    .admin-header button {
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: .82rem;
+    }
+
+    .admin-body { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* ── 統計卡 ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .stat-label { font-size: .78rem; color: var(--muted); margin-bottom: 6px; }
+    .stat-value { font-size: 1.7rem; font-weight: 700; color: var(--brown); }
+    .stat-value.orange { color: var(--orange); }
+    .stat-value.green  { color: var(--sage); }
+
+    /* ── 圖表 ── */
+    .chart-section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 32px;
+    }
+    .chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .chart-header h2 { font-size: 1rem; color: var(--brown); }
+    .chart-tabs {
+      display: flex;
+      gap: 6px;
+    }
+    .chart-tab {
+      padding: 5px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: .82rem;
+      transition: all .2s;
+    }
+    .chart-tab.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+    .chart-wrap { height: 240px; position: relative; }
+
+    /* ── 訂單表格 ── */
+    /* ── 肆菓筆記 ── */
+    .jpanel {
+      background: #fff;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .jpanel:last-of-type { margin-bottom: 2rem; }
+    .jlabel { display: block; font-size: .8rem; color: var(--brown); margin: 10px 0 6px; }
+    .jhint  { font-size: .75rem; color: var(--muted); line-height: 1.6; }
+    .jstatus { font-size: .8rem; color: var(--muted); margin-top: 10px; min-height: 1em; }
+    .jstatus.err { color: var(--red); }
+    .jstatus.ok  { color: var(--sage); }
+    .jpanel input[type="text"],
+    .jpanel input[type="date"],
+    .jpanel textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font: inherit;
+      font-size: .9rem;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+    }
+    .jpanel textarea { resize: vertical; line-height: 1.8; }
+    .jpanel input:focus, .jpanel textarea:focus { border-color: var(--orange); }
+    .jgrid { display: grid; grid-template-columns: 1fr 180px; gap: 12px; }
+    .jrow  { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 14px; }
+    .jcheck { display: flex; align-items: center; gap: 8px; font-size: .85rem; color: var(--brown); }
+    .jthumb {
+      width: 88px; height: 88px; object-fit: cover;
+      border-radius: 8px; border: 1px solid var(--border);
+    }
+    .jsave {
+      padding: 8px 20px; background: var(--brown); color: #fff;
+      border: none; border-radius: 8px; font-size: .85rem; cursor: pointer;
+    }
+    .jsave:disabled { opacity: .5; cursor: default; }
+    .jdel { color: var(--red); background: none; border: none; cursor: pointer; font-size: .8rem; }
+    @media (max-width: 640px) { .jgrid { grid-template-columns: 1fr; } }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .section-header h2 { font-size: 1rem; color: var(--brown); }
+    .refresh-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 14px;
+      cursor: pointer;
+      font-size: .82rem;
+      color: var(--text);
+      transition: border-color .2s;
+    }
+    .refresh-btn:hover { border-color: var(--orange); color: var(--orange); }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: .82rem;
+      transition: all .2s;
+    }
+    .filter-btn.active { background: var(--brown); color: #fff; border-color: var(--brown); }
+
+    .table-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      background: #faf9f7;
+      text-align: left;
+      padding: 12px 16px;
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 14px 16px;
+      font-size: .88rem;
+      border-bottom: 1px solid #f0ede9;
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #faf9f7; }
+    tr.returning-customer td { background: #fff8f2; }
+    tr.returning-customer:hover td { background: #fff2e6; }
+
+    .order-id { font-family: monospace; color: var(--brown); font-weight: 600; font-size: .85rem; }
+    .items-cell { white-space: pre-line; font-size: .82rem; color: var(--muted); max-width: 220px; }
+    .total-cell { font-weight: 600; white-space: nowrap; }
+
+    /* 回頭客標記 */
+    .returning-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-size: .7rem;
+      font-weight: 600;
+      background: #ffe4cc;
+      color: var(--orange);
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+
+    /* 狀態標籤 */
+    .status-select {
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: .82rem;
+      background: #fff;
+      cursor: pointer;
+      outline: none;
+    }
+    .status-select:focus { border-color: var(--orange); }
+
+    .note-cell { font-size: .8rem; color: var(--muted); max-width: 160px; word-break: break-word; }
+
+    /* 空狀態 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+    }
+    .empty-state p { margin-top: 12px; font-size: .9rem; }
+
+    /* 載入中 */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 640px) {
+      .admin-body { padding: 20px 12px; }
+      th, td { padding: 10px 10px; }
+      .items-cell { max-width: 130px; }
+      .chart-wrap { height: 180px; }
+    }
+
+  /* ── Bento 後台風格（肆菓品牌色）2026-10-07 ── */
+  :root{--b-bg:#F4EFE6;--b-card:#FFFDF9;--b-ink:#2C2417;--b-ink2:#7A6A55;--b-line:#EAE2D6;--b-acc:#B5674A;--b-acc2:#D4845A;--b-sage:#5E7048;--b-sage-bg:#E9EDE0;--b-r:22px}
+  body{background:var(--b-bg)!important;color:var(--b-ink)}
+  #adminScreen{padding-left:236px}
+  .bside{position:fixed;left:14px;top:14px;bottom:14px;width:208px;background:var(--b-card);border-radius:var(--b-r);padding:20px 14px;display:flex;flex-direction:column;box-shadow:0 10px 30px -18px rgba(60,40,20,.25);z-index:50}
+  .bbrand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1rem;margin:0 6px 22px}
+  .blogo{width:32px;height:32px;border-radius:10px;background:var(--b-acc);color:#fff;display:grid;place-items:center;font-size:.95rem}
+  .bcap{font-size:.66rem;letter-spacing:.14em;color:var(--b-ink2);margin:0 8px 8px}
+  .bnav{display:flex;flex-direction:column;gap:2px}
+  .bnav a{position:relative;padding:10px 12px;border-radius:12px;color:var(--b-ink2);text-decoration:none;font-size:.9rem;transition:background .25s,color .25s}
+  .bnav a:hover{background:var(--b-bg);color:var(--b-ink)}
+  .bnav a.on{color:var(--b-ink);font-weight:600;background:var(--b-bg)}
+  .bnav a.on::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--b-acc)}
+  .bpromo{margin-top:auto;border-radius:18px;padding:16px;color:#fff;background:radial-gradient(circle at 80% 0,rgba(255,255,255,.18),transparent 55%),linear-gradient(150deg,#5C4A2A,#2C2417);display:flex;flex-direction:column;gap:6px;font-size:.8rem}
+  .bpromo b{font-size:.95rem}
+  .bpromo a{margin-top:8px;text-align:center;background:var(--b-acc2);color:#fff;border-radius:999px;padding:8px;text-decoration:none;font-size:.8rem}
+  .admin-header{background:var(--b-card)!important;color:var(--b-ink)!important;margin:14px 14px 0;border-radius:var(--b-r);box-shadow:0 10px 30px -22px rgba(60,40,20,.3)}
+  .admin-header h1{color:var(--b-ink)!important;font-size:1rem!important}
+  .admin-header button{background:transparent!important;color:var(--b-ink)!important;border:1px solid var(--b-line)!important;border-radius:999px!important;padding:8px 16px!important;transition:background .2s}
+  .admin-header button:hover{background:var(--b-bg)!important}
+  .admin-body{padding:22px 14px 40px!important;max-width:none!important}
+  .bhead{margin:4px 4px 18px}
+  .btitle{font-size:1.9rem;font-weight:600;letter-spacing:-.01em;margin:0}
+  .bsub{color:var(--b-ink2);font-size:.88rem;margin:4px 0 0}
+  .stat-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:14px!important;margin-bottom:14px!important}
+  .stat-card{background:var(--b-card)!important;border-radius:var(--b-r)!important;padding:20px 22px!important;box-shadow:0 10px 30px -22px rgba(60,40,20,.3)!important;border:1px solid var(--b-line)!important;transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
+  .stat-card:hover{transform:translateY(-3px);box-shadow:0 18px 36px -20px rgba(60,40,20,.35)!important}
+  .stat-card:first-child{background:linear-gradient(150deg,#C77A55,#9C4F33)!important;border:none!important;color:#fff}
+  .stat-card:first-child .stat-label,.stat-card:first-child .stat-value{color:#fff!important}
+  .stat-label{font-size:.85rem!important;color:var(--b-ink2)!important}
+  .stat-value{font-size:2.4rem!important;font-weight:600!important;letter-spacing:-.02em;margin-top:6px;color:var(--b-ink)!important;font-variant-numeric:tabular-nums}
+  .stat-value.orange{color:var(--b-acc)!important}.stat-value.green{color:var(--b-sage)!important}
+  .chart-section,#invWrap,#invNew,#payPanel,#discPanel,.jpanel{background:var(--b-card)!important;border-radius:var(--b-r)!important;border:1px solid var(--b-line);box-shadow:0 10px 30px -22px rgba(60,40,20,.3)}
+  .chart-section{padding:20px 22px!important;margin-bottom:26px!important}
+  .chart-tab{border-radius:999px!important}
+  .chart-tab.active{background:var(--b-ink)!important;color:#fff!important}
+  .section-header{margin-top:6px;scroll-margin-top:20px}
+  .chart-header h2{font-size:1.05rem!important;font-weight:600!important;color:var(--b-ink)!important}
+  .section-header h2{font-size:1.9rem!important;font-weight:600!important;letter-spacing:-.01em;color:var(--b-ink)!important}
+  .section-header{margin:4px 4px 18px!important}
+  .b-off{display:none!important}
+  .bento2{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}
+  .bc{background:var(--b-card);border:1px solid var(--b-line);border-radius:var(--b-r);padding:18px 20px;box-shadow:0 10px 30px -22px rgba(60,40,20,.3)}
+  .bc.dark{background:linear-gradient(150deg,#5C4A2A,#2C2417);color:#fff;border:none}.bc.dark .bl,.bc.dark .bs,.bc.dark .bv{color:#fff}
+  .bc.wide{grid-column:span 4}
+  .bl{font-size:.82rem;color:var(--b-ink2)}.bv{font-size:1.8rem;font-weight:600;margin-top:6px;font-variant-numeric:tabular-nums}.bs{font-size:.75rem;color:var(--b-ink2);margin-top:4px}
+  .blist{margin-top:8px;font-size:.85rem;display:flex;flex-direction:column;gap:6px}.blist span{display:flex;justify-content:space-between}.blist b{color:var(--b-acc)}
+  .btop{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .btop .r{display:grid;grid-template-columns:120px 1fr 48px;align-items:center;gap:10px;font-size:.85rem}
+  .btop .bar{height:10px;border-radius:999px;background:var(--b-bg);overflow:hidden}
+  .btop .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--b-acc2),var(--b-acc));width:0;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+  .order-link{background:none;border:0;padding:0;font:inherit;color:var(--b-acc);text-decoration:underline;cursor:pointer}
+  .od-mask{position:fixed;inset:0;background:rgba(44,36,23,.35);opacity:0;pointer-events:none;transition:opacity .3s;z-index:300}
+  .od{position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:var(--b-card);z-index:301;transform:translateX(100%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 40px -20px rgba(60,40,20,.35)}
+  .od.open{transform:none}.od-mask.open{opacity:1;pointer-events:auto}
+  .od-h{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--b-line)}
+  .od-h button{border:0;background:var(--b-bg);border-radius:50%;width:34px;height:34px;cursor:pointer}
+  .od-b{padding:18px 20px;overflow-y:auto;font-size:.88rem}
+  .od-sec{margin-bottom:18px}.od-sec h4{font-size:.75rem;letter-spacing:.1em;color:var(--b-ink2);margin:0 0 8px}
+  .od-row{display:flex;justify-content:space-between;gap:12px;padding:5px 0}
+  .od-tl{border-left:2px solid var(--b-line);margin-left:6px;padding-left:16px}
+  .od-tl div{position:relative;padding:4px 0}.od-tl div::before{content:"";position:absolute;left:-22px;top:9px;width:10px;height:10px;border-radius:50%;background:var(--b-acc)}
+  @media (max-width:900px){.bento2{grid-template-columns:repeat(2,1fr)}.bc.wide{grid-column:span 2}}
+  .refresh-btn{border-radius:999px!important;border:1px solid var(--b-line)!important;background:var(--b-card)!important;color:var(--b-ink)!important;padding:7px 14px!important;transition:background .2s,transform .15s}
+  .refresh-btn:hover{background:var(--b-bg)!important}
+  .refresh-btn:active,.admin-header button:active{transform:scale(.97)}
+  #sec-dash{scroll-margin-top:20px}
+  /* 進場：卡片依序浮上 */
+  @keyframes bUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .b-in .stat-card,.b-in .chart-section,.b-in .section-header,.b-in #invWrap,.b-in #payPanel,.b-in #discPanel,.b-in .jpanel{animation:bUp .6s cubic-bezier(.2,.8,.2,1) both}
+  .b-in .stat-card:nth-child(2){animation-delay:.06s}.b-in .stat-card:nth-child(3){animation-delay:.12s}.b-in .stat-card:nth-child(4){animation-delay:.18s}
+  .b-in .chart-section{animation-delay:.24s}
+  /* 手機：側邊欄變成上方可橫滑的分頁列 */
+  @media (max-width:900px){#adminScreen{padding-left:0}
+    .bside{position:sticky;top:0;left:0;right:0;bottom:auto;width:auto;margin:0;border-radius:0;padding:8px 10px;flex-direction:row;box-shadow:0 6px 16px -12px rgba(60,40,20,.35)}
+    .bbrand,.bcap,.bpromo{display:none}
+    .bnav{flex-direction:row;overflow-x:auto;gap:4px;scrollbar-width:none}
+    .bnav a{white-space:nowrap;padding:9px 14px}
+    .bnav a.on::before{display:none}
+    .bnav a.on{background:var(--b-ink);color:#fff}
+    .admin-header h1{white-space:nowrap;font-size:.92rem!important}
+    .admin-header button{white-space:nowrap;padding:6px 11px!important;font-size:.78rem!important}
+    .stat-grid{grid-template-columns:repeat(2,1fr)!important}}
+  @media (prefers-reduced-motion:reduce){.b-in *{animation:none!important}.stat-card{transition:none}}
+  </style>
+</head>
+<body>
+
+<!-- ── 登入 ── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>肆菓 Season Flavor</h1>
+    <p>後台管理系統</p>
+    <input type="password" id="pwInput" placeholder="輸入密碼" />
+    <button data-action="login">登入</button>
+    <p class="login-error" id="loginError">密碼錯誤，請再試一次</p>
+  </div>
+</div>
+
+<!-- ── 訂單詳情側欄 ── -->
+<div class="od-mask" id="odMask" data-action="closeOrder"></div>
+<aside class="od" id="odPanel" role="dialog" aria-modal="true" aria-label="訂單詳情">
+  <div class="od-h"><b id="odTitle">訂單詳情</b><button data-action="closeOrder" aria-label="關閉訂單詳情">✕</button></div>
+  <div class="od-b" id="odBody"></div>
+</aside>
+
+<!-- ── 後台主體 ── -->
+<div id="adminScreen">
+  <aside class="bside">
+    <div class="bbrand"><span class="blogo">肆</span>肆菓後台</div>
+    <p class="bcap">MENU</p>
+    <nav class="bnav">
+      <a href="#sec-dash" class="on">總覽</a>
+      <a href="#sec-products">商品與庫存</a>
+      <a href="#sec-pay">金流控制台</a>
+      <a href="#sec-disc">折扣碼</a>
+      <a href="#sec-journal">肆菓筆記</a>
+      <a href="#sec-orders">訂單列表</a>
+    </nav>
+    <div class="bpromo"><b>Season Flavor</b><span>把四季，做成剛剛好的甜</span><a href="/" target="_blank" rel="noopener">看前台 ↗</a></div>
+  </aside>
+  <div class="admin-header">
+    <h1>肆菓 後台管理</h1>
+    <div style="display:flex;gap:8px">
+      <button data-action="logoutAll">登出所有裝置</button>
+      <button data-action="logout">登出</button>
+    </div>
+  </div>
+
+  <div class="admin-body">
+    <div class="bhead" id="sec-dash"><h2 class="btitle">總覽</h2><p class="bsub">今天的訂單、營收與庫存，一眼看完。</p></div>
+    <!-- 統計 -->
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">總訂單數</div>
+        <div class="stat-value" id="statTotal">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">待付款</div>
+        <div class="stat-value orange" id="statPending">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">已付款（待出貨）</div>
+        <div class="stat-value green" id="statPaid">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">總營收（已付款）</div>
+        <div class="stat-value" id="statRevenue">—</div>
+      </div>
+    </div>
+
+    <!-- 總覽：營收、待出貨、低庫存、熱銷 -->
+    <div class="bento2" id="bento2">
+      <div class="bc"><div class="bl">今日營收</div><div class="bv" id="bToday">—</div><div class="bs" id="bTodayN"></div></div>
+      <div class="bc"><div class="bl">本月營收</div><div class="bv" id="bMonth">—</div><div class="bs" id="bMonthN"></div></div>
+      <div class="bc dark"><div class="bl">待出貨</div><div class="bv" id="bShip">—</div><div class="bs">已付款、還沒出貨的訂單</div></div>
+      <div class="bc"><div class="bl">庫存警示（5 瓶以下）</div><div id="bLow" class="blist">—</div></div>
+      <div class="bc wide"><div class="bl">熱銷口味（近 30 天）</div><div id="bTop" class="btop">—</div></div>
+    </div>
+
+    <!-- 銷售圖表 -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <h2>銷售趨勢（已付款訂單）</h2>
+        <div class="chart-tabs">
+          <button class="chart-tab active" data-action="setChartPeriod" data-arg="&quot;day&quot;">日</button>
+          <button class="chart-tab" data-action="setChartPeriod" data-arg="&quot;week&quot;">週</button>
+          <button class="chart-tab" data-action="setChartPeriod" data-arg="&quot;month&quot;">月</button>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="salesChart"></canvas>
+      </div>
+    </div>
+
+    <!-- 庫存管理 -->
+    <div class="section-header" id="sec-products">
+      <h2>商品與庫存</h2>
+      <div style="display:flex;gap:8px">
+        <button class="refresh-btn" data-action="toggleNewProduct">新增商品</button>
+        <button class="refresh-btn" data-action="loadInventory">重新整理</button>
+      </div>
+    </div>
+    <div id="invNew" hidden style="background:#fff;border-radius:12px;padding:1rem;margin-bottom:1rem"></div>
+    <div id="invWrap" style="background:#fff;border-radius:12px;padding:.5rem;margin-bottom:2rem;overflow-x:auto">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+
+    <!-- 金流控制台 -->
+    <div class="section-header" id="sec-pay">
+      <h2>金流控制台</h2>
+      <button class="refresh-btn" data-action="loadPay">重新整理</button>
+    </div>
+    <div id="payPanel" style="background:#fff;border-radius:12px;padding:1rem;margin-bottom:2rem">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+
+    <!-- 折扣碼 -->
+    <div class="section-header" id="sec-disc">
+      <h2>折扣碼</h2>
+      <button class="refresh-btn" data-action="loadDiscounts">重新整理</button>
+    </div>
+    <div id="discPanel" style="background:#fff;border-radius:12px;padding:1rem;margin-bottom:2rem;overflow-x:auto">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+
+    <!-- 肆菓筆記 -->
+    <div class="section-header" id="sec-journal">
+      <h2>肆菓筆記</h2>
+      <div style="display:flex;gap:8px">
+        <button class="refresh-btn" data-action="newPost">新增文章</button>
+        <button class="refresh-btn" data-action="loadJournal">重新整理</button>
+      </div>
+    </div>
+
+    <div class="jpanel">
+      <div class="jrow">
+        <div style="flex:1">
+          <label class="jlabel">頁面頂部主視覺（肆菓筆記標籤的大圖）</label>
+          <p class="jhint">設定後會出現在肆菓筆記頁（/stories/）標題上方，留空則不顯示。建議 21:9 橫幅。</p>
+        </div>
+        <img class="jthumb" id="heroPreview" alt="" hidden />
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="file" id="heroFile" accept="image/*" data-change="pickHero" />
+          <button class="refresh-btn" data-action="clearHero">移除主視覺</button>
+        </div>
+      </div>
+      <p class="jstatus" id="heroStatus"></p>
+    </div>
+
+    <div class="jpanel" id="postEditor" hidden>
+      <div class="jgrid">
+        <div>
+          <label class="jlabel">標題</label>
+          <input type="text" id="fTitle" placeholder="草莓的季節" />
+        </div>
+        <div>
+          <label class="jlabel">日期</label>
+          <input type="date" id="fDate" />
+        </div>
+      </div>
+      <label class="jlabel">網址名稱（英文小寫與連字號，例如 strawberry-season；留空就用文章編號）</label>
+      <input type="text" id="fSlug" placeholder="strawberry-season" autocapitalize="off" spellcheck="false" />
+      <label class="jlabel">一行描述（列表卡片上的小字）</label>
+      <input type="text" id="fExcerpt" placeholder="當季草莓的風味與故事" />
+      <label class="jlabel">內文（空一行代表分段）</label>
+      <textarea id="fBody" rows="12" placeholder="第一段……&#10;&#10;第二段……"></textarea>
+      <div class="jrow">
+        <div style="flex:1">
+          <label class="jlabel">封面／縮圖</label>
+          <p class="jhint">列表卡片與文章內頁都用這張。5MB 以內，jpg / png / webp。</p>
+        </div>
+        <img class="jthumb" id="fImgPreview" alt="" hidden />
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <input type="file" id="fImgFile" accept="image/*" data-change="pickPostImage" />
+          <button class="refresh-btn" data-action="clearPostImage">移除圖片</button>
+        </div>
+      </div>
+      <div class="jrow" style="justify-content:space-between">
+        <label class="jcheck"><input type="checkbox" id="fPublished" checked /> 發佈到網站</label>
+        <div style="display:flex;gap:8px">
+          <button class="refresh-btn" data-action="closeEditor">取消</button>
+          <button class="jsave" id="saveBtn" data-action="savePost">儲存</button>
+        </div>
+      </div>
+      <p class="jstatus" id="editorStatus"></p>
+    </div>
+
+    <div id="journalWrap" class="jpanel">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+
+    <!-- 訂單列表 -->
+    <div class="section-header" id="sec-orders">
+      <h2>訂單列表</h2>
+      <div style="display:flex;gap:8px">
+        <button class="refresh-btn" data-action="exportCSV">匯出 CSV（Excel）</button>
+        <button class="refresh-btn" data-action="loadOrders">重新整理</button>
+      </div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" data-action="setFilter" data-arg="&quot;all&quot;">全部</button>
+      <button class="filter-btn" data-action="setFilter" data-arg="&quot;待付款&quot;">待付款</button>
+      <button class="filter-btn" data-action="setFilter" data-arg="&quot;已付款&quot;">已付款</button>
+      <button class="filter-btn" data-action="setFilter" data-arg="&quot;已出貨&quot;">已出貨</button>
+      <button class="filter-btn" data-action="setFilter" data-arg="&quot;完成&quot;">完成</button>
+    </div>
+
+    <p id="syncWarn" hidden style="background:#F8E9DD;color:#9E5740;border-radius:10px;padding:.7rem 1rem;font-size:.85rem;margin:0 0 1rem"></p>
+    <div class="table-wrap" id="tableWrap">
+      <div class="loading"><div class="spinner"></div>載入中…</div>
+    </div>
+  </div>
+</div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

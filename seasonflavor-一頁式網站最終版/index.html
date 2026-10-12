@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Google Analytics 4 -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-M50GS7GQC8');
+    // GA 程式等頁面載入完才下載，不跟首屏圖片搶頻寬；之前的事件先排在 dataLayer，不會漏
+    addEventListener('load', function () { var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=G-M50GS7GQC8'; document.head.appendChild(s); });
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="1rKBBU992qlICriug_prUHPPe0Y0Q3tv5DlOjIDnmck" />
+
+  <!-- title、description、canonical、Open Graph、JSON-LD 由 _worker.js 依 SEO 設定輸出，改文案請改 _worker.js 最上面的 PAGES -->
+  <!--SEO--><title>肆菓 Season Flavor</title><!--/SEO-->
+
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" as="style" />
+  <script>(function(l){var s=document.createElement('link');s.rel='stylesheet';s.href=l.href;document.head.appendChild(s)})(document.currentScript.previousElementSibling)</script>
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Noto+Sans+TC:wght@300;400&display=swap" rel="stylesheet" /></noscript>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-zh">肆菓</span>
+        <span class="logo-en">Season Flavor</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="/about">關於肆菓</a></li>
+        <li><a href="/philosophy">品牌理念</a></li>
+        <li><a href="/products/">果醬系列</a></li>
+        <li><a href="/shop">線上訂購</a></li>
+        <li><a href="/stories/">肆菓筆記</a></li>
+        <li><a href="/contact">聯絡我們</a></li>
+      </ul>
+      <button class="nav-cart-btn" id="navCartBtn" aria-label="購物車">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="nav-cart-count" id="navCartCount">0</span>
+      </button>
+      <button class="nav-toggle" id="navToggle" aria-label="選單">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="hero-circle c1"></div>
+      <div class="hero-circle c2"></div>
+      <div class="hero-circle c3"></div>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <p class="hero-label fade-up">四季 · 自然 · 剛剛好</p>
+        <h1 class="hero-title fade-up delay-1">
+          把四季，<br />做成剛剛好的甜
+        </h1>
+        <p class="hero-sub fade-up delay-2">
+          用時令水果的真實風味，讓每一口都是剛好的停頓
+        </p>
+        <a href="/products/" class="btn fade-up delay-3">探索果醬系列</a>
+      </div>
+      <div class="hero-visual fade-up delay-2">
+        <img src="/images/season-flavor-jam-jars-hero.webp" srcset="/images/season-flavor-jam-jars-hero-800.webp 800w, /images/season-flavor-jam-jars-hero.webp 1400w" sizes="(max-width: 899px) 90vw, 520px" alt="肆菓手工果醬四款口味：草莓、奇異果、綜合莓果、水蜜桃" width="1400" height="933" fetchpriority="high" />
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- 選用當季水果 -->
+  <section class="home-feature section">
+    <div class="container">
+      <div class="home-feature-inner">
+        <div class="home-feature-visual reveal">
+          <img src="/images/fresh-berries-bowl.webp" srcset="/images/fresh-berries-bowl-700.webp 700w, /images/fresh-berries-bowl.webp 1120w" sizes="(max-width: 899px) 90vw, 50vw" alt="陶碗裡盛著新鮮草莓與藍莓，擺在木質餐桌上" loading="lazy" width="1120" height="1400" />
+        </div>
+        <div class="home-feature-text reveal reveal-delay-1">
+          <h2 class="section-title">選用當季水果，<br />做成純粹的果醬</h2>
+          <p class="body-text">
+            不添加防腐劑、人工色素與香料。<br />
+            只用時間，讓美味自然醞釀。
+          </p>
+          <a href="/products/" class="link-arrow">探索果醬</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 四項堅持 -->
+  <section class="home-values">
+    <div class="container">
+      <ul class="values-row">
+        <li class="value-item reveal">
+          <span class="value-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 13c-5 0-9 4-9 9.5S11 36 16 36s9-4.5 9-13.5S21 13 16 13Z" stroke="currentColor" stroke-width="1.3"/>
+              <path d="M16 13V5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+              <path d="M16 8c3-.5 5-2.5 5.5-5.5C18.5 3 16.5 5 16 8Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="value-label">當季水果</span>
+        </li>
+        <li class="value-item reveal reveal-delay-1">
+          <span class="value-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M16 36C8 30 5 23 6 13c6 .5 9-2.5 10-9 1 6.5 4 9.5 10 9 1 10-2 17-10 23Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M16 36V12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="value-label">無多餘添加</span>
+        </li>
+        <li class="value-item reveal reveal-delay-2">
+          <span class="value-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M9 17h14v16a3 3 0 0 1-3 3h-8a3 3 0 0 1-3-3V17Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M8 13h16v4H8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M12 13V7h8v6" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="value-label">小批手工</span>
+        </li>
+        <li class="value-item reveal reveal-delay-3">
+          <span class="value-icon" aria-hidden="true">
+            <svg viewBox="0 0 32 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5 30 16 6l11 24H5Z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M2 34h28" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+          </span>
+          <span class="value-label">台灣製作</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="logo-en">Season Flavor</span>
+          <span class="logo-zh">肆菓</span>
+        </div>
+        <p class="footer-tagline">A Little Sweetness<br />in Every Season.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/seasonflavor_/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+            </svg>
+          </a>
+          <!-- TODO: 換成肆菓粉專網址，例 https://www.facebook.com/seasonflavor.tw --><a href="#" data-todo="facebook-page-url" aria-label="Facebook（尚未設定）">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6A19 19 0 0014.6 2.5c-2.4 0-4 1.5-4 4.2v1.8H8V12h2.6v9.5h3.3V12h2.6l.4-3.5H14z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <nav class="footer-nav" aria-label="頁尾導覽">
+          <a href="/about">關於肆菓</a>
+          <a href="/products/">果醬系列</a>
+          <a href="/stories/">肆菓筆記</a>
+          <a href="/shop">線上訂購</a>
+          <a href="/contact">聯絡我們</a>
+        </nav>
+        <div class="footer-links">
+          <a href="/privacy">隱私權政策</a>
+          <a href="/terms">服務條款</a>
+          <a href="/order-status">訂單查詢</a>
+        </div>
+        <p class="footer-copy">© 2026 肆菓 Season Flavor. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Overlay + Drawer -->
+  <div class="cart-overlay" id="cartOverlay"></div>
+  <aside class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <h2>購物車 <span id="cartItemCount">(0)</span></h2>
+      <button class="cart-drawer-close" id="cartDrawerClose" aria-label="關閉">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M6 18L18 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="cart-drawer-body" id="cartDrawerBody"></div>
+    <div class="cart-drawer-footer" id="cartDrawerFooter" style="display:none">
+      <div class="cart-subtotal">
+        <span>小計</span>
+        <span id="cartSubtotal">NT$ 0</span>
+      </div>
+      <p class="cart-shipping-note">宅配 NT$120／超商取貨 NT$60</p>
+      <button class="btn btn-full" id="goCheckoutBtn">前往結帳</button>
+    </div>
+  </aside>
+
+  <!-- Checkout Modal -->
+  <div class="checkout-overlay" id="checkoutOverlay">
+    <div class="checkout-modal">
+      <div class="checkout-modal-header">
+        <h2>確認訂單</h2>
+        <button class="checkout-close-btn" id="checkoutCloseBtn" aria-label="關閉">✕</button>
+      </div>
+      <div class="checkout-modal-body" id="checkoutContent"><!-- JS rendered --></div>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+  <script src="/shop.js"></script>
+</body>
+</html>

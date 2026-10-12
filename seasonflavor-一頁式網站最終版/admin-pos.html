@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>肆菓 擺攤 POS</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="肆菓 POS" />
+  <meta name="theme-color" content="#5c3d2e" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #f5f4f0; --brown: #5c3d2e; --orange: #c8773a; --sage: #7a9e7e;
+      --text: #2c2c2c; --muted: #888; --border: #e0ddd8; --red: #c0392b; --white: #fff;
+    }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Helvetica Neue', Arial, 'PingFang TC', sans-serif;
+      background: var(--cream); color: var(--text);
+      -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+    }
+    button { font: inherit; cursor: pointer; border: 0; }
+
+    header {
+      position: sticky; top: 0; z-index: 5;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+      background: var(--brown); color: var(--white);
+    }
+    header h1 { font-size: 1.1rem; letter-spacing: .05em; margin-right: auto; }
+    .badge { font-size: .8rem; padding: 4px 10px; border-radius: 99px; background: rgba(255,255,255,.15); }
+    .badge.off { background: var(--red); }
+    .badge.wait { background: var(--orange); }
+    #syncBtn { background: var(--white); color: var(--brown); padding: 6px 14px; border-radius: 99px; font-size: .85rem; }
+
+    main { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 16px; padding: 16px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 820px) { main { grid-template-columns: minmax(0, 1fr); padding-bottom: 40px; } }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; align-content: start; }
+    .prod {
+      background: var(--white); border: 2px solid var(--border); border-radius: 14px;
+      padding: 10px; text-align: left; display: flex; flex-direction: column; gap: 6px; position: relative;
+    }
+    .prod:active { transform: scale(.97); border-color: var(--orange); }
+    .prod img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; background: var(--cream); }
+    .prod b { font-size: 1rem; color: var(--brown); }
+    .prod span { font-size: .85rem; color: var(--muted); }
+    .prod .ph { width: 100%; aspect-ratio: 1; border-radius: 10px; background: var(--cream); display: grid; place-items: center; font-size: 2.4rem; color: var(--orange); }
+    .prod.add { border-style: dashed; justify-content: center; align-items: center; color: var(--muted); }
+    .prod .del {
+      position: absolute; top: 6px; left: 6px; width: 28px; height: 28px; border-radius: 99px;
+      background: rgba(0,0,0,.08); color: var(--muted); display: grid; place-items: center; font-size: .9rem;
+    }
+    .prod .n {
+      position: absolute; top: 6px; right: 6px; min-width: 28px; height: 28px; border-radius: 99px;
+      background: var(--orange); color: var(--white); font-weight: 700; display: grid; place-items: center;
+    }
+
+    .panel { background: var(--white); border-radius: 14px; padding: 16px; border: 1px solid var(--border); }
+    aside { display: flex; flex-direction: column; gap: 16px; }
+    @media (min-width: 821px) { aside { position: sticky; top: 70px; align-self: start; } }
+    h2 { font-size: .95rem; color: var(--brown); margin-bottom: 10px; }
+
+    .line { display: flex; align-items: center; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .line .nm { flex: 1; font-size: .95rem; }
+    .qty { width: 36px; height: 36px; border-radius: 10px; background: var(--cream); color: var(--brown); font-size: 1.2rem; }
+    .line .q { width: 26px; text-align: center; font-weight: 700; }
+    .line .sub { width: 70px; text-align: right; font-size: .9rem; }
+    .empty { color: var(--muted); font-size: .9rem; padding: 12px 0; }
+
+    .total { display: flex; justify-content: space-between; align-items: baseline; margin: 14px 0; }
+    .total strong { font-size: 2rem; color: var(--brown); }
+
+    .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+    .seg button { padding: 10px 0; border-radius: 10px; background: var(--cream); color: var(--brown); border: 2px solid transparent; }
+    .seg button.on { border-color: var(--brown); background: var(--white); font-weight: 700; }
+
+    #cashBox { margin-bottom: 12px; }
+    .cashrow { display: flex; gap: 6px; }
+    .cashrow input {
+      flex: 1; min-width: 0; font-size: 1.2rem; padding: 10px 12px; border: 2px solid var(--border); border-radius: 10px;
+      -webkit-user-select: text; user-select: text;
+    }
+    .cashrow button { padding: 0 12px; border-radius: 10px; background: var(--cream); color: var(--brown); }
+    .change { margin-top: 8px; font-size: 1.1rem; }
+    .change b { color: var(--sage); font-size: 1.4rem; }
+    .change.short b { color: var(--red); }
+
+    .pay { width: 100%; padding: 16px; border-radius: 12px; background: var(--orange); color: var(--white); font-size: 1.2rem; font-weight: 700; }
+    .pay:disabled { opacity: .4; }
+    .clear { width: 100%; margin-top: 8px; padding: 8px; background: none; color: var(--muted); font-size: .85rem; }
+
+    .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 10px; }
+    .stats div { background: var(--cream); border-radius: 10px; padding: 8px 10px; font-size: .8rem; color: var(--muted); }
+    .stats b { display: block; font-size: 1.2rem; color: var(--brown); }
+    .sale { display: flex; gap: 8px; align-items: center; font-size: .82rem; padding: 6px 0; border-bottom: 1px dashed var(--border); }
+    .sale .t { color: var(--muted); width: 44px; }
+    .sale .d { flex: 1; }
+    .sale .ok { color: var(--sage); }
+    .sale button { background: none; color: var(--red); font-size: .8rem; }
+
+    #toast {
+      position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); transform: translateX(-50%);
+      background: var(--brown); color: var(--white); padding: 12px 20px; border-radius: 99px;
+      opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 10;
+    }
+    #toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>肆菓 擺攤 POS</h1>
+    <span class="badge" id="net"></span>
+    <span class="badge" id="pending"></span>
+    <button id="syncBtn">同步</button>
+  </header>
+
+  <main>
+    <section class="grid" id="grid"></section>
+
+    <aside>
+      <div class="panel">
+        <h2>本單</h2>
+        <div id="cart"></div>
+        <div class="total"><span>合計</span><strong id="total">NT$0</strong></div>
+
+        <div class="seg" id="payment">
+          <button data-p="現金" class="on">現金</button>
+          <button data-p="轉帳">轉帳</button>
+          <button data-p="LINE Pay">LINE Pay</button>
+        </div>
+
+        <div id="cashBox">
+          <div class="cashrow">
+            <input id="cash" type="number" inputmode="numeric" placeholder="收現金" />
+            <button data-cash="exact">剛好</button>
+            <button data-cash="500">500</button>
+            <button data-cash="1000">1000</button>
+          </div>
+          <div class="change" id="change"></div>
+        </div>
+
+        <button class="pay" id="payBtn" disabled>結帳</button>
+        <button class="clear" id="clearBtn">清空本單</button>
+      </div>
+
+      <div class="panel">
+        <h2>今日銷售</h2>
+        <div class="stats" id="stats"></div>
+        <div id="sales"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div id="toast"></div>
+
+<script src="/admin-pos.js"></script>
+</body>
+</html>
