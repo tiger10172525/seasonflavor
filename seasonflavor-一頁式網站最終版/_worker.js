@@ -47,7 +47,9 @@ const MAX_UPLOAD = 5 * 1024 * 1024;
 //   crumb 是麵包屑上顯示的名字（首頁不用）
 //   商品頁與文章頁的標題／描述來自 D1（後台可改），不在這裡
 // ════════════════════════════════════════════════════════════
-const OG_DEFAULT = '/images/season-flavor-jam-collection.jpg';
+// 預設分享圖固定 1200×630（社群平台建議尺寸），寬高與 alt 只在用預設圖時輸出
+const OG_DEFAULT = '/images/og-default-1200x630.jpg';
+const OG_DEFAULT_ALT = '肆菓 Season Flavor 手工果醬三罐並排';
 // 靜態頁面內容有改時，順手把日期改掉，sitemap 會用它當 lastmod
 const PAGES_UPDATED = '2026-09-25';
 
@@ -826,6 +828,11 @@ function seoHead({ path, title, desc, image, noindex, type = 'website', ld = [] 
     `<meta property="og:title" content="${esc(full)}" />`,
     `<meta property="og:description" content="${esc(desc)}" />`,
     `<meta property="og:image" content="${esc(img)}" />`,
+    ...(image ? [] : [
+      '<meta property="og:image:width" content="1200" />',
+      '<meta property="og:image:height" content="630" />',
+      `<meta property="og:image:alt" content="${esc(OG_DEFAULT_ALT)}" />`,
+    ]),
     `<meta property="og:url" content="${esc(url)}" />`,
     `<meta property="og:locale" content="zh_TW" />`,
     `<meta property="og:site_name" content="${BRAND}" />`,
@@ -1108,8 +1115,14 @@ function productLd(p) {
       availability: 'https://schema.org/' + { instock: 'InStock', soldout: 'OutOfStock', upcoming: 'PreOrder' }[stateOf(p)],
       itemCondition: 'https://schema.org/NewCondition',
       seller: { '@type': 'Organization', name: BRAND },
-      shippingDetails: Object.entries(SHIPPING_FEE).map(([, fee]) => ({
+      // 價格有效期限：當年年底（頁面最多快取 60 秒，年份不會過期）
+      priceValidUntil: `${new Date().getFullYear()}-12-31`,
+      shippingDetails: Object.entries(SHIPPING_FEE).map(([k, fee]) => ({
         '@type': 'OfferShippingDetails',
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          transitTime: { '@type': 'QuantitativeValue', minValue: SHIPPING_DAYS[k][0], maxValue: SHIPPING_DAYS[k][1], unitCode: 'DAY' },
+        },
         shippingRate: { '@type': 'MonetaryAmount', value: String(fee), currency: 'TWD' },
         shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'TW' },
       })),
@@ -1514,6 +1527,8 @@ async function adminLogoutAll(request, env) {
 // CART / QUOTE / COUPONS — 金額一律由伺服器依 D1 算，前端只負責顯示
 // ════════════════════════════════════════════════════════════
 const SHIPPING_FEE = { home: 120, cvs: 60 };
+// 到貨天數（工作天），要跟上方 DELIVERY 文案一致；給商品結構化資料的 deliveryTime 用
+const SHIPPING_DAYS = { home: [1, 2], cvs: [2, 3] };
 const CVS_BRANDS = { '711': '7-ELEVEN', fm: '全家 FamilyMart' };
 
 const couponLabel = (dc) => (dc.type === 'percentage' ? `${dc.value}% OFF` : `折 NT$${dc.value}`);
