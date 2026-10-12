@@ -1,0 +1,37 @@
+# 搜尋引擎與 AI 爬蟲（搜尋、即時引用、模型訓練）全部開放，只擋後台、舊結帳網址與 API。
+# 購物車、訂單查詢頁用 noindex 處理，不在這裡擋，爬蟲才讀得到 noindex。
+# 同一組規則給所有爬蟲；要調整某個爬蟲，把它從這組拿出來另外寫一段。
+User-agent: *
+User-agent: Googlebot
+User-agent: Bingbot
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: anthropic-ai
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: CCBot
+User-agent: Meta-ExternalAgent
+User-agent: Amazonbot
+User-agent: DuckAssistBot
+Allow: /
+Disallow: /admin
+Disallow: /order$
+Disallow: /api/
+Disallow: /diag
+
+Sitemap: https://www.seasonflavor.com/sitemap.xml
+
+# AI 檢索用品牌摘要
+# https://www.seasonflavor.com/llms.txt
+
+# 內容使用授權意向（RSL 1.0 / Content Signals）：robots.txt 標準不認得這種寫法，寫成註解保留意圖
+# search: yes
+# ai-input: yes
+# ai-train: yes
